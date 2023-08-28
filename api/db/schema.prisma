@@ -1,18 +1,435 @@
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = "native"
+  // previewFeatures = []
 }
 
-// Define your own datamodels here and run `yarn redwood prisma migrate dev`
-// to create migrations for them and apply to your dev DB.
-// TODO: Please remove the following example:
-model UserExample {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  avatarUrl String?
+  store     Json     @default("{}")
+
+  channels         Channel[]
+  posts            Post[]
+  channelMembers   ChannelMember[]
+  attachments      Attachment[]
+  invitedById      Int?
+  invitedBy        User?              @relation("UserInviter", fields: [invitedById], references: [id])
+  invitedUsers     User[]             @relation("UserInviter")
+  postLikes        PostLike[]
+  comments         Comment[]
+  isAdmin          Boolean            @default(false)
+  templates        Template[]
+  userDevice       UserDevice?
+  activityStreams  ActivityStream[]
+  blocks           Block[]
+  groups           Group[]
+  groupUsers       GroupUser[]
+  activityStats    ActivityStat[]
+  violationReports ViolationReport[]
+  blockedUsers     BlockUser[]        @relation("user")
+  blockedFromUsers BlockUser[]        @relation("blockedUser")
+  todos            Todo[]
+  createdTodos     Todo[]             @relation("todo")
+  groupRoles       GroupRole[]
+  mpUsers          MpUser[]
+  groupApplictions GroupApplication[]
+
+  reviewedGroupApplictions GroupApplication[] @relation("reviewUser")
+}
+
+model UserDevice {
+  id      Int      @id @default(autoincrement())
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  Int      @unique
+  devices String[]
+}
+
+model PostLike {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId Int
+
+  @@unique(fields: [userId, postId], name: "likes")
+}
+
+model Channel {
+  id             Int             @id @default(autoincrement())
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  title          String
+  description    String?
+  avatarUrl      String?
+  author         User            @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId       Int
+  lastPostAt     DateTime        @default(now())
+  posts          Post[]
+  channelMembers ChannelMember[]
+  categories     Category[]
+  layout         Layout?         @default(DEFAULT)
+  isPublic       Boolean         @default(false)
+  kind           String          @default("general")
+  config         Json            @default("{}")
+  page           Page?
+  group          Group?          @relation(fields: [groupId], references: [id])
+  groupId        Int?
+  template       Template?       @relation(fields: [templateId], references: [id])
+  templateId     Int?
+
+  activityStreams ActivityStream[]
+
+  @@index(lastPostAt)
+}
+
+enum Layout {
+  DEFAULT
+  IMAGE
+  VIDEO
+  MIX
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  imageUrl  String?
+  channel   Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  channelId Int
+
+  Post Post[]
+
+  @@unique(fields: [channelId, title], name: "indexChannelTitle")
+}
+
+model ChannelMember {
+  id              Int          @id @default(autoincrement())
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  channel         Channel      @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  channelId       Int
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          Int
+  unreadPostCount Int          @default(0)
+  status          MemberStatus @default(PENDING)
+  source          String       @default("Invited")
+  isAdmin         Boolean      @default(false)
+  shareable       Boolean      @default(true)
+  inviteable      Boolean      @default(true)
+
+  @@unique(fields: [channelId, userId], name: "membership")
+}
+
+enum MemberStatus {
+  PENDING
+  JOINED
+}
+
+model Post {
+  id            Int           @id @default(autoincrement())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  title         String?
+  content       String?
+  contentFormat ContentFormat @default(SIMPLE)
+  contentType   String?
+  author        User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId      Int
+  channel       Channel?      @relation(fields: [channelId], references: [id])
+  channelId     Int?
+  isDraft       Boolean       @default(false)
+  publishedAt   DateTime?
+  likesCount    Int           @default(0)
+  postLikes     PostLike[]
+  comments      Comment[]
+  commentsCount Int           @default(0)
+  category      Category?     @relation(fields: [categoryId], references: [id])
+  categoryId    Int?
+  store         Json          @default("{}")
+  postBlocks    PostBlock[]
+  happenedAt    DateTime      @default(now())
+  todo          Todo?
+
+  violationReports ViolationReport[]
+
+  @@index(publishedAt)
+  @@index(updatedAt)
+  @@index(happenedAt)
+}
+
+enum ContentFormat {
+  SIMPLE
+  MARKDOWN
+  JSON
+}
+
+model Comment {
+  id               Int           @id @default(autoincrement())
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  content          String
+  contentFormat    ContentFormat @default(SIMPLE)
+  contentType      String?
+  author           User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId         Int
+  post             Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId           Int
+  // 顶层的回复，给post的回复
+  comment          Comment?      @relation("TopComment", fields: [commentId], references: [id])
+  commentId        Int?
+  comments         Comment[]     @relation("TopComment")
+  commentsCount    Int           @default(0)
+  // 给comment的回复
+  repliedComment   Comment?      @relation("CommentToComment", fields: [repliedCommentId], references: [id])
+  repliedCommentId Int?
+  replies          Comment[]     @relation("CommentToComment")
+}
+
+model Attachment {
+  id        Int              @id @default(autoincrement())
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  filename  String
+  hash      String?
+  status    AttachmentStatus @default(PENDING)
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  meta      Json?
+  public    Boolean          @default(true)
+}
+
+enum AttachmentStatus {
+  PENDING
+  UPLOADED
+}
+
+model Page {
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  slug       String    @unique
+  active     Boolean   @default(false)
+  channel    Channel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  channelId  Int       @unique
+  template   Template? @relation(fields: [templateId], references: [id])
+  templateId Int?
+}
+
+model Template {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  name        String    @unique
+  title       String
+  description String?
+  pages       Page[]
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  channels    Channel[]
+  kind        String    @default("Page")
+  config      Json      @default("{}")
+}
+
+model ActivityStream {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  data      Json
+  channel   Channel? @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  channelId Int?
+}
+
+model Block {
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  content     Json        @default("{}")
+  contentType String
+  searchText  String?
+  postBlocks  PostBlock[]
+}
+
+model PostBlock {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  block     Block?   @relation(fields: [blockId], references: [id], onDelete: SetNull)
+  blockId   Int?
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int
+  position  Int      @default(0)
+}
+
+model Group {
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @default(now()) @updatedAt
+  name        String
+  description String?
+  avatarUrl   String?
+  channels    Channel[]
+  owner       User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     Int
+  groupUsers  GroupUser[]
+  store       Json        @default("{}")
+  public      Boolean     @default(false)
+
+  roles            GroupRole[]
+  mpUsers          MpUser[]
+  groupApplictions GroupApplication[]
+}
+
+enum GroupUserStatus {
+  PENDING
+  JOINED
+}
+
+model GroupUser {
+  id              Int             @id @default(autoincrement())
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @default(now()) @updatedAt
+  groupId         Int
+  userId          Int
+  group           Group           @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status          GroupUserStatus @default(PENDING)
+  unreadPostCount Int             @default(0)
+
+  @@unique(fields: [groupId, userId], name: "groupUserRelation")
+}
+
+model GroupApplication {
+  id           Int                    @id @default(autoincrement())
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @default(now()) @updatedAt
+  groupId      Int
+  userId       Int
+  group        Group                  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user         User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content      String
+  status       GroupApplicationStatus @default(PENDING)
+  rejectReason String?
+  reviewUserId Int?
+  reviewUser   User?                  @relation("reviewUser", fields: [reviewUserId], references: [id], onDelete: Cascade)
+}
+
+enum GroupApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model ActivityStat {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      String
+  count     Int      @default(0)
+
+  @@unique(fields: [userId, date], name: "userIdDateUnique")
+}
+
+model ViolationCategory {
+  id              Int               @id @default(autoincrement())
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  name            String
+  ViolationReport ViolationReport[]
+}
+
+model ViolationReport {
+  id                  Int               @id @default(autoincrement())
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  violationCategory   ViolationCategory @relation(fields: [violationCategoryId], references: [id])
+  reporterId          Int
+  reporter            User              @relation(fields: [reporterId], references: [id], onDelete: Cascade)
+  violationCategoryId Int
+  content             String?
+  post                Post              @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId              Int
+}
+
+model BlockUser {
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  userId        Int
+  user          User     @relation("user", fields: [userId], references: [id], onDelete: Cascade)
+  blockedUserId Int
+  blockedUser   User     @relation("blockedUser", fields: [blockedUserId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Todo {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int       @unique
+  userId    Int
+  user      User      @relation("todo", fields: [userId], references: [id], onDelete: Cascade)
+  completed Boolean   @default(false)
+  deadline  DateTime?
+  assignees User[]
+  timerAt   DateTime?
+  jid       String?
+}
+
+model Permission {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  key         String   @unique
+  name        String   @unique
+  description String?
+
+  groupRoles GroupRole[]
+}
+
+model GroupRole {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  description String?
+  groupId     Int
+  group       Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  permissions Permission[]
+  users       User[]
+
+  @@unique([groupId, name])
+}
+
+model MpUser {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  groupId   Int
+  group     Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  openid    String
+
+  @@unique([groupId, userId])
+  @@unique([groupId, openid])
 }
