@@ -1,29 +1,29 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { redis } from 'src/lib/utils'
-import { sendSmsCode } from './sms'
+import { sendSesCode } from './ses'
 
-const mobile = '98000001111'
+const email = 'test@test.com'
 
 beforeAll(() => {
   redis.flushdb()
 })
 
 describe('Send SMS Code', () => {
-  it('发送成功', async () => {
-    const result = await sendSmsCode({ input: { mobile } })
+  it('Send Successfully', async () => {
+    const result = await sendSesCode({ input: { email } })
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "message": "短信发送成功",
+        "message": "Verification Code Send Successfully",
         "status": "SENT",
       }
     `)
   })
 
-  it('重复发送', async () => {
-    const result = await sendSmsCode({ input: { mobile } })
+  it('Duplicate Send', async () => {
+    const result = await sendSesCode({ input: { email } })
     expect(result).toMatchInlineSnapshot(`
       Object {
-        "message": "没有过期可以用上次的验证码",
+        "message": "Last verfification code not yet expired",
         "status": "NOT_EXPIRED",
       }
     `)

@@ -1,18 +1,18 @@
-import { sms } from 'src/lib/utils'
+import { ses } from 'src/lib/utils'
 import { logger } from 'src/lib/logger'
 
-export async function sendSmsCode({ input }) {
+export async function sendSesCode({ input }) {
   const { email } = input
 
-  if (await sms.isNotExpired(email)) {
+  if (await ses.isNotExpired(email)) {
     return {
       status: 'NOT_EXPIRED',
-      message: '没有过期可以用上次的验证码',
+      message: 'Last verfification code not yet expired',
     }
   }
 
   try {
-    await sms.sendSms(email)
+    await ses.sendSms(email)
     return {
       status: 'SENT',
       message: 'Verification Code Send Successfully',
