@@ -1,6 +1,6 @@
 export const schema = gql`
   input SendSmsCodeInput {
-    mobile: String!
+    email: String!
   }
 
   type SendSmsCodePayload {

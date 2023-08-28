@@ -2,9 +2,9 @@ import { sms } from 'src/lib/utils'
 import { logger } from 'src/lib/logger'
 
 export async function sendSmsCode({ input }) {
-  const { mobile } = input
+  const { email } = input
 
-  if (await sms.isNotExpired(mobile)) {
+  if (await sms.isNotExpired(email)) {
     return {
       status: 'NOT_EXPIRED',
       message: '没有过期可以用上次的验证码',
@@ -12,10 +12,10 @@ export async function sendSmsCode({ input }) {
   }
 
   try {
-    await sms.sendSms(mobile)
+    await sms.sendSms(email)
     return {
       status: 'SENT',
-      message: '短信发送成功',
+      message: 'Verification Code Send Successfully',
     }
   } catch (err) {
     logger.error(err)

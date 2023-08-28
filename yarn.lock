@@ -6968,6 +6968,7 @@ __metadata:
     bcryptjs: ^2.4.3
     faktory-worker: ^4.5.1
     moment-timezone: ^0.5.43
+    nodemailer: ^6.9.4
     redis: ^3.1.2
     unfurl.js: ^6.3.2
   languageName: unknown
@@ -15912,6 +15913,13 @@ __metadata:
   version: 2.0.13
   resolution: "node-releases@npm:2.0.13"
   checksum: 2fb44bf70fc949d27f3a48a7fd1a9d1d603ddad4ccd091f26b3fb8b1da976605d919330d7388ccd55ca2ade0dc8b2e12841ba19ef249c8bb29bf82532d401af7
+  languageName: node
+  linkType: hard
+
+"nodemailer@npm:^6.9.4":
+  version: 6.9.4
+  resolution: "nodemailer@npm:6.9.4"
+  checksum: c50778ae499da089b5cceb4bbe6366900b14a76155c5e379e80996b46a2ba7db094b624e04b839f8c992e86bdad218f26b914467b3047fa8223142a42a4252f5
   languageName: node
   linkType: hard
 

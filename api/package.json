@@ -11,6 +11,7 @@
     "bcryptjs": "^2.4.3",
     "faktory-worker": "^4.5.1",
     "moment-timezone": "^0.5.43",
+    "nodemailer": "^6.9.4",
     "redis": "^3.1.2",
     "unfurl.js": "^6.3.2"
   },
