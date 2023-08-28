@@ -1,0 +1,269 @@
+import { createTodo } from './../todos/todos'
+import { getCurrentUser } from 'src/lib/context'
+import { context, ResolverArgs } from '@redwoodjs/graphql-server'
+import { Prisma } from '@prisma/client'
+import { db } from 'src/lib/db'
+import { logger } from 'src/lib/logger'
+import { paginate, notification, AccessToken } from 'src/lib/utils'
+import { authorize, PostPolicy as policy } from 'src/lib/policies'
+import { miniprogram as mp } from 'src/lib/services'
+import {
+  buildPostBlocksFromBlocks,
+  checkCategoryIsBelongsToChannel,
+  getLastPublishedAtForPost,
+  incrementUnreadPostCount,
+  incrementGroupUnreadPostCount,
+  updateBlockStat,
+  updateLastPostAtForChannel,
+} from './lib'
+import { postWhereOptionToBlockUser } from 'src/lib/utils/dbHelper'
+import { TodoCreateInput } from '../todos/todos'
+
+export interface PostsInputArgs {
+  page?: number
+  pageSize?: number
+  where?: Prisma.PostWhereInput
+  orderBy?: Prisma.PostOrderByWithRelationInput
+}
+
+export const posts = async ({ where = {}, ...input }: PostsInputArgs = {}) => {
+  await authorize(policy.list)()
+
+  return queryPosts({
+    ...input,
+    where: {
+      ...where,
+      isDraft: false,
+    },
+  })
+}
+
+export const publicPosts = async ({
+  where = {},
+  ...input
+}: PostsInputArgs = {}) => {
+  return queryPosts({
+    ...input,
+    where: {
+      ...where,
+      isDraft: false,
+      channel: {
+        is: {
+          isPublic: true,
+        },
+      },
+      ...postWhereOptionToBlockUser(context.currentUser?.id),
+    },
+  })
+}
+
+export const myPosts = async ({ where = {}, ...input }: PostsInputArgs = {}) =>
+  queryPosts({
+    ...input,
+    where: {
+      ...where,
+      authorId: getCurrentUser().id,
+    },
+  })
+
+async function queryPosts({
+  page,
+  pageSize,
+  where = {},
+  orderBy = { id: 'desc' },
+}: PostsInputArgs = {}) {
+  return paginate({
+    page,
+    pageSize,
+    fun: ({ skip, take }) => {
+      return db.post.findMany({ skip, take, where, orderBy })
+    },
+  })
+}
+
+type PostInput = {
+  id: number
+  accessToken: string | undefined
+}
+
+export const post = async ({ id, accessToken }: PostInput) => {
+  const target = await db.post.findUnique({
+    where: { id },
+  })
+
+  await authorize(policy.read)(target, accessToken)
+
+  return target
+}
+
+interface CreatePostArgs {
+  input: Omit<Omit<Prisma.PostUncheckedCreateInput, 'authorId'>, 'todo'> &
+    CreateBlocksWithoutUserIdInput &
+    CreateTodoWithoutPostIdInput
+}
+
+interface CreateTodoWithoutPostIdInput {
+  todo: TodoCreateInput
+}
+
+interface CreateBlocksWithoutUserIdInput {
+  blocks: Omit<Prisma.BlockUncheckedCreateInput, 'userId'>[]
+}
+
+const checkContent = async (store: Prisma.InputJsonValue | undefined) => {
+  if (store && typeof store === 'object' && store['shortContent']) {
+    await mp.checkPostContent(store['shortContent'])
+  }
+}
+
+export const createPost = async ({ input }: CreatePostArgs) => {
+  await authorize(policy.create)(input.channelId)
+  await checkCategoryIsBelongsToChannel(input)
+
+  const { blocks, todo, ...nest } = input
+
+  await checkContent(input.store)
+
+  const postBlocks = buildPostBlocksFromBlocks(getCurrentUser(), blocks)
+
+  const data = {
+    ...nest,
+    postBlocks,
+    publishedAt: input.isDraft ? null : new Date(),
+    authorId: getCurrentUser().id,
+  }
+
+  // console.log('data', data)
+
+  const post = await db.post.create({
+    data,
+  })
+
+  todo &&
+    (await createTodo({
+      input: { ...todo, postId: post.id },
+    }))
+
+  if (post.channelId) {
+    await incrementUnreadPostCount(getCurrentUser(), post.channelId)
+    await incrementGroupUnreadPostCount(getCurrentUser(), post.channelId)
+    if (!post.isDraft) {
+      await updateLastPostAtForChannel(post.channelId, post.publishedAt)
+      // 发送通知
+      await notification.newPost(post, getCurrentUser())
+    }
+  }
+
+  // update block stats with count: blocks.length
+  if (blocks) await updateBlockStat(getCurrentUser(), new Date(), blocks.length)
+
+  return post
+}
+
+interface UpdatePostArgs extends Prisma.PostWhereUniqueInput {
+  input: Omit<Prisma.PostUncheckedUpdateInput, 'authorId'>
+}
+
+export const updatePost = async ({ id, input }: UpdatePostArgs) => {
+  const post = await db.post.findUnique({ where: { id } })
+  await authorize(policy.update)(post, {
+    channelId: input.channelId as number,
+  })
+
+  await checkCategoryIsBelongsToChannel({
+    ...post,
+    ...input,
+  })
+
+  const data = input
+
+  // 如果从草稿改为发布时，更新发布时间
+  if (post?.isDraft && input.isDraft == false) {
+    data.publishedAt = new Date()
+    logger.debug('changed to published')
+  }
+
+  await checkContent(input.store)
+
+  const updatedPost = await db.post.update({
+    data,
+    where: { id },
+  })
+
+  logger.debug('updated post', updatedPost)
+  if (data.publishedAt instanceof Date && updatedPost.channelId) {
+    await updateLastPostAtForChannel(updatedPost.channelId, data.publishedAt)
+    // 发送通知
+    await notification.newPost(updatedPost, getCurrentUser())
+  }
+
+  return updatedPost
+}
+
+export const deletePost = async ({ id }: Prisma.PostWhereUniqueInput) => {
+  const post = await db.post.findUnique({ where: { id } })
+  await authorize(policy.destroy)(post)
+
+  const result = await db.post.delete({
+    where: { id },
+  })
+
+  if (result.channelId) {
+    logger.debug('update lastPostAt for channelId', result.channelId)
+    const publishedAt = await getLastPublishedAtForPost(result.channelId)
+    logger.debug('publishedAt', publishedAt)
+    await updateLastPostAtForChannel(result.channelId, publishedAt)
+  }
+
+  return result
+}
+
+export const Post = {
+  author: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>
+    db.post.findUnique({ where: { id: root.id } }).author(),
+
+  // FIXME: should we return channel info if the post is accessed by a token
+  channel: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>
+    db.post.findUnique({ where: { id: root.id } }).channel(),
+  topComments: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>
+    db.post
+      .findUnique({ where: { id: root.id } })
+      .comments({ where: { commentId: null } }),
+  comments: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>
+    db.post.findUnique({ where: { id: root.id } }).comments(),
+  category: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>
+    db.post.findUnique({ where: { id: root.id } }).category(),
+  postBlocks: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>
+    db.post.findUnique({ where: { id: root.id } }).postBlocks({
+      orderBy: { position: 'asc' },
+    }),
+
+  // 返回当前用户是否赞过该 Post
+  liked: async (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) => {
+    if (!context.currentUser) return false
+
+    const likes = await db.post
+      .findUnique({ where: { id: root.id } })
+      .postLikes({
+        where: {
+          userId: context.currentUser.id,
+        },
+      })
+
+    // console.log('likes', likes)
+
+    return likes.length > 0
+  },
+
+  accessToken: async (
+    _obj,
+    { root }: ResolverArgs<Prisma.PostWhereUniqueInput>
+  ) => {
+    return AccessToken.encode({
+      id: root.id as number,
+    })
+  },
+
+  todo: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>
+    db.post.findUnique({ where: { id: root.id } }).todo(),
+}
