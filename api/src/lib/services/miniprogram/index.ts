@@ -1,0 +1,7 @@
+export * from './codeToSession'
+export * from './getAccessToken'
+export * from './getPhoneNumber'
+export * from './getMiniProgramInfo'
+export * from './checkError'
+export * from './storeUserAvatar'
+export * from './msgSecCheck'

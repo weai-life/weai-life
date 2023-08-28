@@ -3,8 +3,18 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "@alicloud/pop-core": "^1.7.13",
     "@redwoodjs/api": "6.1.0",
     "@redwoodjs/graphql-server": "6.1.0",
-    "moment-timezone": "^0.5.43"
+    "ali-oss": "^6.18.0",
+    "axios": "^1.5.0",
+    "bcryptjs": "^2.4.3",
+    "faktory-worker": "^4.5.1",
+    "moment-timezone": "^0.5.43",
+    "redis": "^3.1.2",
+    "unfurl.js": "^6.3.2"
+  },
+  "devDependencies": {
+    "@types/redis": "^2.8.29"
   }
 }
