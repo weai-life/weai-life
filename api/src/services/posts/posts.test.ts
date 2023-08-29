@@ -1,4 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+
+import { db } from 'src/lib/db'
+import { notification } from 'src/lib/utils'
+
 import {
   posts,
   publicPosts,
@@ -8,15 +12,6 @@ import {
   updatePost,
   deletePost,
 } from './posts'
-
-import { db } from 'src/lib/db'
-import { notification } from 'src/lib/utils'
-
-jest.mock('src/lib/services', () => ({
-  miniprogram: {
-    checkPostContent: jest.fn(),
-  },
-}))
 
 const mockSendNotification = jest.fn()
 notification.newPost = mockSendNotification

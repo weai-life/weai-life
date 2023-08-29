@@ -1,12 +1,12 @@
-import { getCurrentUser } from 'src/lib/context'
-import { ResolverArgs, UserInputError } from '@redwoodjs/graphql-server'
 import type { Prisma } from '@prisma/client'
 
+import { ResolverArgs, UserInputError } from '@redwoodjs/graphql-server'
+
+import { getCurrentUser } from 'src/lib/context'
 import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
-import { paginate, rejectNil, stream } from 'src/lib/utils'
 import { authorize, CommentPolicy as policy } from 'src/lib/policies'
-import { miniprogram as mp } from 'src/lib/services'
+import { paginate, rejectNil, stream } from 'src/lib/utils'
 
 export interface CommentsInputArgs {
   page?: number
@@ -89,8 +89,6 @@ export const createComment = async ({ input }: CreateCommentArgs) => {
       throw new UserInputError('评论 postId 与参数的 postId 不一致')
   }
 
-  await checkContent(input.content)
-
   const result = await db.comment.create({
     data: {
       ...input,
@@ -103,10 +101,6 @@ export const createComment = async ({ input }: CreateCommentArgs) => {
   await stream.postComment(getCurrentUser(), result)
 
   return result
-}
-
-const checkContent = async (content: string | null | undefined) => {
-  if (content) await mp.checkCommentContent(content)
 }
 
 function incrementCountForPost(postId, increment = 1) {
@@ -139,8 +133,6 @@ export const updateComment = async ({ id, input }: UpdateCommentArgs) => {
   const comment = await db.comment.findUnique({ where: { id } })
   await authorize(policy.update)(comment?.postId)
   logger.debug('update comment', comment)
-
-  await checkContent(input.content as string | undefined)
 
   return db.comment.update({
     data: input,

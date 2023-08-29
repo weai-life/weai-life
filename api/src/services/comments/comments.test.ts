@@ -1,3 +1,5 @@
+import { db } from 'src/lib/db'
+
 import {
   comments,
   myComments,
@@ -7,13 +9,6 @@ import {
   deleteComment,
 } from './comments'
 import type { StandardScenario } from './comments.scenarios'
-import { db } from 'src/lib/db'
-
-jest.mock('src/lib/services', () => ({
-  miniprogram: {
-    checkCommentContent: jest.fn(),
-  },
-}))
 
 const getComment = (id: number) => db.comment.findUnique({ where: { id } })
 

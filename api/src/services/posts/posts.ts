@@ -1,12 +1,17 @@
-import { createTodo } from './../todos/todos'
-import { getCurrentUser } from 'src/lib/context'
-import { context, ResolverArgs } from '@redwoodjs/graphql-server'
 import { Prisma } from '@prisma/client'
+
+import { context, ResolverArgs } from '@redwoodjs/graphql-server'
+
+import { getCurrentUser } from 'src/lib/context'
 import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
-import { paginate, notification, AccessToken } from 'src/lib/utils'
 import { authorize, PostPolicy as policy } from 'src/lib/policies'
-import { miniprogram as mp } from 'src/lib/services'
+import { paginate, notification, AccessToken } from 'src/lib/utils'
+import { postWhereOptionToBlockUser } from 'src/lib/utils/dbHelper'
+
+import { TodoCreateInput } from '../todos/todos'
+
+import { createTodo } from './../todos/todos'
 import {
   buildPostBlocksFromBlocks,
   checkCategoryIsBelongsToChannel,
@@ -16,8 +21,6 @@ import {
   updateBlockStat,
   updateLastPostAtForChannel,
 } from './lib'
-import { postWhereOptionToBlockUser } from 'src/lib/utils/dbHelper'
-import { TodoCreateInput } from '../todos/todos'
 
 export interface PostsInputArgs {
   page?: number
@@ -110,19 +113,11 @@ interface CreateBlocksWithoutUserIdInput {
   blocks: Omit<Prisma.BlockUncheckedCreateInput, 'userId'>[]
 }
 
-const checkContent = async (store: Prisma.InputJsonValue | undefined) => {
-  if (store && typeof store === 'object' && store['shortContent']) {
-    await mp.checkPostContent(store['shortContent'])
-  }
-}
-
 export const createPost = async ({ input }: CreatePostArgs) => {
   await authorize(policy.create)(input.channelId)
   await checkCategoryIsBelongsToChannel(input)
 
   const { blocks, todo, ...nest } = input
-
-  await checkContent(input.store)
 
   const postBlocks = buildPostBlocksFromBlocks(getCurrentUser(), blocks)
 
@@ -182,8 +177,6 @@ export const updatePost = async ({ id, input }: UpdatePostArgs) => {
     data.publishedAt = new Date()
     logger.debug('changed to published')
   }
-
-  await checkContent(input.store)
 
   const updatedPost = await db.post.update({
     data,
