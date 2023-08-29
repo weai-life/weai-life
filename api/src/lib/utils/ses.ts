@@ -18,7 +18,7 @@ export async function isNotExpired(email: string) {
 
 const redisVerifyCacheTime = 300
 
-export async function sendSms(email: string) {
+export async function sendSes(email: string) {
   const smsCode = genVerificationCode()
 
   logger.trace('will send smsCode %s to %s', smsCode, email)
@@ -42,10 +42,10 @@ function nRand() {
   return Math.floor(Math.random() * 10)
 }
 
-export async function ensureValidSmsCode(email: string, smsCode: string) {
+export async function ensureValidSesCode(email: string, sesCode: string) {
   const code = await getVerifyCode(email)
 
-  if (code !== smsCode) {
+  if (code !== sesCode) {
     throw new UserInputError('验证码不匹配', {
       messages: {
         smsCode: ['验证码不匹配'],

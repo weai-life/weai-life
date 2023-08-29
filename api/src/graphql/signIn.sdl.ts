@@ -1,13 +1,7 @@
 export const schema = gql`
-  input SignInByPasswordInput {
-    mobile: String!
-    password: String!
-    clientInfo: ClientInfo
-  }
-
-  input SignInBySmsInput {
-    mobile: String!
-    smsCode: String!
+  input SignInBySesInput {
+    email: String!
+    sesCode: String!
     clientInfo: ClientInfo
   }
 
@@ -43,8 +37,7 @@ export const schema = gql`
   }
 
   type Mutation {
-    signInByPassword(input: SignInByPasswordInput!): AuthPayload @skipAuth
-    signInBySms(input: SignInBySmsInput!): AuthPayload @skipAuth
+    signInBySes(input: SignInBySesInput!): AuthPayload @skipAuth
     refreshToken: AuthPayload @requireAuth
   }
 `

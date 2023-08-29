@@ -5,13 +5,12 @@ export const standard = defineScenario({
   user: {
     one: {
       data: {
-        mobile: '18011112222',
+        email: 'test@asd.com',
         name: 'String',
-        password,
       }
     },
     two: {
-      data: { mobile: 'String9767701', name: 'String' }
+      data: { email: 'test@asd.com', name: 'String' }
     },
   },
 })

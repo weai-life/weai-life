@@ -1,102 +1,14 @@
-import { sms } from 'src/lib/utils'
-import { signInByPassword, signInBySms, refreshToken } from './signIn'
+import { ses } from 'src/lib/utils'
+import { signInBySes, refreshToken } from './signIn'
 
 const clientInfo = { version: '1.0.0' }
 
-describe('signInByPassword', () => {
+const smsCode = ses.TEST_CODE
+
+describe('signInBySes', () => {
   it('failed with not exist mobile', async () => {
     const result = async () => {
-      return await signInByPassword({
-        input: {
-          mobile: 'wrong',
-          password: '123',
-          clientInfo,
-        },
-      })
-    }
-
-    await expect(result).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"手机号与密码不匹配"`
-    )
-  })
-
-  scenario('failed with invalid password', async (scenario) => {
-    const result = async () => {
-      return await signInByPassword({
-        input: {
-          mobile: scenario.user.one.mobile,
-          password: 'wrong',
-          clientInfo,
-        },
-      })
-    }
-
-    await expect(result).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"手机号与密码不匹配"`
-    )
-  })
-
-  scenario('failed when password not set', async (scenario) => {
-    const result = async () => {
-      return await signInByPassword({
-        input: {
-          mobile: scenario.user.two.mobile,
-          password: 'wrong',
-          clientInfo,
-        },
-      })
-    }
-
-    await expect(result).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"密码未设置"`
-    )
-  })
-
-  scenario('success', async (scenario) => {
-    const result = await signInByPassword({
-      input: {
-        mobile: scenario.user.one.mobile,
-        password: 'password',
-        clientInfo,
-      },
-    })
-    expect(result).toMatchInlineSnapshot(
-      {
-        token: expect.any(String),
-        user: {
-          createdAt: expect.any(Date),
-          updatedAt: expect.any(Date),
-          id: expect.any(Number),
-          password: expect.any(String),
-        },
-      },
-      `
-      Object {
-        "token": Any<String>,
-        "user": Object {
-          "avatarUrl": null,
-          "createdAt": Any<Date>,
-          "id": Any<Number>,
-          "invitedById": null,
-          "isAdmin": false,
-          "mobile": "18011112222",
-          "name": "String",
-          "password": Any<String>,
-          "store": Object {},
-          "updatedAt": Any<Date>,
-        },
-      }
-    `
-    )
-  })
-})
-
-const smsCode = sms.TEST_CODE
-
-describe('signInBySms', () => {
-  it('failed with not exist mobile', async () => {
-    const result = async () => {
-      return await signInBySms({
+      return await signInBySes({
         input: {
           mobile: 'wrong',
           smsCode,
@@ -112,7 +24,7 @@ describe('signInBySms', () => {
 
   scenario('failed with invalid SMS code', async (scenario) => {
     const result = async () => {
-      return await signInBySms({
+      return await signInBySes({
         input: {
           mobile: scenario.user.one.mobile,
           smsCode: 'wrong',
@@ -127,9 +39,9 @@ describe('signInBySms', () => {
   })
 
   scenario('success', async (scenario) => {
-    await sms.sendSms(scenario.user.one.mobile)
+    await ses.sendSes(scenario.user.one.mobile)
 
-    const result = await signInBySms({
+    const result = await signInBySes({
       input: {
         mobile: scenario.user.one.mobile,
         smsCode,

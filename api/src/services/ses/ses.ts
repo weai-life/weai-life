@@ -12,7 +12,7 @@ export async function sendSesCode({ input }) {
   }
 
   try {
-    await ses.sendSms(email)
+    await ses.sendSes(email)
     return {
       status: 'SENT',
       message: 'Verification Code Send Successfully',
