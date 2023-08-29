@@ -9,6 +9,15 @@ generator client {
   // previewFeatures = []
 }
 
+model Applet {
+  id          Int       @id @default(autoincrement())
+  name        String
+  title       String
+  description String?
+  posts       Post[]
+  channels    Channel[]
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
@@ -87,6 +96,8 @@ model Channel {
   templateId     Int?
 
   activityStreams ActivityStream[]
+  applet          Applet?          @relation(fields: [appletId], references: [id])
+  appletId        Int?
 
   @@index(lastPostAt)
 }
@@ -161,6 +172,8 @@ model Post {
   todo          Todo?
 
   violationReports ViolationReport[]
+  applet           Applet?           @relation(fields: [appletId], references: [id])
+  appletId         Int?
 
   @@index(publishedAt)
   @@index(updatedAt)
