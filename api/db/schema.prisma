@@ -139,36 +139,43 @@ enum MemberStatus {
 }
 
 model Post {
-  id            Int         @id @default(autoincrement())
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  id            Int            @id @default(autoincrement())
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
   title         String?
   content       String?
   contentType   String?
-  author        User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author        User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId      Int
-  channel       Channel?    @relation(fields: [channelId], references: [id])
+  channel       Channel?       @relation(fields: [channelId], references: [id])
   channelId     Int?
-  isDraft       Boolean     @default(false)
+  applet        Applet?        @relation(fields: [appletId], references: [id])
+  appletId      Int?
+  accessType    PostAccessType @default(PRIVATE)
+  isDraft       Boolean        @default(false)
   publishedAt   DateTime?
-  likesCount    Int         @default(0)
+  likesCount    Int            @default(0)
   postLikes     PostLike[]
   comments      Comment[]
-  commentsCount Int         @default(0)
-  category      Category?   @relation(fields: [categoryId], references: [id])
+  commentsCount Int            @default(0)
+  category      Category?      @relation(fields: [categoryId], references: [id])
   categoryId    Int?
-  store         Json        @default("{}")
+  store         Json           @default("{}")
   postBlocks    PostBlock[]
-  happenedAt    DateTime    @default(now())
+  happenedAt    DateTime       @default(now())
   todo          Todo?
 
   violationReports ViolationReport[]
-  applet           Applet?           @relation(fields: [appletId], references: [id])
-  appletId         Int?
 
   @@index(publishedAt)
   @@index(updatedAt)
   @@index(happenedAt)
+}
+
+enum PostAccessType {
+  PRIVATE
+  PUBLIC
+  PAID
 }
 
 model Comment {

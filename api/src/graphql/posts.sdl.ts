@@ -12,6 +12,7 @@ export const schema = gql`
     channelId: Int
     applet: Applet
     appletId: Int
+    accessType: AccessType!
     isDraft: Boolean
     publishedAt: DateTime
     happenedAt: DateTime
@@ -26,6 +27,12 @@ export const schema = gql`
     accessToken: String!
     postBlocks: [PostBlock!]!
     todo: Todo
+  }
+
+  enum AccessType {
+    PRIVATE
+    PUBLIC
+    PAID
   }
 
   type PagedPosts {
@@ -102,6 +109,7 @@ export const schema = gql`
     content: String
     contentType: String
     channelId: Int
+    accessType: AccessType
     categoryId: Int
     isDraft: Boolean
     store: JSON

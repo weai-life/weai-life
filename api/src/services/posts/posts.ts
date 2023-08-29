@@ -50,11 +50,18 @@ export const publicPosts = async ({
     where: {
       ...where,
       isDraft: false,
-      channel: {
-        is: {
-          isPublic: true,
+      OR: [
+        {
+          accessType: 'PUBLIC',
         },
-      },
+        {
+          channel: {
+            is: {
+              isPublic: true,
+            },
+          },
+        },
+      ],
       ...postWhereOptionToBlockUser(context.currentUser?.id),
     },
   })
