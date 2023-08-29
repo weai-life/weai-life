@@ -41,7 +41,6 @@ model User {
   todos            Todo[]
   createdTodos     Todo[]             @relation("todo")
   groupRoles       GroupRole[]
-  mpUsers          MpUser[]
   groupApplictions GroupApplication[]
 
   reviewedGroupApplictions GroupApplication[] @relation("reviewUser")
@@ -290,7 +289,6 @@ model Group {
   public      Boolean     @default(false)
 
   roles            GroupRole[]
-  mpUsers          MpUser[]
   groupApplictions GroupApplication[]
 }
 
@@ -418,18 +416,4 @@ model GroupRole {
   users       User[]
 
   @@unique([groupId, name])
-}
-
-model MpUser {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  groupId   Int
-  group     Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  openid    String
-
-  @@unique([groupId, userId])
-  @@unique([groupId, openid])
 }
