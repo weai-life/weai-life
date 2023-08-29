@@ -1,5 +1,7 @@
 import { User, Post, Comment, Prisma } from '@prisma/client'
+
 import { db } from 'src/lib/db'
+
 import { getPost } from './dbHelper'
 import { uniqBy } from './misc'
 import * as notification from './notification'
@@ -115,7 +117,6 @@ function dumpPost(post: Post) {
     title: post.title,
     shortContent: post.store && post.store['shortContent'],
     content: post.content,
-    contentFormat: post.contentFormat,
     contentType: post.contentType,
     channelId: post.channelId,
     authorId: post.authorId,

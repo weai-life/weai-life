@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import DB from '@prisma/client'
+
 import { db } from 'src/lib/db'
-import * as jpush from './jpush'
 import { logger } from 'src/lib/logger'
+
+import * as jpush from './jpush'
 
 export async function newPost(post: DB.Post, currentUser: DB.User) {
   logger.debug('newPost')
@@ -36,8 +38,6 @@ export async function newPost(post: DB.Post, currentUser: DB.User) {
 function postMessage(post) {
   if (post.store && 'shortContent' in post.store) {
     return post.store['shortContent'] || '[无文本]'
-  } else if (post.contentFormat === 'SIMPLE') {
-    return post.content || '[无文本]'
   } else {
     return '发了新文章'
   }

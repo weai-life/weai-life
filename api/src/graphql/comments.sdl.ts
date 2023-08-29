@@ -4,7 +4,6 @@ export const schema = gql`
     createdAt: DateTime!
     updatedAt: DateTime!
     content: String!
-    contentFormat: ContentFormat!
     contentType: String
     author: User!
     authorId: Int!
@@ -40,12 +39,6 @@ export const schema = gql`
     repliedComment: Comment
   }
 
-  enum ContentFormat {
-    SIMPLE
-    MARKDOWN
-    JSON
-  }
-
   type PagedComments {
     data: [Comment!]!
     hasNext: Boolean!
@@ -79,7 +72,6 @@ export const schema = gql`
 
   input CreateCommentInput {
     content: String!
-    contentFormat: ContentFormat
     contentType: String
     postId: Int!
     repliedCommentId: Int
@@ -87,7 +79,6 @@ export const schema = gql`
 
   input UpdateCommentInput {
     content: String
-    contentFormat: ContentFormat
     contentType: String
   }
 

@@ -147,28 +147,27 @@ enum MemberStatus {
 }
 
 model Post {
-  id            Int           @id @default(autoincrement())
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id            Int         @id @default(autoincrement())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   title         String?
   content       String?
-  contentFormat ContentFormat @default(SIMPLE)
   contentType   String?
-  author        User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author        User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId      Int
-  channel       Channel?      @relation(fields: [channelId], references: [id])
+  channel       Channel?    @relation(fields: [channelId], references: [id])
   channelId     Int?
-  isDraft       Boolean       @default(false)
+  isDraft       Boolean     @default(false)
   publishedAt   DateTime?
-  likesCount    Int           @default(0)
+  likesCount    Int         @default(0)
   postLikes     PostLike[]
   comments      Comment[]
-  commentsCount Int           @default(0)
-  category      Category?     @relation(fields: [categoryId], references: [id])
+  commentsCount Int         @default(0)
+  category      Category?   @relation(fields: [categoryId], references: [id])
   categoryId    Int?
-  store         Json          @default("{}")
+  store         Json        @default("{}")
   postBlocks    PostBlock[]
-  happenedAt    DateTime      @default(now())
+  happenedAt    DateTime    @default(now())
   todo          Todo?
 
   violationReports ViolationReport[]
@@ -180,32 +179,25 @@ model Post {
   @@index(happenedAt)
 }
 
-enum ContentFormat {
-  SIMPLE
-  MARKDOWN
-  JSON
-}
-
 model Comment {
-  id               Int           @id @default(autoincrement())
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  id               Int       @id @default(autoincrement())
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
   content          String
-  contentFormat    ContentFormat @default(SIMPLE)
   contentType      String?
-  author           User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author           User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId         Int
-  post             Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  post             Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId           Int
   // 顶层的回复，给post的回复
-  comment          Comment?      @relation("TopComment", fields: [commentId], references: [id])
+  comment          Comment?  @relation("TopComment", fields: [commentId], references: [id])
   commentId        Int?
-  comments         Comment[]     @relation("TopComment")
-  commentsCount    Int           @default(0)
+  comments         Comment[] @relation("TopComment")
+  commentsCount    Int       @default(0)
   // 给comment的回复
-  repliedComment   Comment?      @relation("CommentToComment", fields: [repliedCommentId], references: [id])
+  repliedComment   Comment?  @relation("CommentToComment", fields: [repliedCommentId], references: [id])
   repliedCommentId Int?
-  replies          Comment[]     @relation("CommentToComment")
+  replies          Comment[] @relation("CommentToComment")
 }
 
 model Attachment {

@@ -5,7 +5,6 @@ export const schema = gql`
     updatedAt: DateTime!
     title: String
     content: String
-    contentFormat: String!
     contentType: String
     author: User!
     authorId: Int!
@@ -77,7 +76,6 @@ export const schema = gql`
   input CreatePostInput {
     title: String
     content: String
-    contentFormat: String
     contentType: String
     channelId: Int
     categoryId: Int
@@ -97,7 +95,6 @@ export const schema = gql`
   input UpdatePostInput {
     title: String
     content: String
-    contentFormat: String
     contentType: String
     channelId: Int
     categoryId: Int
