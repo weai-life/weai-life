@@ -5,7 +5,6 @@ export const schema = gql`
     updatedAt: DateTime!
     title: String!
     description: String
-    layout: Layout!
     author: User!
     authorId: Int!
     avatarUrl: String
@@ -30,13 +29,6 @@ export const schema = gql`
     templateId: Int
     isChannelMember: Boolean!
     config: JSON!
-  }
-
-  enum Layout {
-    DEFAULT
-    IMAGE
-    VIDEO
-    MIX
   }
 
   enum ChannelKind {
@@ -137,7 +129,6 @@ export const schema = gql`
     title: String!
     description: String
     avatarUrl: String
-    layout: Layout
     isPublic: Boolean
     groupId: Int
     kind: ChannelKind
@@ -149,7 +140,6 @@ export const schema = gql`
     title: String
     description: String
     avatarUrl: String
-    layout: Layout
     isPublic: Boolean
     groupId: Int
     kind: ChannelKind

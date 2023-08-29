@@ -85,7 +85,6 @@ model Channel {
   posts          Post[]
   channelMembers ChannelMember[]
   categories     Category[]
-  layout         Layout?         @default(DEFAULT)
   isPublic       Boolean         @default(false)
   kind           String          @default("general")
   config         Json            @default("{}")
@@ -100,13 +99,6 @@ model Channel {
   appletId        Int?
 
   @@index(lastPostAt)
-}
-
-enum Layout {
-  DEFAULT
-  IMAGE
-  VIDEO
-  MIX
 }
 
 model Category {
