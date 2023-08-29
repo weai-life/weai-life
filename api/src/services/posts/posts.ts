@@ -128,8 +128,6 @@ export const createPost = async ({ input }: CreatePostArgs) => {
     authorId: getCurrentUser().id,
   }
 
-  // console.log('data', data)
-
   const post = await db.post.create({
     data,
   })
