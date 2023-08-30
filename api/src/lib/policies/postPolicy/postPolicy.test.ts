@@ -1,4 +1,5 @@
 import { AccessToken } from 'src/lib/utils'
+
 import { create, destroy, list, read, update } from './postPolicy'
 
 describe('postPolicy', () => {
@@ -61,7 +62,7 @@ describe('postPolicy', () => {
     scenario('failed for anonymous', async (scenario) => {
       const result = read(null)(scenario.post.one)
       await expect(result).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"该频道为私有频道您无权访问"`
+        `"You can not access this post, this post is private"`
       )
     })
   })
@@ -75,7 +76,7 @@ describe('postPolicy', () => {
     scenario('failed for user who is not the member', async (scenario) => {
       const result = create(scenario.user.other)(scenario.channel.one.id)
       await expect(result).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"该频道为私有频道您无权访问"`
+        `"You can not access this post, this post is private"`
       )
     })
   })

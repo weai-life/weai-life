@@ -1,9 +1,12 @@
-import { rejectNil } from './../../utils/misc'
 import { User, Post } from '@prisma/client'
+
 import { db } from 'src/lib/db'
 import * as AccessToken from 'src/lib/utils/accessToken'
-import { throwForbiddenErrorUnless, isAdmin } from '../lib'
+
 import * as ChannelPolicy from '../channelPolicy/channelPolicy'
+import { throwForbiddenErrorUnless, isAdmin } from '../lib'
+
+import { rejectNil } from './../../utils/misc'
 
 const isPublicChannel = async (channelId: number) => {
   const channel = await db.channel
@@ -48,6 +51,8 @@ export const read =
       if (id === target.id) return true
     }
 
+    if (target.accessType === 'PUBLIC') return true
+
     user
       ? throwForbiddenErrorUnless('频道成员才能访问')(
           isAdmin(user) ||
@@ -55,9 +60,9 @@ export const read =
             (!!target.channelId && (await isPublicChannel(target.channelId))) ||
             (!!target.channelId && (await isMember(user)(target.channelId)))
         )
-      : throwForbiddenErrorUnless('该频道为私有频道您无权访问')(
-          !!target.channelId && (await isPublicChannel(target.channelId))
-        )
+      : throwForbiddenErrorUnless(
+          'You can not access this post, this post is private'
+        )(!!target.channelId && (await isPublicChannel(target.channelId)))
 
     return true
   }
@@ -66,9 +71,9 @@ export const create = (user: User) => async (channelId: number | null) => {
   // 没有指定频道id时，可以生成
   if (!channelId) throwForbiddenErrorUnless('您尚未登录')(!!user)
   else
-    throwForbiddenErrorUnless('该频道为私有频道您无权访问')(
-      await isMember(user)(channelId)
-    )
+    throwForbiddenErrorUnless(
+      'You can not access this post, this post is private'
+    )(await isMember(user)(channelId))
 
   return true
 }

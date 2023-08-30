@@ -1,9 +1,11 @@
-import { parseAuthorizationHeader } from '@redwoodjs/api'
-import { jwt } from './utils'
-import { logger } from './logger'
-import { db } from './db'
 import { User } from '@prisma/client'
+
+import { parseAuthorizationHeader } from '@redwoodjs/api'
 import { context, ForbiddenError } from '@redwoodjs/graphql-server'
+
+import { db } from './db'
+import { logger } from './logger'
+import { jwt } from './utils'
 
 declare module '@redwoodjs/graphql-server' {
   interface GlobalContext {

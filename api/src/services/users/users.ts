@@ -1,12 +1,15 @@
-import { getCurrentUser } from 'src/lib/context'
-import { ResolverArgs, context } from '@redwoodjs/graphql-server'
-import { db } from 'src/lib/db'
 import DB, { Prisma } from '@prisma/client'
+
+import { ResolverArgs, context } from '@redwoodjs/graphql-server'
+
+import { getCurrentUser } from 'src/lib/context'
+import { db } from 'src/lib/db'
+import { authorize, UserPolicy as policy } from 'src/lib/policies'
 import { paginate } from 'src/lib/utils'
+
+import { ChannelsInputArgs } from '../channels/channels'
 import { PostsInputArgs } from '../posts/posts'
 import { TodosInputArgs } from '../todos/todos'
-import { ChannelsInputArgs } from '../channels/channels'
-import { authorize, UserPolicy as policy } from 'src/lib/policies'
 
 interface UsersArgs {
   page?: number
@@ -53,9 +56,9 @@ type ChannelMembersArgs = {
 }
 
 export const User = {
-  mobile: async (_obj, { root }: ResolverArgs<DB.User>) => {
+  email: async (_obj, { root }: ResolverArgs<DB.User>) => {
     const result = await policy.accessPrivate(getCurrentUser())(root)
-    return result ? root.mobile : ''
+    return result ? root.email : ''
   },
 
   isAdmin: (_obj, { root }: ResolverArgs<DB.User>) => {
