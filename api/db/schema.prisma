@@ -13,6 +13,7 @@ model Applet {
   id          Int       @id @default(autoincrement())
   name        String
   title       String
+  website     String
   description String?
   posts       Post[]
   channels    Channel[]
@@ -76,6 +77,8 @@ model Channel {
   id             Int             @id @default(autoincrement())
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
+  applet         Applet?         @relation(fields: [appletId], references: [id])
+  appletId       Int?
   title          String
   description    String?
   avatarUrl      String?
@@ -95,8 +98,6 @@ model Channel {
   templateId     Int?
 
   activityStreams ActivityStream[]
-  applet          Applet?          @relation(fields: [appletId], references: [id])
-  appletId        Int?
 
   @@index(lastPostAt)
 }
@@ -142,6 +143,8 @@ model Post {
   id            Int            @id @default(autoincrement())
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+  applet        Applet?        @relation(fields: [appletId], references: [id])
+  appletId      Int?
   title         String?
   content       String?
   contentType   String?
@@ -149,8 +152,6 @@ model Post {
   authorId      Int
   channel       Channel?       @relation(fields: [channelId], references: [id])
   channelId     Int?
-  applet        Applet?        @relation(fields: [appletId], references: [id])
-  appletId      Int?
   accessType    PostAccessType @default(PRIVATE)
   isDraft       Boolean        @default(false)
   publishedAt   DateTime?

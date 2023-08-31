@@ -1,11 +1,8 @@
 -- CreateEnum
-CREATE TYPE "Layout" AS ENUM ('DEFAULT', 'IMAGE', 'VIDEO', 'MIX');
-
--- CreateEnum
 CREATE TYPE "MemberStatus" AS ENUM ('PENDING', 'JOINED');
 
 -- CreateEnum
-CREATE TYPE "ContentFormat" AS ENUM ('SIMPLE', 'MARKDOWN', 'JSON');
+CREATE TYPE "PostAccessType" AS ENUM ('PRIVATE', 'PUBLIC', 'PAID');
 
 -- CreateEnum
 CREATE TYPE "AttachmentStatus" AS ENUM ('PENDING', 'UPLOADED');
@@ -15,6 +12,17 @@ CREATE TYPE "GroupUserStatus" AS ENUM ('PENDING', 'JOINED');
 
 -- CreateEnum
 CREATE TYPE "GroupApplicationStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
+
+-- CreateTable
+CREATE TABLE "Applet" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "website" TEXT NOT NULL,
+    "description" TEXT,
+
+    CONSTRAINT "Applet_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -54,12 +62,12 @@ CREATE TABLE "Channel" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "appletId" INTEGER,
     "title" TEXT NOT NULL,
     "description" TEXT,
     "avatarUrl" TEXT,
     "authorId" INTEGER NOT NULL,
     "lastPostAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "layout" "Layout" DEFAULT 'DEFAULT',
     "isPublic" BOOLEAN NOT NULL DEFAULT false,
     "kind" TEXT NOT NULL DEFAULT 'general',
     "config" JSONB NOT NULL DEFAULT '{}',
@@ -103,12 +111,13 @@ CREATE TABLE "Post" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "appletId" INTEGER,
     "title" TEXT,
     "content" TEXT,
-    "contentFormat" "ContentFormat" NOT NULL DEFAULT 'SIMPLE',
     "contentType" TEXT,
     "authorId" INTEGER NOT NULL,
     "channelId" INTEGER,
+    "accessType" "PostAccessType" NOT NULL DEFAULT 'PRIVATE',
     "isDraft" BOOLEAN NOT NULL DEFAULT false,
     "publishedAt" TIMESTAMP(3),
     "likesCount" INTEGER NOT NULL DEFAULT 0,
@@ -126,7 +135,6 @@ CREATE TABLE "Comment" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "content" TEXT NOT NULL,
-    "contentFormat" "ContentFormat" NOT NULL DEFAULT 'SIMPLE',
     "contentType" TEXT,
     "authorId" INTEGER NOT NULL,
     "postId" INTEGER NOT NULL,
@@ -346,18 +354,6 @@ CREATE TABLE "GroupRole" (
 );
 
 -- CreateTable
-CREATE TABLE "MpUser" (
-    "id" SERIAL NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-    "groupId" INTEGER NOT NULL,
-    "userId" INTEGER NOT NULL,
-    "openid" TEXT NOT NULL,
-
-    CONSTRAINT "MpUser_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "_TodoToUser" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
@@ -433,12 +429,6 @@ CREATE UNIQUE INDEX "Permission_name_key" ON "Permission"("name");
 CREATE UNIQUE INDEX "GroupRole_groupId_name_key" ON "GroupRole"("groupId", "name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "MpUser_groupId_userId_key" ON "MpUser"("groupId", "userId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "MpUser_groupId_openid_key" ON "MpUser"("groupId", "openid");
-
--- CreateIndex
 CREATE UNIQUE INDEX "_TodoToUser_AB_unique" ON "_TodoToUser"("A", "B");
 
 -- CreateIndex
@@ -469,6 +459,9 @@ ALTER TABLE "PostLike" ADD CONSTRAINT "PostLike_userId_fkey" FOREIGN KEY ("userI
 ALTER TABLE "PostLike" ADD CONSTRAINT "PostLike_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Channel" ADD CONSTRAINT "Channel_appletId_fkey" FOREIGN KEY ("appletId") REFERENCES "Applet"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Channel" ADD CONSTRAINT "Channel_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -485,6 +478,9 @@ ALTER TABLE "ChannelMember" ADD CONSTRAINT "ChannelMember_channelId_fkey" FOREIG
 
 -- AddForeignKey
 ALTER TABLE "ChannelMember" ADD CONSTRAINT "ChannelMember_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Post" ADD CONSTRAINT "Post_appletId_fkey" FOREIGN KEY ("appletId") REFERENCES "Applet"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Post" ADD CONSTRAINT "Post_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -578,12 +574,6 @@ ALTER TABLE "Todo" ADD CONSTRAINT "Todo_userId_fkey" FOREIGN KEY ("userId") REFE
 
 -- AddForeignKey
 ALTER TABLE "GroupRole" ADD CONSTRAINT "GroupRole_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Group"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "MpUser" ADD CONSTRAINT "MpUser_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Group"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "MpUser" ADD CONSTRAINT "MpUser_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_TodoToUser" ADD CONSTRAINT "_TodoToUser_A_fkey" FOREIGN KEY ("A") REFERENCES "Todo"("id") ON DELETE CASCADE ON UPDATE CASCADE;
