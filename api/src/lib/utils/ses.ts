@@ -1,8 +1,10 @@
 import { UserInputError } from '@redwoodjs/graphql-server'
-import * as redis from './redis'
-import { isProd } from './misc'
+
 import { logger } from 'src/lib/logger'
+
 import { sendVerificationCode } from './mailer'
+import { isProd } from './misc'
+import * as redis from './redis'
 
 export const TEST_CODE = '111111'
 const redisSmsKey = (email: string) => `sms:verify:${email}`

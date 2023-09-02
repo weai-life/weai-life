@@ -1,5 +1,5 @@
-import { ses } from 'src/lib/utils'
 import { logger } from 'src/lib/logger'
+import { ses } from 'src/lib/utils'
 
 export async function sendSesCode({ input }) {
   const { email } = input

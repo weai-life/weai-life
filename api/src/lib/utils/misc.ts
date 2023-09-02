@@ -1,8 +1,11 @@
-import { NotFoundError } from '../errors'
-import { hash } from 'bcryptjs'
-import util from 'util'
-import { NODE_ENV } from './env'
 import crypto from 'crypto'
+import util from 'util'
+
+import { hash } from 'bcryptjs'
+
+import { NotFoundError } from '../errors'
+
+import { NODE_ENV } from './env'
 
 export { compare } from 'bcryptjs'
 
