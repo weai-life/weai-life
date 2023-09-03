@@ -27,7 +27,7 @@ export async function sendSes(email: string) {
 
   redis.setex(redisSmsKey(email), redisVerifyCacheTime, smsCode)
 
-  await sendVerificationCode(email, smsCode)
+  if (isProd) await sendVerificationCode(email, smsCode)
 }
 
 // 生成6位验证码
@@ -48,9 +48,9 @@ export async function ensureValidSesCode(email: string, sesCode: string) {
   const code = await getVerifyCode(email)
 
   if (code !== sesCode) {
-    throw new UserInputError('验证码不匹配', {
+    throw new UserInputError('Verification Code is not correct', {
       messages: {
-        smsCode: ['验证码不匹配'],
+        smsCode: ['Verification Code is not correct'],
       },
     })
   }

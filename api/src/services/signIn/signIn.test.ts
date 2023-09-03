@@ -34,7 +34,7 @@ describe('signInBySes', () => {
     }
 
     await expect(result).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"验证码不匹配"`
+      `"Verification Code is not correct"`
     )
   })
 
