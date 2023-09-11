@@ -62,7 +62,7 @@ CREATE TABLE "Channel" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "appletId" INTEGER,
+    "appletId" INTEGER NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT,
     "avatarUrl" TEXT,
@@ -111,7 +111,7 @@ CREATE TABLE "Post" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "appletId" INTEGER,
+    "appletId" INTEGER NOT NULL,
     "title" TEXT,
     "content" TEXT,
     "contentType" TEXT,
@@ -459,7 +459,7 @@ ALTER TABLE "PostLike" ADD CONSTRAINT "PostLike_userId_fkey" FOREIGN KEY ("userI
 ALTER TABLE "PostLike" ADD CONSTRAINT "PostLike_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Channel" ADD CONSTRAINT "Channel_appletId_fkey" FOREIGN KEY ("appletId") REFERENCES "Applet"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Channel" ADD CONSTRAINT "Channel_appletId_fkey" FOREIGN KEY ("appletId") REFERENCES "Applet"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Channel" ADD CONSTRAINT "Channel_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -480,7 +480,7 @@ ALTER TABLE "ChannelMember" ADD CONSTRAINT "ChannelMember_channelId_fkey" FOREIG
 ALTER TABLE "ChannelMember" ADD CONSTRAINT "ChannelMember_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Post" ADD CONSTRAINT "Post_appletId_fkey" FOREIGN KEY ("appletId") REFERENCES "Applet"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Post" ADD CONSTRAINT "Post_appletId_fkey" FOREIGN KEY ("appletId") REFERENCES "Applet"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Post" ADD CONSTRAINT "Post_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

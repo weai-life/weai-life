@@ -85,11 +85,11 @@ export const schema = gql`
   }
 
   input CreatePostInput {
+    appletId: Int
     title: String
     content: String
     contentType: String
     channelId: Int
-    appletId: Int
     categoryId: Int
     isDraft: Boolean
     store: JSON

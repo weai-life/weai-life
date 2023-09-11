@@ -11,9 +11,9 @@ generator client {
 
 model Applet {
   id          Int       @id @default(autoincrement())
-  name        String
+  name        String    @unique
   title       String
-  website     String
+  website     String?
   description String?
   posts       Post[]
   channels    Channel[]
@@ -77,8 +77,8 @@ model Channel {
   id             Int             @id @default(autoincrement())
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
-  applet         Applet?         @relation(fields: [appletId], references: [id])
-  appletId       Int?
+  applet         Applet          @relation(fields: [appletId], references: [id])
+  appletId       Int
   title          String
   description    String?
   avatarUrl      String?
@@ -143,8 +143,8 @@ model Post {
   id            Int            @id @default(autoincrement())
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  applet        Applet?        @relation(fields: [appletId], references: [id])
-  appletId      Int?
+  applet        Applet         @relation(fields: [appletId], references: [id])
+  appletId      Int
   title         String?
   content       String?
   contentType   String?

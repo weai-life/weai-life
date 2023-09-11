@@ -4,13 +4,14 @@ export const schema = gql`
     name: String!
     title: String!
     description: String
+    website: String
     posts: [Post]!
     channels: [Channel]!
   }
 
   type Query {
-    applets: [Applet!]! @requireAuth
-    applet(id: Int!): Applet @requireAuth
+    applets: [Applet!]! @skipAuth
+    applet(name: String!): Applet @skipAuth
   }
 
   input CreateAppletInput {

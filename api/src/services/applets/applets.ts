@@ -10,9 +10,9 @@ export const applets: QueryResolvers['applets'] = () => {
   return db.applet.findMany()
 }
 
-export const applet: QueryResolvers['applet'] = ({ id }) => {
+export const applet: QueryResolvers['applet'] = ({ name }) => {
   return db.applet.findUnique({
-    where: { id },
+    where: { name },
   })
 }
 
