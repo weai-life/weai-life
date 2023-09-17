@@ -5,6 +5,7 @@ export const schema = gql`
     title: String!
     description: String
     website: String
+    icon: String
     posts: [Post]!
     channels: [Channel]!
   }
@@ -18,12 +19,14 @@ export const schema = gql`
     name: String!
     title: String!
     description: String
+    icon: String
   }
 
   input UpdateAppletInput {
     name: String
     title: String
     description: String
+    icon: String
   }
 
   type Mutation {

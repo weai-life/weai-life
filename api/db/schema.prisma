@@ -15,6 +15,7 @@ model Applet {
   title       String
   website     String?
   description String?
+  icon        String?
   posts       Post[]
   channels    Channel[]
 }
