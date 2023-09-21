@@ -1,11 +1,14 @@
-import { getCurrentUser } from 'src/lib/context'
+import DB, { Prisma } from '@prisma/client'
+
 import { ResolverArgs } from '@redwoodjs/graphql-server'
+
+import { getCurrentUser } from 'src/lib/context'
 import { db } from 'src/lib/db'
 import { authorize, GroupPolicy as policy } from 'src/lib/policies'
-import DB, { Prisma } from '@prisma/client'
-import { invite, paginate, rejectNil } from 'src/lib/utils'
-import { ChannelsInputArgs } from './../channels'
 import { group as srv } from 'src/lib/services'
+import { invite, paginate, rejectNil } from 'src/lib/utils'
+
+import { ChannelsInputArgs } from './../channels'
 
 export interface GroupsInputArgs {
   page?: number
@@ -207,14 +210,6 @@ export const Group = {
   //     status: 'JOINED',
   //   },
   // }),
-
-  channelCount: (_obj, { root }: ResolverArgs<Prisma.GroupWhereUniqueInput>) =>
-    db.group
-      .findUnique({
-        where: { id: root.id },
-        select: { _count: { select: { channels: true } } },
-      })
-      .then((group) => group?._count?.channels || 0),
 
   unreadPostCount: async (
     _obj,

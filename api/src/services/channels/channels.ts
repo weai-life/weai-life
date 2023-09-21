@@ -1,26 +1,25 @@
-import { getCurrentUser } from 'src/lib/context'
+import { Prisma } from '@prisma/client'
+
 import {
   UserInputError,
   ValidationError,
   context,
   ResolverArgs,
 } from '@redwoodjs/graphql-server'
-import { Prisma } from '@prisma/client'
+
+import { getCurrentUser } from 'src/lib/context'
 import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
+import { authorize, ChannelPolicy as policy } from 'src/lib/policies'
 import { paginate, rejectNil } from 'src/lib/utils'
-import {
-  authorize,
-  ChannelPolicy as policy,
-  GroupPolicy,
-} from 'src/lib/policies'
-import { PostsInputArgs } from './../posts'
 import {
   getChannel,
   updateChannelAuthor,
   addUserToChannel,
   postWhereOptionToBlockUser,
 } from 'src/lib/utils/dbHelper'
+
+import { PostsInputArgs } from './../posts'
 import { removeGroupUsersFromChannel } from './lib/removeGroupUsersFromChannel'
 export interface ChannelsInputArgs {
   page?: number
@@ -40,18 +39,6 @@ export const publicChannels = async ({
   where = {
     ...where,
     isPublic: true,
-    OR: [
-      {
-        groupId: null,
-      },
-      {
-        group: {
-          is: {
-            public: true,
-          },
-        },
-      },
-    ],
   }
 
   return queryChannels({
@@ -112,12 +99,6 @@ interface CreateChannelArgs {
 }
 
 export const createChannel = async ({ input }: CreateChannelArgs) => {
-  if (input.groupId) {
-    const group = await db.group.findUnique({ where: { id: input.groupId } })
-    if (!group) throw new UserInputError('找不到频道所属小组')
-    await authorize(GroupPolicy.addChannel)(group)
-  }
-
   const channel = await db.channel.create({
     data: {
       ...input,
@@ -134,10 +115,6 @@ export const createChannel = async ({ input }: CreateChannelArgs) => {
     },
   })
 
-  if (channel.groupId) {
-    await addGroupUsersToChannel(channel.groupId, channel.id)
-  }
-
   return channel
 }
 
@@ -151,39 +128,6 @@ export const updateChannel = async ({ id, input }: UpdateChannelArgs) => {
     .then(rejectNil('找不到该频道'))
 
   await authorize(policy.update)(channel)
-
-  // 如果原本是小组频道，并且被更新
-  if (
-    input.groupId !== undefined && // 没有传 groupId 时保持不变
-    channel.groupId &&
-    input.groupId !== channel.groupId
-  ) {
-    const oldGroup = await db.group.findUnique({
-      where: { id: channel.groupId },
-    })
-    await authorize(GroupPolicy.removeChannel)(oldGroup)
-  }
-
-  if (input.groupId && channel.groupId != input.groupId) {
-    const newGroup = await db.group.findUnique({
-      where: { id: input.groupId as number },
-    })
-    await authorize(GroupPolicy.addChannel)(newGroup)
-  }
-
-  // 从原来的小组里删除小组成员
-  if (
-    input.groupId !== undefined &&
-    channel.groupId &&
-    channel.groupId != input.groupId
-  ) {
-    await removeGroupUsersFromChannel(channel?.groupId, channel)
-  }
-
-  // 加入所有新小组的成员
-  if (input.groupId && channel.groupId != input.groupId) {
-    await addGroupUsersToChannel(input.groupId as number, channel.id)
-  }
 
   return db.channel.update({
     data: input,
@@ -232,8 +176,8 @@ export const Channel = {
   page: (_obj, { root }: ResolverArgs<Prisma.ChannelWhereUniqueInput>) =>
     db.channel.findUnique({ where: { id: root.id } }).page(),
 
-  group: (_obj, { root }: ResolverArgs<Prisma.ChannelWhereUniqueInput>) =>
-    db.channel.findUnique({ where: { id: root.id } }).group(),
+  applet: (_obj, { root }: ResolverArgs<Prisma.ChannelWhereUniqueInput>) =>
+    db.channel.findUnique({ where: { id: root.id } }).applet(),
 
   template: (_obj, { root }: ResolverArgs<Prisma.ChannelWhereUniqueInput>) =>
     db.channel.findUnique({ where: { id: root.id } }).template(),
@@ -406,7 +350,10 @@ export const pullUserToChannel = async ({
   }
 }
 
-async function addGroupUsersToChannel(groupId: number, channelId: number) {
+export async function addGroupUsersToChannel(
+  groupId: number,
+  channelId: number
+) {
   const groupUsers = await db.groupUser.findMany({
     where: { groupId },
   })

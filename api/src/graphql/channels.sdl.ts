@@ -22,8 +22,8 @@ export const schema = gql`
     memberCount: Int!
     isPublic: Boolean!
     page: Page
-    group: Group
-    groupId: Int
+    applet: Applet
+    appletId: Int
     kind: ChannelKind!
     template: Template
     templateId: Int
@@ -76,10 +76,6 @@ export const schema = gql`
     page
     """
     page
-    """
-    group
-    """
-    group
   }
 
   type PagedChannels {
@@ -130,7 +126,7 @@ export const schema = gql`
     description: String
     avatarUrl: String
     isPublic: Boolean
-    groupId: Int
+    appletId: Int
     kind: ChannelKind
     templateId: Int
     config: JSON
@@ -141,7 +137,7 @@ export const schema = gql`
     description: String
     avatarUrl: String
     isPublic: Boolean
-    groupId: Int
+    appletId: Int
     kind: ChannelKind
     templateId: Int
     config: JSON
