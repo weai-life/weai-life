@@ -20,6 +20,17 @@ model Applet {
   channels    Channel[]
 }
 
+model Link {
+  id          Int     @id @default(autoincrement())
+  groupId     Int
+  group       Group   @relation(fields: [groupId], references: [id])
+  title       String
+  url         String
+  description String?
+  icon        String?
+  store       Json    @default("{}")
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
@@ -296,6 +307,7 @@ model Group {
 
   roles            GroupRole[]
   groupApplictions GroupApplication[]
+  links            Link[]
 }
 
 enum GroupUserStatus {
