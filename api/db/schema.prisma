@@ -146,7 +146,7 @@ model Post {
   updatedAt     DateTime       @updatedAt
   applet        Applet         @relation(fields: [appletId], references: [id])
   appletId      Int
-  title         String?
+  title         String
   content       String?
   contentType   String?
   author        User           @relation(fields: [authorId], references: [id], onDelete: Cascade)

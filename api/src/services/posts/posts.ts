@@ -219,7 +219,8 @@ export const deletePost = async ({ id }: Prisma.PostWhereUniqueInput) => {
 export const Post = {
   author: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>
     db.post.findUnique({ where: { id: root.id } }).author(),
-
+  applet: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>
+    db.post.findUnique({ where: { id: root.id } }).applet(),
   // FIXME: should we return channel info if the post is accessed by a token
   channel: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>
     db.post.findUnique({ where: { id: root.id } }).channel(),

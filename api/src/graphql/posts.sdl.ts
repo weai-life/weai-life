@@ -3,7 +3,7 @@ export const schema = gql`
     id: Int!
     createdAt: DateTime!
     updatedAt: DateTime!
-    title: String
+    title: String!
     content: String
     contentType: String
     author: User!
@@ -85,8 +85,8 @@ export const schema = gql`
   }
 
   input CreatePostInput {
-    appletId: Int
-    title: String
+    appletId: Int!
+    title: String!
     content: String
     contentType: String
     channelId: Int
