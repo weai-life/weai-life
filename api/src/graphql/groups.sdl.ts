@@ -8,16 +8,9 @@ export const schema = gql`
     name: String!
     description: String
     avatarUrl: String
-    channels(
-      page: Int
-      pageSize: Int
-      where: ChannelsWhereInput
-      orderBy: ChannelsOrderByInput
-    ): PagedChannels @deprecated(reason: "不再分页，请使用 'channelList'")
-    channelList: [Channel!]!
+    links: [Link!]!
     groupUsers(page: Int, pageSize: Int): PagedGroupUsers
     groupUserCount: Int!
-    channelCount: Int!
     unreadPostCount: Int!
     isGroupUser: Boolean!
     store: JSON!

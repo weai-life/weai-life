@@ -8,8 +8,6 @@ import { authorize, GroupPolicy as policy } from 'src/lib/policies'
 import { group as srv } from 'src/lib/services'
 import { invite, paginate, rejectNil } from 'src/lib/utils'
 
-import { ChannelsInputArgs } from './../channels'
-
 export interface GroupsInputArgs {
   page?: number
   pageSize?: number
@@ -138,38 +136,8 @@ export const Group = {
   owner: (_obj, { root }: ResolverArgs<Prisma.GroupWhereUniqueInput>) =>
     db.group.findUnique({ where: { id: root.id } }).owner(),
 
-  channels: async (
-    {
-      page,
-      pageSize,
-      where = {},
-      orderBy = { id: 'desc' },
-    }: ChannelsInputArgs = {},
-    { root }: ResolverArgs<Prisma.GroupWhereUniqueInput>
-  ) => {
-    const user = context.currentUser
-    const whereCondition = channelWhere(root as DB.Group, user, where)
-
-    return paginate({
-      page,
-      pageSize,
-      fun: ({ skip, take }) => {
-        return db.group
-          .findUnique({
-            where: { id: root.id },
-          })
-          .channels({ skip, take, where: whereCondition, orderBy })
-      },
-    })
-  },
-
-  channelList: async (
-    _,
-    { root }: ResolverArgs<Prisma.GroupWhereUniqueInput>
-  ) => {
-    const user = context.currentUser
-    const where = channelWhere(root as DB.Group, user)
-    return db.group.findUnique({ where: { id: root.id } }).channels({ where })
+  links: async (_, { root }: ResolverArgs<Prisma.GroupWhereUniqueInput>) => {
+    return db.group.findUnique({ where: { id: root.id } }).links()
   },
 
   groupUsers: (
