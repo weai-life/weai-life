@@ -104,8 +104,6 @@ model Channel {
   kind           String          @default("general")
   config         Json            @default("{}")
   page           Page?
-  group          Group?          @relation(fields: [groupId], references: [id])
-  groupId        Int?
   template       Template?       @relation(fields: [templateId], references: [id])
   templateId     Int?
 
@@ -298,7 +296,6 @@ model Group {
   name        String
   description String?
   avatarUrl   String?
-  channels    Channel[]
   owner       User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId     Int
   groupUsers  GroupUser[]
