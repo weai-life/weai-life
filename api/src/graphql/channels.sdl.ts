@@ -24,58 +24,11 @@ export const schema = gql`
     page: Page
     applet: Applet
     appletId: Int
-    kind: ChannelKind!
+    kind: String!
     template: Template
     templateId: Int
     isChannelMember: Boolean!
     config: JSON!
-  }
-
-  enum ChannelKind {
-    """
-    通用频道 默认值
-    """
-    general
-    """
-    说明文档
-    """
-    documentation
-    """
-    文件投递频道
-    """
-    file
-    """
-    时间线
-    """
-    timeline
-    """
-    讨论
-    """
-    discuss
-    """
-    博客
-    """
-    blog
-    """
-    课程
-    """
-    course
-    """
-    newsletter
-    """
-    newsletter
-    """
-    todo
-    """
-    todo
-    """
-    link
-    """
-    link
-    """
-    page
-    """
-    page
   }
 
   type PagedChannels {
@@ -127,7 +80,7 @@ export const schema = gql`
     avatarUrl: String
     isPublic: Boolean
     appletId: Int
-    kind: ChannelKind
+    kind: String
     templateId: Int
     config: JSON
   }
@@ -138,7 +91,7 @@ export const schema = gql`
     avatarUrl: String
     isPublic: Boolean
     appletId: Int
-    kind: ChannelKind
+    kind: String
     templateId: Int
     config: JSON
   }
