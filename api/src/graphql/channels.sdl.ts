@@ -67,6 +67,7 @@ export const schema = gql`
     kind: StringFilter
     title: StringFilter
     templateId: IntFilter
+    appletId: IntFilter
   }
 
   input ChannelsOrderByInput {
