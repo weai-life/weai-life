@@ -1,8 +1,9 @@
 import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 
 import { logger } from '../logger'
 
-import { EMAIL_USER, EMAIL_PASS } from './env'
+import { EMAIL_USER, EMAIL_PASS, RESEND_API_KEY } from './env'
 
 const transporter = nodemailer.createTransport({
   host: 'smtp-mail.outlook.com', // hostname
@@ -28,6 +29,29 @@ export const sendVerificationCode = async (email: string, code: string) => {
     })
 
     console.log('Message sent: %s', info.messageId)
+  } catch (err) {
+    logger.error({ label: 'SMS' }, err)
+    throw new Error(err.message)
+  }
+}
+
+const resend = new Resend(RESEND_API_KEY)
+
+export const resendSESCode = async (email: string, code: string) => {
+  try {
+    const data = await resend.emails.send({
+      from: 'Applets.Group <applets.group@outlook.com>',
+      to: email,
+      subject: 'Verify email from Applets Group',
+      html: `<p>Code: <strong>${code}</strong> .Welcome to use Applets Group!</p>`,
+    })
+
+    console.log(
+      'Resend Message sent: %s',
+      JSON.stringify({
+        data,
+      })
+    )
   } catch (err) {
     logger.error({ label: 'SMS' }, err)
     throw new Error(err.message)

@@ -54,4 +54,5 @@ export const {
   FAKTORY_URL,
   EMAIL_USER,
   EMAIL_PASS,
+  RESEND_API_KEY,
 } = envProxy
