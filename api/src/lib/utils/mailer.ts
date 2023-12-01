@@ -40,7 +40,7 @@ const resend = new Resend(RESEND_API_KEY)
 export const resendSESCode = async (email: string, code: string) => {
   try {
     const data = await resend.emails.send({
-      from: 'Applets.Group <onboarding@resend.dev>',
+      from: 'Applets.Group <hi@applets.group>',
       to: email,
       subject: 'Verify email from Applets Group',
       html: `<p>Code: <strong>${code}</strong> .Welcome to use Applets Group!</p>`,
