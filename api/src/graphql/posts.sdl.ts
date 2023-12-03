@@ -5,7 +5,7 @@ export const schema = gql`
     updatedAt: DateTime!
     title: String!
     content: String
-    contentType: String
+    schema: String
     author: User!
     authorId: Int!
     channel: Channel
@@ -47,7 +47,7 @@ export const schema = gql`
     categoryId: Int
     title: StringFilter
     content: StringFilter
-    contentType: StringFilter
+    schema: StringFilter
     isDraft: Boolean
     todo: TodosWhereInput
   }
@@ -88,7 +88,7 @@ export const schema = gql`
     appletId: Int!
     title: String!
     content: String
-    contentType: String
+    schema: String
     channelId: Int
     categoryId: Int
     isDraft: Boolean
@@ -107,7 +107,7 @@ export const schema = gql`
   input UpdatePostInput {
     title: String
     content: String
-    contentType: String
+    schema: String
     channelId: Int
     accessType: AccessType
     categoryId: Int

@@ -117,7 +117,7 @@ function dumpPost(post: Post) {
     title: post.title,
     shortContent: post.store && post.store['shortContent'],
     content: post.content,
-    contentType: post.contentType,
+    schema: post.schema,
     channelId: post.channelId,
     authorId: post.authorId,
     createdAt: post.createdAt.toISOString(),
