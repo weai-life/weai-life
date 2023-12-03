@@ -157,7 +157,7 @@ model Post {
   appletId      Int
   title         String
   content       String?
-  contentType   String?
+  schema        String?
   author        User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId      Int
   channel       Channel?       @relation(fields: [channelId], references: [id])
