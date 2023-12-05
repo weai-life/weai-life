@@ -12,14 +12,28 @@ generator client {
 }
 
 model Applet {
-  id          Int       @id @default(autoincrement())
-  name        String    @unique
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
   title       String
   website     String?
   description String?
   icon        String?
   posts       Post[]
   channels    Channel[]
+  appletUsers AppletUser[]
+}
+
+model AppletUser {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  store     Json     @default("{}")
+  applet    Applet?  @relation(fields: [appletId], references: [id])
+  appletId  Int?
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+
+  @@unique(fields: [appletId, userId], name: "appletuser")
 }
 
 model Link {
@@ -44,6 +58,7 @@ model User {
 
   channels         Channel[]
   posts            Post[]
+  appletUsers      AppletUser[]
   channelMembers   ChannelMember[]
   attachments      Attachment[]
   invitedById      Int?
