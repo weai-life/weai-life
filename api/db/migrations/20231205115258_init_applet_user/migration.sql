@@ -1,13 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the column `contentType` on the `Post` table. All the data in the column will be lost.
-
-*/
--- AlterTable
-ALTER TABLE "Post" DROP COLUMN "contentType",
-ADD COLUMN     "schema" TEXT;
-
 -- CreateTable
 CREATE TABLE "AppletUser" (
     "id" SERIAL NOT NULL,

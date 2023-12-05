@@ -114,7 +114,7 @@ CREATE TABLE "Post" (
     "appletId" INTEGER NOT NULL,
     "title" TEXT,
     "content" TEXT,
-    "contentType" TEXT,
+    "schema" TEXT,
     "authorId" INTEGER NOT NULL,
     "channelId" INTEGER,
     "accessType" "PostAccessType" NOT NULL DEFAULT 'PRIVATE',
