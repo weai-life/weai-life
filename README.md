@@ -1,4 +1,4 @@
-# README
+# Applets.Group
 
 Welcome to [RedwoodJS](https://redwoodjs.com)!
 
