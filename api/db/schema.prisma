@@ -28,10 +28,10 @@ model AppletUser {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   store     Json     @default("{}")
-  applet    Applet?  @relation(fields: [appletId], references: [id])
-  appletId  Int?
-  user      User?    @relation(fields: [userId], references: [id])
-  userId    Int?
+  applet    Applet   @relation(fields: [appletId], references: [id])
+  appletId  Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
 
   @@unique(fields: [appletId, userId], name: "appletuser")
 }

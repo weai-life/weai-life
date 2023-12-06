@@ -10,9 +10,17 @@ export const schema = gql`
     userId: Int
   }
 
+  type AppletAndUser {
+    id: Int
+    appletId: Int!
+    applet: Applet!
+    user: User
+    userId: Int
+  }
+
   type Query {
     appletUsers: [AppletUser!]! @requireAuth
-    appletUser(id: Int!): AppletUser @requireAuth
+    appletUser(name: String!): AppletAndUser @skipAuth
   }
 
   input CreateAppletUserInput {
