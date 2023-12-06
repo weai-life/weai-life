@@ -6,15 +6,18 @@ import type {
 
 import { getCurrentUser } from 'src/lib/context'
 import { db } from 'src/lib/db'
+import { rejectNil } from 'src/lib/utils'
 
 export const appletUsers: QueryResolvers['appletUsers'] = () => {
   return db.appletUser.findMany()
 }
 
 export const appletUser: QueryResolvers['appletUser'] = async ({ name }) => {
-  const applet = await db.applet.findUnique({
-    where: { name },
-  })
+  const applet = await db.applet
+    .findUnique({
+      where: { name },
+    })
+    .then(rejectNil('Applet Not Found'))
 
   let currentUser
   try {
