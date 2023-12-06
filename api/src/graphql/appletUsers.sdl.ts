@@ -16,6 +16,7 @@ export const schema = gql`
     applet: Applet!
     user: User
     userId: Int
+    store: JSON
   }
 
   type Query {
