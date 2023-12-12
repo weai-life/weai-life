@@ -27,6 +27,7 @@ export const schema = gql`
     accessToken: String!
     postBlocks: [PostBlock!]!
     todo: Todo
+    externalId: String
   }
 
   enum AccessType {
@@ -50,6 +51,7 @@ export const schema = gql`
     schema: StringFilter
     isDraft: Boolean
     todo: TodosWhereInput
+    externalId: StringFilter
   }
 
   input PostsOrderByInput {
@@ -96,6 +98,7 @@ export const schema = gql`
     happenedAt: DateTime
     blocks: [CreateBlockInput!]
     todo: CreatePostTodoInput
+    externalId: String
   }
 
   input CreatePostTodoInput {
@@ -114,6 +117,7 @@ export const schema = gql`
     isDraft: Boolean
     store: JSON
     happenedAt: DateTime
+    externalId: String
   }
 
   type Mutation {
