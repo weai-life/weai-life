@@ -192,12 +192,14 @@ model Post {
   postBlocks    PostBlock[]
   happenedAt    DateTime       @default(now())
   todo          Todo?
+  externalId    String?
 
   violationReports ViolationReport[]
 
   @@index(publishedAt)
   @@index(updatedAt)
   @@index(happenedAt)
+  @@index(externalId)
 }
 
 enum PostAccessType {
