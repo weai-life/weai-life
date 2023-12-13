@@ -26,7 +26,6 @@ export const schema = gql`
     store: JSON!
     accessToken: String!
     postBlocks: [PostBlock!]!
-    todo: Todo
     externalId: String
   }
 
@@ -50,7 +49,6 @@ export const schema = gql`
     content: StringFilter
     schema: StringFilter
     isDraft: Boolean
-    todo: TodosWhereInput
     externalId: StringFilter
   }
 
@@ -61,7 +59,6 @@ export const schema = gql`
     categoryId: Int
     updatedAt: SortOrder
     happenedAt: SortOrder
-    todo: TodosOrderByInput
   }
 
   type Query {
@@ -97,14 +94,7 @@ export const schema = gql`
     store: JSON
     happenedAt: DateTime
     blocks: [CreateBlockInput!]
-    todo: CreatePostTodoInput
     externalId: String
-  }
-
-  input CreatePostTodoInput {
-    deadline: DateTime
-    assignees: [Int!]
-    timerAt: DateTime
   }
 
   input UpdatePostInput {

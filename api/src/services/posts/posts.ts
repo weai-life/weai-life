@@ -9,9 +9,6 @@ import { authorize, PostPolicy as policy } from 'src/lib/policies'
 import { paginate, notification, AccessToken } from 'src/lib/utils'
 import { postWhereOptionToBlockUser } from 'src/lib/utils/dbHelper'
 
-import { TodoCreateInput } from '../todos/todos'
-
-import { createTodo } from './../todos/todos'
 import {
   buildPostBlocksFromBlocks,
   checkCategoryIsBelongsToChannel,
@@ -107,13 +104,8 @@ export const post = async ({ id, accessToken }: PostInput) => {
 }
 
 interface CreatePostArgs {
-  input: Omit<Omit<Prisma.PostUncheckedCreateInput, 'authorId'>, 'todo'> &
-    CreateBlocksWithoutUserIdInput &
-    CreateTodoWithoutPostIdInput
-}
-
-interface CreateTodoWithoutPostIdInput {
-  todo: TodoCreateInput
+  input: Omit<Prisma.PostUncheckedCreateInput, 'authorId'> &
+    CreateBlocksWithoutUserIdInput
 }
 
 interface CreateBlocksWithoutUserIdInput {
@@ -124,7 +116,7 @@ export const createPost = async ({ input }: CreatePostArgs) => {
   await authorize(policy.create)(input.channelId)
   await checkCategoryIsBelongsToChannel(input)
 
-  const { blocks, todo, ...nest } = input
+  const { blocks, ...nest } = input
 
   const postBlocks = buildPostBlocksFromBlocks(getCurrentUser(), blocks)
 
@@ -138,11 +130,6 @@ export const createPost = async ({ input }: CreatePostArgs) => {
   const post = await db.post.create({
     data,
   })
-
-  todo &&
-    (await createTodo({
-      input: { ...todo, postId: post.id },
-    }))
 
   if (post.channelId) {
     await incrementUnreadPostCount(getCurrentUser(), post.channelId)
@@ -262,7 +249,4 @@ export const Post = {
       id: root.id as number,
     })
   },
-
-  todo: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>
-    db.post.findUnique({ where: { id: root.id } }).todo(),
 }

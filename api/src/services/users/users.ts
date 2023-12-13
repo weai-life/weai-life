@@ -9,7 +9,6 @@ import { paginate } from 'src/lib/utils'
 
 import { ChannelsInputArgs } from '../channels/channels'
 import { PostsInputArgs } from '../posts/posts'
-import { TodosInputArgs } from '../todos/todos'
 
 interface UsersArgs {
   page?: number
@@ -160,26 +159,4 @@ export const User = {
   //         .then((u) => u?.channelMembers.map((m) => m.channel) || [])
   //     },
   //   }),
-
-  todos: async (
-    {
-      page,
-      pageSize,
-      where = {},
-      orderBy = { id: 'desc' },
-    }: TodosInputArgs = {},
-    { root }: ResolverArgs<ReturnType<typeof user>>
-  ) =>
-    paginate({
-      page,
-      pageSize,
-      fun: ({ skip, take }) => {
-        return db.user.findUnique({ where: { id: root.id } }).todos({
-          skip,
-          take,
-          where,
-          orderBy,
-        })
-      },
-    }),
 }

@@ -15,12 +15,6 @@ export const schema = gql`
       where: PostsWhereInput
       orderBy: PostsOrderByInput
     ): PagedPosts!
-    todos(
-      page: Int
-      pageSize: Int
-      where: TodosWhereInput
-      orderBy: TodosOrderByInput
-    ): PagedTodos!
     ownedChannels(page: Int): PagedChannels!
     # joinedChannels(page: Int): PagedChannels!
     postCount: Int!
