@@ -77,8 +77,6 @@ model User {
   violationReports ViolationReport[]
   blockedUsers     BlockUser[]        @relation("user")
   blockedFromUsers BlockUser[]        @relation("blockedUser")
-  todos            Todo[]
-  createdTodos     Todo[]             @relation("todo")
   groupRoles       GroupRole[]
   groupApplictions GroupApplication[]
 
@@ -191,7 +189,6 @@ model Post {
   store         Json           @default("{}")
   postBlocks    PostBlock[]
   happenedAt    DateTime       @default(now())
-  todo          Todo?
   externalId    String?
 
   violationReports ViolationReport[]
@@ -409,21 +406,6 @@ model BlockUser {
   blockedUser   User     @relation("blockedUser", fields: [blockedUserId], references: [id], onDelete: Cascade)
 
   @@index([userId])
-}
-
-model Todo {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId    Int       @unique
-  userId    Int
-  user      User      @relation("todo", fields: [userId], references: [id], onDelete: Cascade)
-  completed Boolean   @default(false)
-  deadline  DateTime?
-  assignees User[]
-  timerAt   DateTime?
-  jid       String?
 }
 
 model Permission {
