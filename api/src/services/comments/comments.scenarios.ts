@@ -18,7 +18,7 @@ export const standard = defineScenario({
   channel: {
     one: {
       data: {
-        title: 'String',
+        name: 'String',
         description: 'Description',
         author: { connect: { mobile: 'comment3466856' } },
         channelMembers: {
@@ -38,7 +38,7 @@ export const standard = defineScenario({
     },
     two: {
       data: {
-        title: 'String',
+        name: 'String',
         description: 'Description',
         author: { connect: { mobile: 'comment7429293' } },
         channelMembers: {

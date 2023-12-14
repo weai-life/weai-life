@@ -26,13 +26,13 @@ export async function newPost(post: DB.Post, currentUser: DB.User) {
   const message = `${currentUser.name}: ${postMessage(post)}`
 
   const channel = await db.channel.findUnique({ where: { id: post.channelId } })
-  const title = channel!.title
+  const name = channel!.name
   const extras = {
     id: post.id.toString(),
     event: 'NEW_POST',
   }
 
-  return postMessageToUsers({ message, title, extras, userIds })
+  return postMessageToUsers({ message, title: name, extras, userIds })
 }
 
 function postMessage(post) {
@@ -58,7 +58,7 @@ export async function newComment(
   const message = `${currentUser.name}: ${comment.content}`
 
   const channel = await db.channel.findUnique({ where: { id: post.channelId } })
-  const title = channel!.title
+  const name = channel!.name
   const extras = {
     event: 'NEW_COMMENT',
     id: comment.id.toString(),
@@ -67,7 +67,7 @@ export async function newComment(
     channelId: post.channelId,
   }
 
-  return postMessageToUsers({ message, title, extras, userIds })
+  return postMessageToUsers({ message, title: name, extras, userIds })
 }
 
 export async function postMessageToUsers({ title, message, extras, userIds }) {

@@ -1,4 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+
+import { db } from 'src/lib/db'
+import { getChannelMember } from 'src/lib/utils/dbHelper'
+
 import {
   publicChannels,
   channels,
@@ -13,9 +17,6 @@ import {
   transferChannel,
   Channel,
 } from './channels'
-
-import { db } from 'src/lib/db'
-import { getChannelMember } from 'src/lib/utils/dbHelper'
 import { removeGroupUsersFromChannel } from './lib/removeGroupUsersFromChannel'
 
 jest.mock('./lib/removeGroupUsersFromChannel', () => ({
@@ -67,11 +68,11 @@ describe('channels', () => {
     mockCurrentUser(scenario.user.owner)
     const result = await createChannel({
       input: {
-        title: 'String',
+        name: 'String',
       },
     })
 
-    expect(result.title).toEqual('String')
+    expect(result.name).toEqual('String')
     expect(result.authorId).toEqual(scenario.user.owner.id)
 
     const result2 = await db.channelMember.findUnique({
@@ -91,10 +92,10 @@ describe('channels', () => {
       })
       const result = await updateChannel({
         id: original!.id,
-        input: { title: 'updated', avatarUrl: 'https://a.com/2.jpg' },
+        input: { name: 'updated', avatarUrl: 'https://a.com/2.jpg' },
       })
 
-      expect(result.title).toEqual('updated')
+      expect(result.name).toEqual('updated')
       expect(result.avatarUrl).toEqual('https://a.com/2.jpg')
       expect(removeGroupUsersFromChannel).not.toHaveBeenCalled()
     })
@@ -228,7 +229,7 @@ describe('channel with group', () => {
     const groupId = scenario.group.one.id
     const channel = await createChannel({
       input: {
-        title: 'String',
+        name: 'String',
         groupId,
       },
     })

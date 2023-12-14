@@ -18,7 +18,7 @@ export const standard = defineScenario({
         channel: {
           create: {
             updatedAt: '2021-06-01T08:34:18Z',
-            title: 'String',
+            name: 'String',
             description: 'Description',
             author: { connect: { mobile: 'pageString2895398' } },
           },
@@ -32,7 +32,7 @@ export const standard = defineScenario({
         channel: {
           create: {
             updatedAt: '2021-06-01T08:34:18Z',
-            title: 'String',
+            name: 'String',
             description: 'Description',
             author: { connect: { mobile: 'pageString2895398' } },
           },
@@ -44,7 +44,7 @@ export const standard = defineScenario({
     one: {
       data: {
         updatedAt: '2021-06-01T08:34:18Z',
-        title: 'String',
+        name: 'String',
         description: 'Description',
         author: { connect: { mobile: 'pageString2895398' } },
         page: {
@@ -55,7 +55,7 @@ export const standard = defineScenario({
     two: {
       data: {
         updatedAt: '2021-06-01T08:34:18Z',
-        title: 'String',
+        name: 'String',
         description: 'Description',
         author: { connect: { mobile: 'pageString9767701' } },
         isPublic: true,

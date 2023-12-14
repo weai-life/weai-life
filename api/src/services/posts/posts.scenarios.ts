@@ -21,7 +21,7 @@ export const standard = defineScenario({
         author: { connect: { mobile: 'post9364825' } },
         channel: {
           create: {
-            title: 'String',
+            name: 'String',
             lastPostAt: '2021-06-01T08:47:04Z',
             author: {
               create: {
@@ -51,7 +51,7 @@ export const standard = defineScenario({
         status: 'JOINED',
         channel: {
           create: {
-            title: 'String',
+            name: 'String',
             author: {
               create: {
                 mobile: 'post9614142',
@@ -69,7 +69,7 @@ export const standard = defineScenario({
         status: 'JOINED',
         channel: {
           create: {
-            title: 'String',
+            name: 'String',
             author: {
               create: {
                 mobile: 'post9312143',

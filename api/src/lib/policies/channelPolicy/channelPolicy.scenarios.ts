@@ -61,7 +61,7 @@ export const standard = defineScenario({
     one: {
       data: {
         updatedAt: '2021-06-01T08:34:18Z',
-        title: 'String',
+        name: 'String',
         description: 'Description',
         author: { connect: { mobile: 'channelP123907' } },
         channelMembers: {
@@ -130,7 +130,7 @@ export const standard = defineScenario({
     public: {
       data: {
         updatedAt: '2021-06-01T08:34:18Z',
-        title: 'String',
+        name: 'String',
         description: 'Description',
         isPublic: true,
         author: { connect: { mobile: 'channelP123907' } },
@@ -139,7 +139,7 @@ export const standard = defineScenario({
     privateChannelPublicGroup: {
       data: {
         updatedAt: '2021-06-01T08:34:18Z',
-        title: 'String',
+        name: 'String',
         description: 'Description',
         author: { connect: { mobile: 'channelP123907' } },
         group: {
@@ -154,7 +154,7 @@ export const standard = defineScenario({
     publicChannelPublicGroup: {
       data: {
         updatedAt: '2021-06-01T08:34:18Z',
-        title: 'String',
+        name: 'String',
         description: 'Description',
         isPublic: true,
         author: { connect: { mobile: 'channelP123907' } },

@@ -12,7 +12,7 @@ export const standard = defineScenario({
         channel: {
           create: {
             updatedAt: '2021-06-01T09:59:29Z',
-            title: 'String',
+            name: 'String',
             author: {
               create: {
                 mobile: 'channM9614141',
@@ -38,7 +38,7 @@ export const standard = defineScenario({
         channel: {
           create: {
             updatedAt: '2021-06-01T09:59:29Z',
-            title: 'String',
+            name: 'String',
             author: {
               create: {
                 mobile: 'channM9157551',
@@ -64,7 +64,7 @@ export const standard = defineScenario({
         channel: {
           create: {
             updatedAt: '2021-06-01T09:59:29Z',
-            title: 'String',
+            name: 'String',
             author: {
               create: {
                 mobile: 'channM9157552',

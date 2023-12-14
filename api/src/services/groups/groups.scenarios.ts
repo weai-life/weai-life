@@ -30,7 +30,7 @@ export const standard = defineScenario({
         channels: {
           create: [
             {
-              title: 'channel 1',
+              name: 'channel 1',
               author: { connect: { mobile: 'group4123908' } },
               channelMembers: {
                 create: [

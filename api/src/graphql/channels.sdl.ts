@@ -3,7 +3,7 @@ export const schema = gql`
     id: Int!
     createdAt: DateTime!
     updatedAt: DateTime!
-    title: String!
+    name: String!
     description: String
     author: User!
     authorId: Int!
@@ -65,7 +65,7 @@ export const schema = gql`
   }
   input ChannelsWhereInput {
     kind: StringFilter
-    title: StringFilter
+    name: StringFilter
     templateId: IntFilter
     appletId: Int
   }
@@ -76,7 +76,7 @@ export const schema = gql`
   }
 
   input CreateChannelInput {
-    title: String!
+    name: String!
     description: String
     avatarUrl: String
     isPublic: Boolean
@@ -87,7 +87,7 @@ export const schema = gql`
   }
 
   input UpdateChannelInput {
-    title: String
+    name: String
     description: String
     avatarUrl: String
     isPublic: Boolean

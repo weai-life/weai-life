@@ -10,14 +10,14 @@ export const standard = defineScenario({
   channel: {
     one: {
       data: {
-        title: 'String',
+        name: 'String',
         description: 'Description',
         author: { connect: { mobile: 'invite4123908' } },
       },
     },
     two: {
       data: {
-        title: 'String',
+        name: 'String',
         description: 'Description',
         author: { connect: { mobile: 'invite4232348' } },
       },
