@@ -173,14 +173,8 @@ export const Channel = {
   author: (_obj, { root }: ResolverArgs<Prisma.ChannelWhereUniqueInput>) =>
     db.channel.findUnique({ where: { id: root.id } }).author(),
 
-  page: (_obj, { root }: ResolverArgs<Prisma.ChannelWhereUniqueInput>) =>
-    db.channel.findUnique({ where: { id: root.id } }).page(),
-
   applet: (_obj, { root }: ResolverArgs<Prisma.ChannelWhereUniqueInput>) =>
     db.channel.findUnique({ where: { id: root.id } }).applet(),
-
-  template: (_obj, { root }: ResolverArgs<Prisma.ChannelWhereUniqueInput>) =>
-    db.channel.findUnique({ where: { id: root.id } }).template(),
 
   posts: async (
     {

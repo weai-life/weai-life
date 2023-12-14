@@ -21,12 +21,9 @@ export const schema = gql`
     postCount: Int!
     memberCount: Int!
     isPublic: Boolean!
-    page: Page
     applet: Applet
     appletId: Int
     kind: String!
-    template: Template
-    templateId: Int
     isChannelMember: Boolean!
     config: JSON!
   }
@@ -66,7 +63,6 @@ export const schema = gql`
   input ChannelsWhereInput {
     kind: StringFilter
     name: StringFilter
-    templateId: IntFilter
     appletId: Int
   }
 
@@ -82,7 +78,6 @@ export const schema = gql`
     isPublic: Boolean
     appletId: Int
     kind: String
-    templateId: Int
     config: JSON
   }
 
@@ -93,7 +88,6 @@ export const schema = gql`
     isPublic: Boolean
     appletId: Int
     kind: String
-    templateId: Int
     config: JSON
   }
 
