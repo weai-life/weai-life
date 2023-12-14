@@ -61,9 +61,6 @@ model User {
   appletUsers      AppletUser[]
   channelMembers   ChannelMember[]
   attachments      Attachment[]
-  invitedById      Int?
-  invitedBy        User?              @relation("UserInviter", fields: [invitedById], references: [id])
-  invitedUsers     User[]             @relation("UserInviter")
   postLikes        PostLike[]
   comments         Comment[]
   isAdmin          Boolean            @default(false)
