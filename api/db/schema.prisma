@@ -103,7 +103,7 @@ model Channel {
   updatedAt      DateTime        @updatedAt
   applet         Applet          @relation(fields: [appletId], references: [id])
   appletId       Int
-  title          String
+  name           String
   description    String?
   avatarUrl      String?
   author         User            @relation(fields: [authorId], references: [id], onDelete: Cascade)

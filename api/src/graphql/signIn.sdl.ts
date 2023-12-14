@@ -32,10 +32,6 @@ export const schema = gql`
     user: User!
   }
 
-  type InvitePayload {
-    code: String!
-  }
-
   type Mutation {
     signInBySes(input: SignInBySesInput!): AuthPayload @skipAuth
     refreshToken: AuthPayload @requireAuth

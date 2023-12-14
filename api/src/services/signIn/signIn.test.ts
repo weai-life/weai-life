@@ -1,4 +1,5 @@
 import { ses } from 'src/lib/utils'
+
 import { signInBySes, refreshToken } from './signIn'
 
 const clientInfo = { version: '1.0.0' }
@@ -65,7 +66,6 @@ describe('signInBySes', () => {
           "avatarUrl": null,
           "createdAt": Any<Date>,
           "id": Any<Number>,
-          "invitedById": null,
           "isAdmin": false,
           "mobile": "18011112222",
           "name": "String",
@@ -99,7 +99,6 @@ describe('signInBySes', () => {
           "avatarUrl": null,
           "createdAt": Any<Date>,
           "id": Any<Number>,
-          "invitedById": null,
           "isAdmin": false,
           "mobile": "18011112222",
           "name": "String",
