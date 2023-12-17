@@ -11,6 +11,27 @@ generator client {
   // previewFeatures = []
 }
 
+model Connection {
+  id         Int              @id @default(autoincrement())
+  senderId   Int
+  receiverId Int
+  status     ConnectionStatus @default(PENDING)
+  remark     String
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  sender   User @relation("sender", fields: [senderId], references: [id])
+  receiver User @relation("receiver", fields: [receiverId], references: [id])
+
+  @@unique(fields: [senderId, receiverId], name: "relationship")
+}
+
+enum ConnectionStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
 model Applet {
   id          Int          @id @default(autoincrement())
   name        String       @unique
@@ -77,6 +98,13 @@ model User {
   groupApplictions GroupApplication[]
 
   reviewedGroupApplictions GroupApplication[] @relation("reviewUser")
+
+  senders   Connection[] @relation("sender") // 当前这个用户作为 sender 的 connection 数量
+  receivers Connection[] @relation("receiver") // 当前这个用户作为 receiver 的 connection 数量
+
+  invitedById  Int?
+  invitedBy    User?  @relation("inviter", fields: [invitedById], references: [id])
+  invitedUsers User[] @relation("inviter")
 }
 
 model UserDevice {
