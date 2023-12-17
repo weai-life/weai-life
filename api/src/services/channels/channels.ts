@@ -362,7 +362,7 @@ export const invitePeopleByEmail = async ({
         status: 'PENDING',
         channelId,
         userId: receiver.id,
-        source: 'Invited',
+        source: 'INVITED',
       },
     })
   }
@@ -388,7 +388,7 @@ export const pullUserToChannel = async ({
         status: 'JOINED',
         channel: { connect: { id: channelId } },
         user: { connect: { mobile } },
-        source: 'Pulled',
+        source: 'PULLED',
       },
     })
   } catch (err) {

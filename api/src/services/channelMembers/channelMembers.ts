@@ -1,15 +1,28 @@
-import { getCurrentUser } from 'src/lib/context'
-import { ResolverArgs, UserInputError } from '@redwoodjs/graphql-server'
 import { Prisma } from '@prisma/client'
+
+import { ResolverArgs, UserInputError } from '@redwoodjs/graphql-server'
+
+import { getCurrentUser } from 'src/lib/context'
 import { db } from 'src/lib/db'
-import { paginate, invite } from 'src/lib/utils'
 import { authorize, ChannelMemberPolicy as policy } from 'src/lib/policies'
+import { paginate, invite } from 'src/lib/utils'
 
 export interface ChannelMembersInputArgs {
   page?: number
   pageSize?: number
   where?: Prisma.ChannelMemberWhereInput
   orderBy?: Prisma.ChannelMemberOrderByWithRelationInput
+}
+
+export const myChannelInvitations = async () => {
+  return db.channelMember.findMany({
+    where: {
+      status: 'PENDING',
+      source: 'INVITED',
+      userId: getCurrentUser().id,
+    },
+    orderBy: { id: 'desc' },
+  })
 }
 
 export const channelMembers = async ({

@@ -26,6 +26,7 @@ export const schema = gql`
   }
 
   type Query {
+    myChannelInvitations: [ChannelMember!]! @requireAuth
     channelMembers(
       page: Int
       where: ChannelMemberWhereInput
@@ -49,17 +50,21 @@ export const schema = gql`
 
   enum ChannelMemberSource {
     """
-    邀请加入
+    invite to join
     """
-    Invited
+    INVITED
+    """
+    apply for join
+    """
+    APPLIED
     """
     管理员拉入
     """
-    Pulled
+    PULLED
     """
     小组成员
     """
-    GroupMember
+    GROUP_MEMBER
   }
 
   input CreateChannelMemberInput {

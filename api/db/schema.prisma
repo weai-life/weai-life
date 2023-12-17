@@ -172,12 +172,19 @@ model ChannelMember {
   userId          Int
   unreadPostCount Int          @default(0)
   status          MemberStatus @default(PENDING)
-  source          String       @default("Invited")
+  source          MemberSource @default(INVITED)
   isAdmin         Boolean      @default(false)
   shareable       Boolean      @default(true)
   inviteable      Boolean      @default(true)
 
   @@unique(fields: [channelId, userId], name: "membership")
+}
+
+enum MemberSource {
+  INVITED
+  APPLIED
+  PULLED
+  GROUP_MEMBER
 }
 
 enum MemberStatus {
