@@ -16,7 +16,7 @@ model Connection {
   senderId   Int
   receiverId Int
   status     ConnectionStatus @default(PENDING)
-  remark     String
+  remark     String?
   createdAt  DateTime         @default(now())
   updatedAt  DateTime         @updatedAt
 

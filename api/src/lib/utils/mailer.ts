@@ -57,3 +57,28 @@ export const resendSESCode = async (email: string, code: string) => {
     throw new Error(err.message)
   }
 }
+
+export const resendInvitationLink = async (
+  email: string,
+  link: string,
+  inviter: string
+) => {
+  try {
+    const data = await resend.emails.send({
+      from: 'Applets.Group <hi@applets.group>',
+      to: email,
+      subject: `Invitation from ${inviter}`,
+      html: `<p>I wanna invite you to use an applet together with me.</p><p><a href="${link}">Click this link to accpet invitation.</a></p><p> Or copy below link and open in the browser:</p><p>${link}</p>`,
+    })
+
+    console.log(
+      'Resend Message sent: %s',
+      JSON.stringify({
+        data,
+      })
+    )
+  } catch (err) {
+    logger.error({ label: 'SMS' }, err)
+    throw new Error(err.message)
+  }
+}

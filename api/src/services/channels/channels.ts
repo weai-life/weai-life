@@ -18,9 +18,10 @@ import {
   addUserToChannel,
   postWhereOptionToBlockUser,
 } from 'src/lib/utils/dbHelper'
+import { sendInvitationLink } from 'src/lib/utils/ses'
 
 import { PostsInputArgs } from './../posts'
-import { removeGroupUsersFromChannel } from './lib/removeGroupUsersFromChannel'
+
 export interface ChannelsInputArgs {
   page?: number
   pageSize?: number
@@ -306,6 +307,67 @@ export const Channel = {
 
     return count > 0
   },
+}
+
+type InviteEmailToChannelArgs = {
+  email: string
+  channelId: number
+}
+
+export const invitePeopleByEmail = async ({
+  email,
+  channelId,
+}: InviteEmailToChannelArgs) => {
+  const channel = await db.channel.findUnique({ where: { id: channelId } })
+  await authorize(policy.pullUser)(channel)
+  const currentUser = getCurrentUser()
+  const currentUserId = currentUser.id
+
+  const applet = await db.applet.findUnique({ where: { id: channel.appletId } })
+  await sendInvitationLink(email, applet.website, getCurrentUser().name)
+
+  let receiver = await db.user.findUnique({ where: { email } })
+  if (!receiver) {
+    receiver = await db.user.create({
+      data: {
+        name: email,
+        email,
+        invitedById: currentUserId,
+      },
+    })
+  }
+
+  let connection = await db.connection.findFirst({
+    where: { senderId: currentUserId, receiverId: receiver.id },
+  })
+
+  if (!connection) {
+    connection = await db.connection.create({
+      data: {
+        senderId: currentUserId,
+        receiverId: receiver.id,
+      },
+    })
+  }
+
+  let channelMember = await db.channelMember.findFirst({
+    where: {
+      channelId,
+      userId: receiver.id,
+    },
+  })
+  if (!channelMember) {
+    channelMember = await db.channelMember.create({
+      data: {
+        status: 'PENDING',
+        channelId,
+        userId: receiver.id,
+        source: 'Invited',
+      },
+    })
+  }
+
+  return channelMember
 }
 
 type PullUserToChannelArgs = {

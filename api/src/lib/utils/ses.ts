@@ -2,7 +2,7 @@ import { UserInputError } from '@redwoodjs/graphql-server'
 
 import { logger } from 'src/lib/logger'
 
-import { resendSESCode } from './mailer'
+import { resendInvitationLink, resendSESCode } from './mailer'
 import { isProd } from './misc'
 import * as redis from './redis'
 
@@ -19,6 +19,26 @@ export async function isNotExpired(email: string) {
 }
 
 const redisVerifyCacheTime = 300
+
+export async function sendInvitationLink(
+  email: string,
+  redirectUrl: string,
+  inviter: string
+) {
+  const sesCode = genVerificationCode()
+
+  logger.trace(
+    'will send sesCode %s to %s in email link',
+    sesCode,
+    email,
+    redirectUrl
+  )
+  redis.setex(redisSmsKey(email), redisVerifyCacheTime, sesCode)
+
+  const emailLink = `https://auth.applets.group/invitation?email=${email}&sesCode=${sesCode}&redirectUrl=${redirectUrl}`
+
+  if (isProd) await resendInvitationLink(email, emailLink, inviter)
+}
 
 export async function sendSes(email: string) {
   const smsCode = genVerificationCode()
