@@ -314,7 +314,7 @@ type InviteEmailToChannelArgs = {
   channelId: number
 }
 
-export const invitePeopleByEmail = async ({
+export const inviteChannelMemberByEmail = async ({
   email,
   channelId,
 }: InviteEmailToChannelArgs) => {

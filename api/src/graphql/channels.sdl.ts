@@ -101,7 +101,7 @@ export const schema = gql`
     deleteChannel(id: Int!): Channel! @requireAuth
     clearUnreadPostCount(channelId: Int!): ChannelMember @requireAuth
 
-    invitePeopleByEmail(email: String!, channelId: Int!): ChannelMember!
+    inviteChannelMemberByEmail(email: String!, channelId: Int!): ChannelMember!
       @requireAuth
     """
     邀请用户到自己的频道，用户必须要先注册才能成功
