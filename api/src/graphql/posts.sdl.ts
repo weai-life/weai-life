@@ -68,6 +68,12 @@ export const schema = gql`
       where: PostsWhereInput
       orderBy: PostsOrderByInput
     ): PagedPosts! @skipAuth
+    channelPosts(
+      page: Int
+      pageSize: Int
+      where: PostsWhereInput
+      orderBy: PostsOrderByInput
+    ): PagedPosts! @requireAuth
     posts(
       page: Int
       pageSize: Int

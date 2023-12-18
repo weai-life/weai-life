@@ -5,8 +5,12 @@ import { context, ResolverArgs } from '@redwoodjs/graphql-server'
 import { getCurrentUser } from 'src/lib/context'
 import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
-import { authorize, PostPolicy as policy } from 'src/lib/policies'
-import { paginate, notification, AccessToken } from 'src/lib/utils'
+import {
+  authorize,
+  PostPolicy as policy,
+  ChannelPolicy as channelPolicy,
+} from 'src/lib/policies'
+import { paginate, notification, AccessToken, rejectNil } from 'src/lib/utils'
 import { postWhereOptionToBlockUser } from 'src/lib/utils/dbHelper'
 
 import {
@@ -60,6 +64,32 @@ export const publicPosts = async ({
         },
       ],
       ...postWhereOptionToBlockUser(context.currentUser?.id),
+    },
+  })
+}
+
+export const channelPosts = async ({
+  where = {},
+  ...input
+}: PostsInputArgs = {}) => {
+  const channelId: number = where.channelId as number
+  if (!channelId) {
+    return new Error('Channel id is required')
+  }
+
+  const target = await db.channel
+    .findUnique({
+      where: { id: channelId },
+    })
+    .then(rejectNil('Not Found Channel'))
+
+  await authorize(channelPolicy.read)(target)
+
+  return queryPosts({
+    ...input,
+    where: {
+      ...where,
+      channelId: target.id,
     },
   })
 }
