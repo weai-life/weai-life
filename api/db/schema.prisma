@@ -45,16 +45,32 @@ model Applet {
 }
 
 model AppletUser {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  store     Json     @default("{}")
-  applet    Applet   @relation(fields: [appletId], references: [id])
+  id        Int             @id @default(autoincrement())
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  store     Json            @default("{}")
+  applet    Applet          @relation(fields: [appletId], references: [id])
   appletId  Int
-  user      User     @relation(fields: [userId], references: [id])
+  user      User            @relation(fields: [userId], references: [id])
   userId    Int
+  tags      AppletUserTag[]
 
   @@unique(fields: [appletId, userId], name: "appletuser")
+}
+
+model Tag {
+  id             Int             @id @default(autoincrement())
+  name           String
+  appletUserTags AppletUserTag[]
+  postTags       PostTag[]
+}
+
+model AppletUserTag {
+  id           Int        @id @default(autoincrement())
+  appletUser   AppletUser @relation(fields: [appletUserId], references: [id])
+  appletUserId Int
+  tag          Tag        @relation(fields: [tagId], references: [id])
+  tagId        Int
 }
 
 model Link {
@@ -220,11 +236,20 @@ model Post {
   externalId    String?
 
   violationReports ViolationReport[]
+  tags             PostTag[]
 
   @@index(publishedAt)
   @@index(updatedAt)
   @@index(happenedAt)
   @@index(externalId)
+}
+
+model PostTag {
+  id     Int  @id @default(autoincrement())
+  post   Post @relation(fields: [postId], references: [id])
+  postId Int
+  tag    Tag  @relation(fields: [tagId], references: [id])
+  tagId  Int
 }
 
 enum PostAccessType {
