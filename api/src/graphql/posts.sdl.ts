@@ -27,6 +27,7 @@ export const schema = gql`
     accessToken: String!
     postBlocks: [PostBlock!]!
     externalId: String
+    tags: [PostTag]
   }
 
   enum AccessType {
@@ -40,6 +41,16 @@ export const schema = gql`
     hasNext: Boolean!
   }
 
+  input TagIdInput {
+    tagId: IntFilter
+  }
+
+  input IntListFilter {
+    every: TagIdInput
+    some: TagIdInput
+    none: TagIdInput
+  }
+
   input PostsWhereInput {
     authorId: Int
     channelId: Int
@@ -50,6 +61,7 @@ export const schema = gql`
     schema: StringFilter
     isDraft: Boolean
     externalId: StringFilter
+    tags: IntListFilter
   }
 
   input PostsOrderByInput {
