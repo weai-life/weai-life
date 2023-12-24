@@ -94,15 +94,29 @@ export const channelPosts = async ({
   })
 }
 
-export const myPosts = async ({ where = {}, ...input }: PostsInputArgs = {}) =>
-  queryPosts({
+export const myPosts = async ({
+  where = {},
+  ...input
+}: PostsInputArgs = {}) => {
+  const whereParams = {
+    ...where,
+    authorId: getCurrentUser().id,
+  }
+  // if (where.tagIds) {
+  //   whereParams.tags = {
+  //     some: {
+  //       tagId: {
+  //         in: where.tagIds,
+  //       },
+  //     },
+  //   }
+  //   delete whereParams.tagIds
+  // }
+  return queryPosts({
     ...input,
-    where: {
-      ...where,
-      authorId: getCurrentUser().id,
-    },
+    where: whereParams,
   })
-
+}
 async function queryPosts({
   page,
   pageSize,
@@ -253,6 +267,8 @@ export const Post = {
     db.post.findUnique({ where: { id: root.id } }).postBlocks({
       orderBy: { position: 'asc' },
     }),
+  tags: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>
+    db.post.findUnique({ where: { id: root.id } }).tags(),
 
   // 返回当前用户是否赞过该 Post
   liked: async (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) => {
