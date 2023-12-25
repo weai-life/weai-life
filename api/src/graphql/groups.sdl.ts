@@ -8,7 +8,6 @@ export const schema = gql`
     name: String!
     description: String
     avatarUrl: String
-    links: [Link!]!
     groupUsers(page: Int, pageSize: Int): PagedGroupUsers
     groupUserCount: Int!
     unreadPostCount: Int!

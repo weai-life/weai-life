@@ -1,8 +1,8 @@
 export const schema = gql`
   type Link {
     id: Int!
-    groupId: Int!
-    group: Group!
+    pageId: Int!
+    page: Page!
     title: String!
     url: String!
     description: String
@@ -16,7 +16,7 @@ export const schema = gql`
   }
 
   input CreateLinkInput {
-    groupId: Int!
+    pageId: Int!
     title: String!
     url: String!
     description: String
@@ -25,7 +25,7 @@ export const schema = gql`
   }
 
   input UpdateLinkInput {
-    groupId: Int
+    pageId: Int
     title: String
     url: String
     description: String
