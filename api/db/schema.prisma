@@ -73,10 +73,23 @@ model AppletUserTag {
   tagId        Int
 }
 
+model Page {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+  title       String
+  description String?
+  avatarUrl   String?
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     Int
+  store       Json     @default("{}")
+  links       Link[]
+}
+
 model Link {
   id          Int     @id @default(autoincrement())
-  groupId     Int
-  group       Group   @relation(fields: [groupId], references: [id])
+  pageId      Int
+  page        Page    @relation(fields: [pageId], references: [id])
   title       String
   url         String
   description String?
@@ -121,6 +134,7 @@ model User {
   invitedById  Int?
   invitedBy    User?  @relation("inviter", fields: [invitedById], references: [id])
   invitedUsers User[] @relation("inviter")
+  Page         Page[]
 }
 
 model UserDevice {
@@ -346,7 +360,6 @@ model Group {
 
   roles            GroupRole[]
   groupApplictions GroupApplication[]
-  links            Link[]
 }
 
 enum GroupUserStatus {
