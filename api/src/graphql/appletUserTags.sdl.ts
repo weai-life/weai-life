@@ -18,7 +18,8 @@ export const schema = gql`
   }
 
   type Mutation {
-    createAppletUserTag(name: String!): AppletUserTag! @requireAuth
+    createAppletUserTag(name: String!, appletId: Int!): AppletUserTag!
+      @requireAuth
     updateAppletUserTag(
       id: Int!
       input: UpdateAppletUserTagInput!

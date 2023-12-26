@@ -29,7 +29,7 @@ export const appletUserTag: QueryResolvers['appletUserTag'] = ({ id }) => {
   })
 }
 
-export const createAppletUserTag = async ({ name }) => {
+export const createAppletUserTag = async ({ name, appletId }) => {
   let existTag = await db.tag.findFirst({
     where: {
       name,
@@ -45,6 +45,7 @@ export const createAppletUserTag = async ({ name }) => {
   const appletUser = await db.appletUser.findFirst({
     where: {
       userId: getCurrentUser().id,
+      appletId,
     },
   })
   return db.appletUserTag.create({
