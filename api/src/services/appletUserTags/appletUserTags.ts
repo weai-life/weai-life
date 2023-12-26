@@ -7,10 +7,13 @@ import type {
 import { getCurrentUser } from 'src/lib/context'
 import { db } from 'src/lib/db'
 
-export const appletUserTags: QueryResolvers['appletUserTags'] = async () => {
+export const appletUserTags: QueryResolvers['appletUserTags'] = async ({
+  appletId,
+}) => {
   const appletUser = await db.appletUser.findFirst({
     where: {
       userId: getCurrentUser().id,
+      appletId: appletId,
     },
   })
   return db.appletUserTag.findMany({

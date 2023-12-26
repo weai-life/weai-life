@@ -8,7 +8,7 @@ export const schema = gql`
   }
 
   type Query {
-    appletUserTags: [AppletUserTag!]! @requireAuth
+    appletUserTags(appletId: Int!): [AppletUserTag!]! @requireAuth
     appletUserTag(id: Int!): AppletUserTag @requireAuth
   }
 
