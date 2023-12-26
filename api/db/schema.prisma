@@ -133,10 +133,11 @@ model User {
   senders   Connection[] @relation("sender") // 当前这个用户作为 sender 的 connection 数量
   receivers Connection[] @relation("receiver") // 当前这个用户作为 receiver 的 connection 数量
 
-  invitedById  Int?
-  invitedBy    User?  @relation("inviter", fields: [invitedById], references: [id])
-  invitedUsers User[] @relation("inviter")
-  Page         Page[]
+  invitedById   Int?
+  invitedBy     User?          @relation("inviter", fields: [invitedById], references: [id])
+  invitedUsers  User[]         @relation("inviter")
+  pages         Page[]
+  collaborators Collaborator[]
 }
 
 model UserDevice {
@@ -253,6 +254,7 @@ model Post {
 
   violationReports ViolationReport[]
   tags             PostTag[]
+  collaborators    Collaborator[]
 
   @@index(publishedAt)
   @@index(updatedAt)
@@ -266,6 +268,14 @@ model PostTag {
   postId Int
   tag    Tag  @relation(fields: [tagId], references: [id])
   tagId  Int
+}
+
+model Collaborator {
+  id     Int  @id @default(autoincrement())
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId Int
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum PostAccessType {
