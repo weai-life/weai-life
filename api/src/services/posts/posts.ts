@@ -261,6 +261,8 @@ export const Post = {
       .comments({ where: { commentId: null } }),
   comments: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>
     db.post.findUnique({ where: { id: root.id } }).comments(),
+  collaborators: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>
+    db.post.findUnique({ where: { id: root.id } }).collaborators(),
   category: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>
     db.post.findUnique({ where: { id: root.id } }).category(),
   postBlocks: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>

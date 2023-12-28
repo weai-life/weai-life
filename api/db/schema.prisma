@@ -276,6 +276,8 @@ model Collaborator {
   postId Int
   userId Int
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique(fields: [postId, userId], name: "postcollaborator")
 }
 
 enum PostAccessType {
