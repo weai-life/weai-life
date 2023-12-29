@@ -4,8 +4,6 @@ import DB from '@prisma/client'
 import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
 
-import * as jpush from './jpush'
-
 export async function newPost(post: DB.Post, currentUser: DB.User) {
   logger.debug('newPost')
 
@@ -73,27 +71,9 @@ export async function newComment(
 export async function postMessageToUsers({ title, message, extras, userIds }) {
   logger.debug('userIds %o', userIds)
   logger.debug('extra %o', extras)
+  logger.debug('title %s', title)
   logger.debug('message %s', message)
 
-  // 过滤有设备号的id
-  const userDeivces = await db.userDevice.findMany({
-    where: {
-      userId: {
-        in: userIds,
-      },
-      NOT: {
-        devices: {
-          isEmpty: true,
-        },
-      },
-    },
-  })
-
-  // 空时不做推送
-  if (userDeivces.length === 0) return true
-
-  const alias = userDeivces.map((x) => x.userId.toString())
-  logger.debug('alias %o', alias)
-
-  return jpush.pushMessage(alias, message, title, extras)
+  // TODO: send message by email
+  return null
 }

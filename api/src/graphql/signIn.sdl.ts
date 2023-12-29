@@ -9,11 +9,6 @@ export const schema = gql`
     version: String!
     os: OS
     platform: Platform
-    jpush: JPushInfo
-  }
-
-  input JPushInfo {
-    registrationId: String!
   }
 
   enum OS {

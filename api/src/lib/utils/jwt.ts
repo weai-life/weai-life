@@ -1,5 +1,6 @@
-import jwt from 'jsonwebtoken'
 import { User } from '@prisma/client'
+import jwt from 'jsonwebtoken'
+
 import { JWT_SECRET } from './env'
 
 export type Token = {
@@ -13,13 +14,8 @@ export type ClientInfo = {
   version: string
   os?: OS
   platform: Platform
-  jpush?: JPushInfo
   groupId?: number
   openid?: string
-}
-
-type JPushInfo = {
-  registrationId: string
 }
 
 type OS = 'Android' | 'iOS'

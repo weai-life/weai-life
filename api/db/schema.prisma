@@ -116,7 +116,6 @@ model User {
   postLikes        PostLike[]
   comments         Comment[]
   isAdmin          Boolean            @default(false)
-  userDevice       UserDevice?
   activityStreams  ActivityStream[]
   blocks           Block[]
   groups           Group[]
@@ -138,13 +137,6 @@ model User {
   invitedUsers  User[]         @relation("inviter")
   pages         Page[]
   collaborators Collaborator[]
-}
-
-model UserDevice {
-  id      Int      @id @default(autoincrement())
-  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId  Int      @unique
-  devices String[]
 }
 
 model PostLike {

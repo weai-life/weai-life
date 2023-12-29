@@ -1,12 +1,12 @@
-import { getCurrentUser } from 'src/lib/context'
 import {
   UserInputError,
   ValidationError,
   context,
 } from '@redwoodjs/graphql-server'
+
+import { getCurrentUser } from 'src/lib/context'
 import { db } from 'src/lib/db'
 import { compare, jwt, ses } from 'src/lib/utils'
-import { updateUserDevice } from '../userDevices/userDevices'
 
 export const signInBySes = async ({ input }) => {
   const { email, sesCode } = input
@@ -31,7 +31,6 @@ export const signInBySes = async ({ input }) => {
   context.currentUser = user
   context.clientInfo = input.clientInfo
   const token = jwt.genToken(user, input.clientInfo)
-  await updateUserDevice(user.id)
 
   return {
     token,
