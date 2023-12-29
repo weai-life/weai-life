@@ -21,7 +21,7 @@ const transporter = nodemailer.createTransport({
 export const sendVerificationCode = async (email: string, code: string) => {
   try {
     const info = await transporter.sendMail({
-      from: '"Tools Group" <tools.group@outlook.com>', // sender address
+      from: '"weai" <weai.life@outlook.com>', // sender address
       to: email, // list of receivers
       subject: 'Verify email', // Subject line
       text: code, // plain text body
@@ -40,10 +40,10 @@ const resend = new Resend(RESEND_API_KEY)
 export const resendSESCode = async (email: string, code: string) => {
   try {
     const data = await resend.emails.send({
-      from: 'Tools.Group <hi@tools.group>',
+      from: 'weai <hi@weai.life>',
       to: email,
-      subject: 'Verify email from Tools Group',
-      html: `<p>Code: <strong>${code}</strong> .Welcome to use Tools Group!</p>`,
+      subject: 'Verify email from weai',
+      html: `<p>Code: <strong>${code}</strong> .Welcome to use weai!</p>`,
     })
 
     console.log(
@@ -65,7 +65,7 @@ export const resendInvitationLink = async (
 ) => {
   try {
     const data = await resend.emails.send({
-      from: 'Tools.Group <hi@tools.group>',
+      from: 'weai <hi@weai.life>',
       to: email,
       subject: `Invitation from ${inviter}`,
       html: `<p>I wanna invite you to use an tool together with me.</p><p><a href="${link}">Click this link to accpet invitation.</a></p><p> Or copy below link and open in the browser:</p><p>${link}</p>`,
