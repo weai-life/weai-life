@@ -36,8 +36,8 @@ export const deleteTag: MutationResolvers['deleteTag'] = ({ id }) => {
 }
 
 export const Tag: TagRelationResolvers = {
-  appletUserTags: (_obj, { root }) => {
-    return db.tag.findUnique({ where: { id: root?.id } }).appletUserTags()
+  toolUserTags: (_obj, { root }) => {
+    return db.tag.findUnique({ where: { id: root?.id } }).toolUserTags()
   },
   postTags: (_obj, { root }) => {
     return db.tag.findUnique({ where: { id: root?.id } }).postTags()

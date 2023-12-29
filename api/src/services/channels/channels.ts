@@ -174,8 +174,8 @@ export const Channel = {
   author: (_obj, { root }: ResolverArgs<Prisma.ChannelWhereUniqueInput>) =>
     db.channel.findUnique({ where: { id: root.id } }).author(),
 
-  applet: (_obj, { root }: ResolverArgs<Prisma.ChannelWhereUniqueInput>) =>
-    db.channel.findUnique({ where: { id: root.id } }).applet(),
+  tool: (_obj, { root }: ResolverArgs<Prisma.ChannelWhereUniqueInput>) =>
+    db.channel.findUnique({ where: { id: root.id } }).tool(),
 
   posts: async (
     {
@@ -323,8 +323,8 @@ export const inviteChannelMemberByEmail = async ({
   const currentUser = getCurrentUser()
   const currentUserId = currentUser.id
 
-  const applet = await db.applet.findUnique({ where: { id: channel.appletId } })
-  await sendInvitationLink(email, applet.website, getCurrentUser().name)
+  const tool = await db.tool.findUnique({ where: { id: channel.toolId } })
+  await sendInvitationLink(email, tool.website, getCurrentUser().name)
 
   let receiver = await db.user.findUnique({ where: { email } })
   if (!receiver) {

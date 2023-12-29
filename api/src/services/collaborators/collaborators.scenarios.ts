@@ -9,7 +9,7 @@ export const standard = defineScenario<Prisma.CollaboratorCreateArgs>({
           create: {
             updatedAt: '2023-12-26T12:18:54.015Z',
             title: 'String',
-            applet: { create: { name: 'String8148568', title: 'String' } },
+            tool: { create: { name: 'String8148568', title: 'String' } },
             author: {
               create: {
                 email: 'String855636',
@@ -34,7 +34,7 @@ export const standard = defineScenario<Prisma.CollaboratorCreateArgs>({
           create: {
             updatedAt: '2023-12-26T12:18:54.015Z',
             title: 'String',
-            applet: { create: { name: 'String7679862', title: 'String' } },
+            tool: { create: { name: 'String7679862', title: 'String' } },
             author: {
               create: {
                 email: 'String8344740',

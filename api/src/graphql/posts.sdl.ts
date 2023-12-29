@@ -10,8 +10,8 @@ export const schema = gql`
     authorId: Int!
     channel: Channel
     channelId: Int
-    applet: Applet
-    appletId: Int
+    tool: Tool
+    toolId: Int
     accessType: AccessType!
     isDraft: Boolean
     publishedAt: DateTime
@@ -65,7 +65,7 @@ export const schema = gql`
   input PostsWhereInput {
     authorId: Int
     channelId: Int
-    appletId: Int
+    toolId: Int
     categoryId: Int
     title: StringFilter
     content: StringFilter
@@ -79,7 +79,7 @@ export const schema = gql`
   input PostsOrderByInput {
     id: SortOrder
     channelId: Int
-    appletId: Int
+    toolId: Int
     categoryId: Int
     updatedAt: SortOrder
     happenedAt: SortOrder
@@ -114,7 +114,7 @@ export const schema = gql`
   }
 
   input CreatePostInput {
-    appletId: Int!
+    toolId: Int!
     title: String!
     content: String
     schema: String

@@ -35,7 +35,7 @@ export async function sendInvitationLink(
   )
   redis.setex(redisSmsKey(email), redisVerifyCacheTime, sesCode)
 
-  const emailLink = `https://auth.applets.group/invitation?email=${email}&sesCode=${sesCode}&redirectUrl=${redirectUrl}`
+  const emailLink = `https://auth.tools.group/invitation?email=${email}&sesCode=${sesCode}&redirectUrl=${redirectUrl}`
 
   if (isProd) await resendInvitationLink(email, emailLink, inviter)
 }

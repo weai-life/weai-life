@@ -32,47 +32,47 @@ enum ConnectionStatus {
   REJECTED
 }
 
-model Applet {
-  id          Int          @id @default(autoincrement())
-  name        String       @unique
+model Tool {
+  id          Int        @id @default(autoincrement())
+  name        String     @unique
   title       String
-  website     String?
+  url         String?
   description String?
   icon        String?
   posts       Post[]
   channels    Channel[]
-  appletUsers AppletUser[]
+  toolUsers   ToolUser[]
 }
 
-model AppletUser {
-  id        Int             @id @default(autoincrement())
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
-  store     Json            @default("{}")
-  applet    Applet          @relation(fields: [appletId], references: [id])
-  appletId  Int
-  user      User            @relation(fields: [userId], references: [id])
+model ToolUser {
+  id        Int           @id @default(autoincrement())
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  store     Json          @default("{}")
+  tool      Tool          @relation(fields: [toolId], references: [id])
+  toolId    Int
+  user      User          @relation(fields: [userId], references: [id])
   userId    Int
-  tags      AppletUserTag[]
+  tags      ToolUserTag[]
 
-  @@unique(fields: [appletId, userId], name: "appletuser")
+  @@unique(fields: [toolId, userId], name: "tooluser")
 }
 
 model Tag {
-  id             Int             @id @default(autoincrement())
-  name           String          @unique
-  appletUserTags AppletUserTag[]
-  postTags       PostTag[]
+  id           Int           @id @default(autoincrement())
+  name         String        @unique
+  toolUserTags ToolUserTag[]
+  postTags     PostTag[]
 }
 
-model AppletUserTag {
-  id           Int        @id @default(autoincrement())
-  appletUser   AppletUser @relation(fields: [appletUserId], references: [id])
-  appletUserId Int
-  tag          Tag        @relation(fields: [tagId], references: [id])
-  tagId        Int
+model ToolUserTag {
+  id         Int      @id @default(autoincrement())
+  toolUser   ToolUser @relation(fields: [toolUserId], references: [id])
+  toolUserId Int
+  tag        Tag      @relation(fields: [tagId], references: [id])
+  tagId      Int
 
-  @@unique(fields: [appletUserId, tagId], name: "appletusertag")
+  @@unique(fields: [toolUserId, tagId], name: "toolusertag")
 }
 
 model Page {
@@ -110,7 +110,7 @@ model User {
 
   channels         Channel[]
   posts            Post[]
-  appletUsers      AppletUser[]
+  toolUsers        ToolUser[]
   channelMembers   ChannelMember[]
   attachments      Attachment[]
   postLikes        PostLike[]
@@ -154,15 +154,15 @@ model PostLike {
   post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId Int
 
-  @@unique(fields: [userId, postId], name: "likes")
+  @@unique(fields: [userId, postId], name: "postlikes")
 }
 
 model Channel {
   id             Int             @id @default(autoincrement())
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
-  applet         Applet          @relation(fields: [appletId], references: [id])
-  appletId       Int
+  tool           Tool            @relation(fields: [toolId], references: [id])
+  toolId         Int
   name           String
   description    String?
   avatarUrl      String?
@@ -229,8 +229,8 @@ model Post {
   id            Int            @id @default(autoincrement())
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  applet        Applet         @relation(fields: [appletId], references: [id])
-  appletId      Int
+  tool          Tool           @relation(fields: [toolId], references: [id])
+  toolId        Int
   title         String
   content       String?
   schema        String?

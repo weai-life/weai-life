@@ -9,7 +9,7 @@ export const standard = defineScenario<Prisma.PostTagCreateArgs>({
           create: {
             updatedAt: '2023-12-23T03:17:28.436Z',
             title: 'String',
-            applet: { create: { name: 'String5127228', title: 'String' } },
+            tool: { create: { name: 'String5127228', title: 'String' } },
             author: {
               create: {
                 email: 'String1441951',
@@ -28,7 +28,7 @@ export const standard = defineScenario<Prisma.PostTagCreateArgs>({
           create: {
             updatedAt: '2023-12-23T03:17:28.436Z',
             title: 'String',
-            applet: { create: { name: 'String9377618', title: 'String' } },
+            tool: { create: { name: 'String9377618', title: 'String' } },
             author: {
               create: {
                 email: 'String8333776',

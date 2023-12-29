@@ -21,8 +21,8 @@ export const schema = gql`
     postCount: Int!
     memberCount: Int!
     isPublic: Boolean!
-    applet: Applet
-    appletId: Int
+    tool: Tool
+    toolId: Int
     kind: String!
     isChannelMember: Boolean!
     config: JSON!
@@ -63,7 +63,7 @@ export const schema = gql`
   input ChannelsWhereInput {
     kind: StringFilter
     name: StringFilter
-    appletId: Int
+    toolId: Int
   }
 
   input ChannelsOrderByInput {
@@ -76,7 +76,7 @@ export const schema = gql`
     description: String
     avatarUrl: String
     isPublic: Boolean
-    appletId: Int
+    toolId: Int
     kind: String
     config: JSON
   }
@@ -86,7 +86,7 @@ export const schema = gql`
     description: String
     avatarUrl: String
     isPublic: Boolean
-    appletId: Int
+    toolId: Int
     kind: String
     config: JSON
   }

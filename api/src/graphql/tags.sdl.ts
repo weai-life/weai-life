@@ -2,7 +2,7 @@ export const schema = gql`
   type Tag {
     id: Int!
     name: String!
-    appletUserTags: [AppletUserTag]!
+    toolUserTags: [ToolUserTag]!
     postTags: [PostTag]!
   }
 
