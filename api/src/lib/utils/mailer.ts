@@ -42,7 +42,7 @@ export const resendSESCode = async (email: string, code: string) => {
     const data = await resend.emails.send({
       from: 'weai <hi@weai.life>',
       to: email,
-      subject: 'Verify email from weai',
+      subject: 'Log in code from weai',
       html: `<p>Code: <strong>${code}</strong> .Welcome to use weai!</p>`,
     })
 
