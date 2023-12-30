@@ -231,6 +231,7 @@ model Post {
   channel       Channel?       @relation(fields: [channelId], references: [id])
   channelId     Int?
   accessType    PostAccessType @default(PRIVATE)
+  archived      Boolean        @default(false)
   isDraft       Boolean        @default(false)
   publishedAt   DateTime?
   likesCount    Int            @default(0)
