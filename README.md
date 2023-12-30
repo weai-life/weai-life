@@ -1,4 +1,4 @@
-# Applets.Group
+# weai
 
 Welcome to [RedwoodJS](https://redwoodjs.com)!
 

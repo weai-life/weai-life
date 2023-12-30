@@ -147,12 +147,6 @@ export const deleteChannel = async ({ id }: Prisma.ChannelWhereUniqueInput) => {
     where: { id },
   })
 
-  await db.page.deleteMany({
-    where: {
-      channelId: result.id,
-    },
-  })
-
   return result
 }
 
