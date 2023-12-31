@@ -29,7 +29,9 @@ export const Success = ({ tools }: CellSuccessProps<ToolsQuery>) => {
         return (
           <Card key={item.id} className="mb-4">
             <CardHeader>
-              <CardTitle>{item.title}</CardTitle>
+              <CardTitle>
+                <a href={item.url}>{item.title}</a>
+              </CardTitle>
               <CardDescription>{item.description}</CardDescription>
             </CardHeader>
           </Card>
