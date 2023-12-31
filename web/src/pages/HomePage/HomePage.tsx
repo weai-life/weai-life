@@ -1,10 +1,12 @@
 import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 
+import ToolsCell from 'src/components/ToolsCell'
+
 const HomePage = () => {
   return (
     <>
-      <MetaTags title="Home" description="Home page" />
+      <MetaTags title="Tools" description="Home page" />
 
       <h1>weai</h1>
       <p>
@@ -14,6 +16,8 @@ const HomePage = () => {
         My default route is named <code>home</code>, link to me with `
         <Link to={routes.home()}>Home</Link>`
       </p>
+
+      <ToolsCell />
     </>
   )
 }
