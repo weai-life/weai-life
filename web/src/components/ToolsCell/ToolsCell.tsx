@@ -23,10 +23,10 @@ export const Failure = ({ error }: CellFailureProps) => (
 
 export const Success = ({ tools }: CellSuccessProps<ToolsQuery>) => {
   return (
-    <div>
+    <div className="container">
       {tools.map((item) => {
         return (
-          <div key={item.id}>
+          <div key={item.id} className="mb-4">
             <a href={item.url}>{item.title}</a>
             <div>{item.description}</div>
           </div>
