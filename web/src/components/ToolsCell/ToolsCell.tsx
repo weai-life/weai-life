@@ -1,4 +1,5 @@
 import type { ToolsQuery } from 'types/graphql'
+import { Card, CardDescription, CardHeader, CardTitle } from 'weai-ui'
 
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
@@ -23,13 +24,15 @@ export const Failure = ({ error }: CellFailureProps) => (
 
 export const Success = ({ tools }: CellSuccessProps<ToolsQuery>) => {
   return (
-    <div className="container">
+    <div>
       {tools.map((item) => {
         return (
-          <div key={item.id} className="mb-4">
-            <a href={item.url}>{item.title}</a>
-            <div>{item.description}</div>
-          </div>
+          <Card key={item.id} className="mb-4">
+            <CardHeader>
+              <CardTitle>{item.title}</CardTitle>
+              <CardDescription>{item.description}</CardDescription>
+            </CardHeader>
+          </Card>
         )
       })}
     </div>
