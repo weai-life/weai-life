@@ -65,7 +65,9 @@ const client = {
     name: 'email@example.com',
     email: 'email@example.com',
   }),
-  logout: () => {},
+  logout: () => {
+    localStorage.removeItem('TOKEN')
+  },
   getToken: () => {
     return localStorage.getItem('TOKEN') ?? 'UNDEFINED'
   },

@@ -18,9 +18,13 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     if (token) {
       localStorage.setItem('TOKEN', token)
       searchParams.delete('token')
-      navigate(`${pathname}?${searchParams.toString()}`, {
-        replace: true,
-      })
+      const searchString = searchParams.toString()
+      navigate(
+        `${pathname}${searchString.length > 0 ? '?' : ''}${searchString}`,
+        {
+          replace: true,
+        }
+      )
     }
   }, [search, pathname])
 
