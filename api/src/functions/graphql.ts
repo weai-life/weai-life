@@ -6,6 +6,7 @@ import directives from 'src/directives/**/*.{js,ts}'
 import sdls from 'src/graphql/**/*.sdl.{js,ts}'
 import services from 'src/services/**/*.{js,ts}'
 
+import { getCurrentUser } from 'src/lib/auth'
 import { getContext } from 'src/lib/context'
 import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
@@ -27,6 +28,8 @@ export const handler = createGraphQLHandler({
     db.$disconnect()
     redis.client.quit()
   },
+
+  getCurrentUser,
 
   loggerConfig: {
     logger,

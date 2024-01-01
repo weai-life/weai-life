@@ -15,10 +15,9 @@ export interface AuthClient {
 interface User {
   // The name of the id variable will vary depending on what auth service
   // provider you're integrating with. Another common name is `sub`
-  id: string
-  email?: string
-  username?: string
-  roles: string[]
+  id: number
+  name: string
+  email: string
 }
 
 // If you're integrating with an auth service provider you should delete this interface
@@ -31,23 +30,29 @@ export interface ValidateResetTokenResponse {
 // Replace this with the auth service provider client sdk
 const client = {
   login: () => ({
-    id: 'unique-user-id',
+    id: 1,
+    name: 'email@example.com',
     email: 'email@example.com',
-    roles: [],
   }),
   signup: () => ({
-    id: 'unique-user-id',
+    id: 1,
+    name: 'email@example.com',
     email: 'email@example.com',
-    roles: [],
   }),
   logout: () => {},
   getToken: () => {
     return localStorage.getItem('TOKEN') ?? 'UNDEFINED'
   },
+  // getUserMetadata: async () => {
+  //   return {
+  //     id: 1,
+  //     name: 'email@example.com',
+  //   }
+  // },
   getUserMetadata: () => ({
-    id: 'unique-user-id',
+    id: 1,
+    name: 'email@example.com',
     email: 'email@example.com',
-    roles: [],
   }),
 }
 
