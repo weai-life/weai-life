@@ -27,6 +27,10 @@ export const Failure = ({ error }: CellFailureProps) => (
 export const Success = ({ tools }: CellSuccessProps<ToolsQuery>) => {
   const { isAuthenticated, logIn, getToken } = useAuth()
 
+  console.log({
+    isAuthenticated,
+  })
+
   async function handleClickTool(toolItem) {
     if (!isAuthenticated) {
       logIn()
