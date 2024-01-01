@@ -7,7 +7,7 @@ export async function sendSesCode({ input }) {
   if (await ses.isNotExpired(email)) {
     return {
       status: 'NOT_EXPIRED',
-      message: 'Last login code not yet expired',
+      message: 'Last log in code not yet expired',
     }
   }
 
@@ -15,7 +15,7 @@ export async function sendSesCode({ input }) {
     await ses.sendSes(email)
     return {
       status: 'SENT',
-      message: 'Login code send successfully',
+      message: 'Log in code send successfully',
     }
   } catch (err) {
     logger.error(err)
