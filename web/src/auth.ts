@@ -7,7 +7,7 @@ export interface AuthClient {
   logout: () => void
   signup: () => User
   getToken: () => string
-  getUserMetadata: () => User | null
+  getUserMetadata: () => Promise<User> | null
 }
 
 // If you're integrating with an auth service provider you should delete this interface.
@@ -27,6 +27,32 @@ export interface ValidateResetTokenResponse {
   [key: string]: string | undefined
 }
 
+const QUERY_PROFILE = `
+  query profile {
+    profile {
+      id
+      name
+      email
+      avatarUrl
+    }
+  }
+`
+
+const getUserMetadata: () => Promise<User> = async () => {
+  const response = await fetch(`${window.RWJS_API_GRAPHQL_URL}`, {
+    credentials: 'include',
+    method: 'POST',
+    headers: {
+      Authorization: `Bear ${localStorage.getItem('TOKEN')}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ operationName: 'profile', query: QUERY_PROFILE }),
+  })
+
+  const userData = await response.json()
+  return userData.data.profile
+}
+
 // Replace this with the auth service provider client sdk
 const client = {
   login: () => ({
@@ -43,17 +69,7 @@ const client = {
   getToken: () => {
     return localStorage.getItem('TOKEN') ?? 'UNDEFINED'
   },
-  // getUserMetadata: async () => {
-  //   return {
-  //     id: 1,
-  //     name: 'email@example.com',
-  //   }
-  // },
-  getUserMetadata: () => ({
-    id: 1,
-    name: 'email@example.com',
-    email: 'email@example.com',
-  }),
+  getUserMetadata: getUserMetadata,
 }
 
 function createAuth() {

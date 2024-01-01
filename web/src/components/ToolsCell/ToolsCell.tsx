@@ -25,7 +25,7 @@ export const Failure = ({ error }: CellFailureProps) => (
 )
 
 export const Success = ({ tools }: CellSuccessProps<ToolsQuery>) => {
-  const { isAuthenticated, logIn, getToken } = useAuth()
+  const { isAuthenticated, getToken } = useAuth()
 
   console.log({
     isAuthenticated,
@@ -33,7 +33,7 @@ export const Success = ({ tools }: CellSuccessProps<ToolsQuery>) => {
 
   async function handleClickTool(toolItem) {
     if (!isAuthenticated) {
-      logIn()
+      window.location.href = `https://auth.weai.life?redirectUrl=${location.href}`
     } else {
       window.location.href = `${toolItem.url}?token=${await getToken()}`
     }
