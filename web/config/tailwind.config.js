@@ -1,18 +1,9 @@
 /** @type {import('tailwindcss').Config} */
-// module.exports = {
-//   content: ['src/**/*.{js,jsx,ts,tsx}'],
-//   theme: {
-//     extend: {},
-//   },
-//   plugins: [],
-// }
-
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ['class'],
   content: [
     'src/**/*.{js,ts,jsx,tsx}',
-    'node_modules/weai-ui/dist/*.{js,jsx,ts,tsx,mjs}',
+    '../node_modules/weai-ui/**/*.{js,jsx,ts,tsx,mjs}',
   ],
   theme: {
     container: {
