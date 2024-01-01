@@ -24,7 +24,7 @@ export const Failure = ({ error }: CellFailureProps) => (
 
 export const Success = ({ tools }: CellSuccessProps<ToolsQuery>) => {
   return (
-    <div>
+    <div className="mt-4">
       {tools.map((item) => {
         return (
           <Card key={item.id} className="mb-4">
