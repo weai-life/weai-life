@@ -5297,6 +5297,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@redwoodjs/auth-custom-setup@npm:6.4.2":
+  version: 6.4.2
+  resolution: "@redwoodjs/auth-custom-setup@npm:6.4.2"
+  dependencies:
+    "@babel/runtime-corejs3": 7.23.2
+    "@redwoodjs/cli-helpers": 6.4.2
+    core-js: 3.33.2
+  checksum: 17a74d594caef4451e71b29ea8568e0d840e801cccc160950dea5a19bda853ffe850ebcc3983690ec2b0882cf038f251eed888c2bff005fda64d956a29b5b2a7
+  languageName: node
+  linkType: hard
+
 "@redwoodjs/auth@npm:6.4.2":
   version: 6.4.2
   resolution: "@redwoodjs/auth@npm:6.4.2"
@@ -19684,6 +19695,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
+    "@redwoodjs/auth-custom-setup": 6.4.2
     "@redwoodjs/core": 6.4.2
     prettier-plugin-tailwindcss: 0.4.1
   languageName: unknown
@@ -22511,6 +22523,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:web"
   dependencies:
+    "@redwoodjs/auth": 6.4.2
     "@redwoodjs/forms": 6.4.2
     "@redwoodjs/router": 6.4.2
     "@redwoodjs/vite": 6.4.2

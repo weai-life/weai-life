@@ -3,6 +3,8 @@ import { Card, CardDescription, CardHeader, CardTitle } from 'weai-ui'
 
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
+import { useAuth } from 'src/auth'
+
 export const QUERY = gql`
   query ToolsQuery {
     tools {
@@ -23,15 +25,27 @@ export const Failure = ({ error }: CellFailureProps) => (
 )
 
 export const Success = ({ tools }: CellSuccessProps<ToolsQuery>) => {
+  const { isAuthenticated, logIn, getToken } = useAuth()
+
+  async function handleClickTool(toolItem) {
+    if (!isAuthenticated) {
+      logIn()
+    } else {
+      window.location.href = `${toolItem.url}?token=${await getToken()}`
+    }
+  }
+
   return (
     <div className="mt-4">
       {tools.map((item) => {
         return (
-          <Card key={item.id} className="mb-4">
+          <Card
+            key={item.id}
+            className="mb-4"
+            onClick={() => handleClickTool(item)}
+          >
             <CardHeader>
-              <CardTitle>
-                <a href={item.url}>{item.title}</a>
-              </CardTitle>
+              <CardTitle>{item.title}</CardTitle>
               <CardDescription>{item.description}</CardDescription>
             </CardHeader>
           </Card>

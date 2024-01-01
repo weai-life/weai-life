@@ -9,11 +9,12 @@
 
 import { Router, Route, Set } from '@redwoodjs/router'
 
+import { useAuth } from './auth'
 import DefaultLayout from './layouts/DefaultLayout/DefaultLayout'
 
 const Routes = () => {
   return (
-    <Router>
+    <Router useAuth={useAuth}>
       <Set wrap={DefaultLayout}>
         <Route path="/" page={HomePage} name="tools" />
         <Route path="/pages" page={HomePage} name="pages" />
