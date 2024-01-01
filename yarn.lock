@@ -15987,6 +15987,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lucide-react@npm:^0.303.0":
+  version: 0.303.0
+  resolution: "lucide-react@npm:0.303.0"
+  peerDependencies:
+    react: ^16.5.1 || ^17.0.0 || ^18.0.0
+  checksum: 58dc833311a4aa29b4a71ce1dade2c55eba3d07d5f9207fdabe55ed06499f13d62439bb37942b7aaebea90f638deb7ec67adde1e12404fb4d9f82a19ba1727f5
+  languageName: node
+  linkType: hard
+
 "lz-string@npm:^1.5.0":
   version: 1.5.0
   resolution: "lz-string@npm:1.5.0"
@@ -22507,6 +22516,7 @@ __metadata:
     "@redwoodjs/vite": 6.4.2
     "@redwoodjs/web": 6.4.2
     autoprefixer: ^10.4.16
+    lucide-react: ^0.303.0
     postcss: ^8.4.32
     postcss-loader: ^7.3.4
     prop-types: 15.8.1
