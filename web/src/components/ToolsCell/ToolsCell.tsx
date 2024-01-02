@@ -17,7 +17,7 @@ export const QUERY = gql`
 `
 
 export const Loading = () => (
-  <div>
+  <div className="mt-4">
     <Card className="mb-4">
       <CardHeader>
         <CardTitle className="mb-2">
@@ -54,7 +54,7 @@ export const Success = ({ tools }: CellSuccessProps<ToolsQuery>) => {
     if (!isAuthenticated) {
       window.location.href = `https://auth.weai.life?redirectUrl=${location.href}`
     } else {
-      window.open(`${toolItem.url}?token=${await getToken()}`)
+      window.location.href = `${toolItem.url}?token=${await getToken()}`
     }
   }
 
