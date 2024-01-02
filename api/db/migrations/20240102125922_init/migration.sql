@@ -116,15 +116,6 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "UserDevice" (
-    "id" SERIAL NOT NULL,
-    "userId" INTEGER NOT NULL,
-    "devices" TEXT[],
-
-    CONSTRAINT "UserDevice_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "PostLike" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
@@ -192,6 +183,7 @@ CREATE TABLE "Post" (
     "authorId" INTEGER NOT NULL,
     "channelId" INTEGER,
     "accessType" "PostAccessType" NOT NULL DEFAULT 'PRIVATE',
+    "archived" BOOLEAN NOT NULL DEFAULT false,
     "isDraft" BOOLEAN NOT NULL DEFAULT false,
     "publishedAt" TIMESTAMP(3),
     "likesCount" INTEGER NOT NULL DEFAULT 0,
@@ -434,9 +426,6 @@ CREATE UNIQUE INDEX "ToolUserTag_toolUserId_tagId_key" ON "ToolUserTag"("toolUse
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "UserDevice_userId_key" ON "UserDevice"("userId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "PostLike_userId_postId_key" ON "PostLike"("userId", "postId");
 
 -- CreateIndex
@@ -519,9 +508,6 @@ ALTER TABLE "Link" ADD CONSTRAINT "Link_pageId_fkey" FOREIGN KEY ("pageId") REFE
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_invitedById_fkey" FOREIGN KEY ("invitedById") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "UserDevice" ADD CONSTRAINT "UserDevice_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PostLike" ADD CONSTRAINT "PostLike_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
