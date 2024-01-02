@@ -1,4 +1,4 @@
-# weai
+# WeAI
 
 Welcome to [RedwoodJS](https://redwoodjs.com)!
 

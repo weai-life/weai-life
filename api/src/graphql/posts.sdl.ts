@@ -14,6 +14,7 @@ export const schema = gql`
     toolId: Int
     accessType: AccessType!
     isDraft: Boolean
+    archived: Boolean
     publishedAt: DateTime
     happenedAt: DateTime
     likesCount: Int!
@@ -71,6 +72,7 @@ export const schema = gql`
     content: StringFilter
     schema: StringFilter
     isDraft: Boolean
+    archived: Boolean
     externalId: StringFilter
     tags: IntListFilter
     collaborators: CollaboratorIdListFilter
@@ -135,6 +137,7 @@ export const schema = gql`
     accessType: AccessType
     categoryId: Int
     isDraft: Boolean
+    archived: Boolean
     store: JSON
     happenedAt: DateTime
     externalId: String
