@@ -1,0 +1,13 @@
+{
+  "name": "WeAI Life",
+  "short_name": "WeAI",
+  "description": "Tools to love life",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/weai.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}

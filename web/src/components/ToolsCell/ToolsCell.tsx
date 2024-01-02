@@ -1,5 +1,5 @@
 import type { ToolsQuery } from 'types/graphql'
-import { Card, CardDescription, CardHeader, CardTitle } from 'weai-ui'
+import { Card, CardDescription, CardHeader, CardTitle, Skeleton } from 'weai-ui'
 
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
@@ -16,7 +16,30 @@ export const QUERY = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => (
+  <div>
+    <Card className="mb-4">
+      <CardHeader>
+        <CardTitle className="mb-2">
+          <Skeleton className="h-8 w-[120px]" />
+        </CardTitle>
+        <CardDescription>
+          <Skeleton className="h-6 w-[200px]" />
+        </CardDescription>
+      </CardHeader>
+    </Card>
+    <Card>
+      <CardHeader>
+        <CardTitle className="mb-2">
+          <Skeleton className="h-8 w-[120px]" />
+        </CardTitle>
+        <CardDescription>
+          <Skeleton className="h-6 w-[200px]" />
+        </CardDescription>
+      </CardHeader>
+    </Card>
+  </div>
+)
 
 export const Empty = () => <div>Empty</div>
 
@@ -27,15 +50,11 @@ export const Failure = ({ error }: CellFailureProps) => (
 export const Success = ({ tools }: CellSuccessProps<ToolsQuery>) => {
   const { isAuthenticated, getToken } = useAuth()
 
-  console.log({
-    isAuthenticated,
-  })
-
   async function handleClickTool(toolItem) {
     if (!isAuthenticated) {
       window.location.href = `https://auth.weai.life?redirectUrl=${location.href}`
     } else {
-      window.location.href = `${toolItem.url}?token=${await getToken()}`
+      window.open(`${toolItem.url}?token=${await getToken()}`)
     }
   }
 
