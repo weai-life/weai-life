@@ -75,30 +75,6 @@ model ToolUserTag {
   @@unique(fields: [toolUserId, tagId], name: "toolusertag")
 }
 
-model Page {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
-  title       String
-  description String?
-  avatarUrl   String?
-  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId     Int
-  store       Json     @default("{}")
-  links       Link[]
-}
-
-model Link {
-  id          Int     @id @default(autoincrement())
-  pageId      Int
-  page        Page    @relation(fields: [pageId], references: [id])
-  title       String
-  url         String
-  description String?
-  icon        String?
-  store       Json    @default("{}")
-}
-
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
@@ -135,7 +111,6 @@ model User {
   invitedById   Int?
   invitedBy     User?          @relation("inviter", fields: [invitedById], references: [id])
   invitedUsers  User[]         @relation("inviter")
-  pages         Page[]
   collaborators Collaborator[]
 }
 
