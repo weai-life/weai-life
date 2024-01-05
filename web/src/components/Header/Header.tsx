@@ -13,7 +13,7 @@ import {
   SheetTrigger,
 } from 'weai-ui'
 
-import { Link, routes } from '@redwoodjs/router'
+import { Link, navigate, routes } from '@redwoodjs/router'
 
 import { useAuth } from 'src/auth'
 
@@ -31,6 +31,11 @@ const Header = () => {
     localStorage.removeItem('TOKEN')
     setOpenSheet(false)
     window.location.reload()
+  }
+
+  function handleRouteChange(to) {
+    setOpenSheet(false)
+    navigate(to)
   }
 
   return (
@@ -68,17 +73,21 @@ const Header = () => {
                     <SheetDescription>Use tools to love life.</SheetDescription>
                   </>
                 )}
-                <Link
-                  to={routes.tools()}
+                <div
+                  onClick={() => { }}
+                  onKeyDown={() => handleRouteChange(routes.tools())}
                   className="w-full block py-2 mt-4 border-b"
                 >
                   Tools
-                </Link>
+                </div>
                 <Link
-                  to={routes.pages()}
+                  to={routes.connections()}
                   className="w-full block py-2 border-b"
                 >
-                  Pages
+                  Connections
+                </Link>
+                <Link to={routes.me()} className="w-full block py-2 border-b">
+                  Database
                 </Link>
                 <Link to={routes.me()} className="w-full block py-2 border-b">
                   Me

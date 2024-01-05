@@ -17,7 +17,7 @@ const Routes = () => {
     <Router useAuth={useAuth}>
       <Set wrap={DefaultLayout}>
         <Route path="/" page={HomePage} name="tools" />
-        <Route path="/pages" page={HomePage} name="pages" />
+        <Route path="/connections" page={ConnectionsPage} name="connections" />
         <Route path="/me" page={HomePage} name="me" />
         <Route notfound page={NotFoundPage} />
       </Set>

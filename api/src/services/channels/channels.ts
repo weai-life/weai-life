@@ -318,7 +318,7 @@ export const inviteChannelMemberByEmail = async ({
   const currentUserId = currentUser.id
 
   const tool = await db.tool.findUnique({ where: { id: channel.toolId } })
-  await sendInvitationLink(email, tool.website, getCurrentUser().name)
+  await sendInvitationLink(email, tool.url, getCurrentUser().name)
 
   let receiver = await db.user.findUnique({ where: { email } })
   if (!receiver) {
