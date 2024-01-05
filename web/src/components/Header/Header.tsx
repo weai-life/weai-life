@@ -73,34 +73,35 @@ const Header = () => {
                     <SheetDescription>Use tools to love life.</SheetDescription>
                   </>
                 )}
-                <Button
-                  variant="ghost"
-                  onClick={() => handleRouteChange(routes.tools())}
-                  className="w-full block mt-4 border-b text-left"
+
+                <Link
+                  to={routes.tools()}
+                  onClick={() => setOpenSheet(false)}
+                  className="w-full block mt-4 border-b text-left py-3"
                 >
                   Tools
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={() => handleRouteChange(routes.connections())}
-                  className="w-full block mt-4 border-b text-left"
+                </Link>
+                <Link
+                  to={routes.connections()}
+                  onClick={() => setOpenSheet(false)}
+                  className="w-full block border-b text-left py-3"
                 >
                   Connections
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={() => handleRouteChange(routes.connections())}
-                  className="w-full block mt-4 border-b text-left"
+                </Link>
+                <Link
+                  to={routes.connections()}
+                  onClick={() => setOpenSheet(false)}
+                  className="w-full block border-b text-left py-3"
                 >
                   Database
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={() => handleRouteChange(routes.connections())}
-                  className="w-full block mt-4 border-b text-left"
+                </Link>
+                <Link
+                  to={routes.connections()}
+                  onClick={() => setOpenSheet(false)}
+                  className="w-full block border-b text-left py-3"
                 >
                   Me
-                </Button>
+                </Link>
                 <div className="text-center mt-6">
                   {!isAuthenticated ? (
                     <Button className="rounded-lg" onClick={handleGotoLogin}>
