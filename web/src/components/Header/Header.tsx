@@ -73,25 +73,34 @@ const Header = () => {
                     <SheetDescription>Use tools to love life.</SheetDescription>
                   </>
                 )}
-                <div
-                  onClick={() => { }}
-                  onKeyDown={() => handleRouteChange(routes.tools())}
-                  className="w-full block py-2 mt-4 border-b"
+                <Button
+                  variant="ghost"
+                  onClick={() => handleRouteChange(routes.tools())}
+                  className="w-full block mt-4 border-b text-left"
                 >
                   Tools
-                </div>
-                <Link
-                  to={routes.connections()}
-                  className="w-full block py-2 border-b"
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => handleRouteChange(routes.connections())}
+                  className="w-full block mt-4 border-b text-left"
                 >
                   Connections
-                </Link>
-                <Link to={routes.me()} className="w-full block py-2 border-b">
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => handleRouteChange(routes.connections())}
+                  className="w-full block mt-4 border-b text-left"
+                >
                   Database
-                </Link>
-                <Link to={routes.me()} className="w-full block py-2 border-b">
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => handleRouteChange(routes.connections())}
+                  className="w-full block mt-4 border-b text-left"
+                >
                   Me
-                </Link>
+                </Button>
                 <div className="text-center mt-6">
                   {!isAuthenticated ? (
                     <Button className="rounded-lg" onClick={handleGotoLogin}>
