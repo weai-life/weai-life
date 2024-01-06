@@ -23,9 +23,7 @@ export const Loading = () => (
         <CardTitle className="mb-2">
           <Skeleton className="h-8 w-[120px]" />
         </CardTitle>
-        <CardDescription>
-          <Skeleton className="h-6 w-[200px]" />
-        </CardDescription>
+        <Skeleton className="h-6 w-[200px]" />
       </CardHeader>
     </Card>
     <Card>
@@ -33,9 +31,7 @@ export const Loading = () => (
         <CardTitle className="mb-2">
           <Skeleton className="h-8 w-[120px]" />
         </CardTitle>
-        <CardDescription>
-          <Skeleton className="h-6 w-[200px]" />
-        </CardDescription>
+        <Skeleton className="h-6 w-[200px]" />
       </CardHeader>
     </Card>
   </div>
@@ -43,9 +39,9 @@ export const Loading = () => (
 
 export const Empty = () => <div>Empty</div>
 
-export const Failure = ({ error }: CellFailureProps) => (
-  <div style={{ color: 'red' }}>Error: {error?.message}</div>
-)
+export const Failure = ({ error }: CellFailureProps) => {
+  return <div style={{ color: 'red' }}>Error: {error?.message}</div>
+}
 
 export const Success = ({ tools }: CellSuccessProps<ToolsQuery>) => {
   const { isAuthenticated, getToken } = useAuth()

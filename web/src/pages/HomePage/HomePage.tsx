@@ -10,12 +10,10 @@ import UsedToolsCell from 'src/components/UsedToolsCell'
 
 const HomePage = () => {
   const { isAuthenticated } = useAuth()
-  const [tabName, setTabName] = useState(
-    isAuthenticated ? 'used' : 'marketplace'
-  )
+  const [tabName, setTabName] = useState('used')
 
   useEffect(() => {
-    if (isAuthenticated) setTabName('used')
+    setTabName(isAuthenticated ? 'used' : 'marketplace')
   }, [isAuthenticated])
 
   return (
