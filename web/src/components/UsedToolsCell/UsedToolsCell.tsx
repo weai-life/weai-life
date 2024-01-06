@@ -24,32 +24,32 @@ export const Loading = () => (
   <div className="grid grid-cols-4 gap-4 mt-4">
     <Card className="p-4 rounded-xl">
       <CardTitle>
-        <Skeleton className="h-8 w-[80px]" />
+        <Skeleton className="h-8 w-[30px]" />
       </CardTitle>
     </Card>
     <Card className="p-4 rounded-xl">
       <CardTitle>
-        <Skeleton className="h-8 w-[80px]" />
+        <Skeleton className="h-8 w-[30px]" />
       </CardTitle>
     </Card>
     <Card className="p-4 rounded-xl">
       <CardTitle>
-        <Skeleton className="h-8 w-[80px]" />
+        <Skeleton className="h-8 w-[30px]" />
       </CardTitle>
     </Card>
     <Card className="p-4 rounded-xl">
       <CardTitle>
-        <Skeleton className="h-8 w-[80px]" />
+        <Skeleton className="h-8 w-[30px]" />
       </CardTitle>
     </Card>
     <Card className="p-4 rounded-xl">
       <CardTitle>
-        <Skeleton className="h-8 w-[80px]" />
+        <Skeleton className="h-8 w-[30px]" />
       </CardTitle>
     </Card>
     <Card className="p-4 rounded-xl">
       <CardTitle>
-        <Skeleton className="h-8 w-[80px]" />
+        <Skeleton className="h-8 w-[30px]" />
       </CardTitle>
     </Card>
   </div>

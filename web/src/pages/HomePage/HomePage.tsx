@@ -22,7 +22,7 @@ const HomePage = () => {
       } else {
         setTimeout(() => {
           setTabName('marketplace')
-        }, 1000)
+        }, 500)
       }
     }
     void initTab()
