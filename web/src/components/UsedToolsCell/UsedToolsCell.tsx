@@ -13,6 +13,7 @@ export const QUERY = gql`
       tool {
         id
         title
+        url
         icon
       }
     }
