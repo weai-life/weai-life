@@ -9,14 +9,24 @@ import ToolsCell from 'src/components/ToolsCell'
 import UsedToolsCell from 'src/components/UsedToolsCell'
 
 const HomePage = () => {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, getToken } = useAuth()
   const [tabName, setTabName] = useState('used')
 
   useEffect(() => {
-    setTimeout(() => {
-      setTabName(isAuthenticated ? 'used' : 'marketplace')
-    }, 100)
-  }, [isAuthenticated])
+    const initTab = async () => {
+      const token = await getToken()
+      if (token === 'UNDEFINED' && isAuthenticated === false) {
+        setTabName('marketplace')
+      } else if (isAuthenticated === true) {
+        setTabName('used')
+      } else {
+        setTimeout(() => {
+          setTabName('marketplace')
+        }, 1000)
+      }
+    }
+    void initTab()
+  }, [isAuthenticated, getToken])
 
   return (
     <div className="container">
