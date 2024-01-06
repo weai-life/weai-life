@@ -31,7 +31,7 @@ export const Success = ({ usedTools }: CellSuccessProps<UsedToolsQuery>) => {
   const { getToken } = useAuth()
 
   async function handleClickTool(toolItem) {
-    window.location.href = `${toolItem.url}?token=${await getToken()}`
+    window.location.href = `${toolItem.tool.url}?token=${await getToken()}`
   }
 
   return (
