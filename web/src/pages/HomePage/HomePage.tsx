@@ -13,7 +13,9 @@ const HomePage = () => {
   const [tabName, setTabName] = useState('used')
 
   useEffect(() => {
-    setTabName(isAuthenticated ? 'used' : 'marketplace')
+    setTimeout(() => {
+      setTabName(isAuthenticated ? 'used' : 'marketplace')
+    }, 100)
   }, [isAuthenticated])
 
   return (
