@@ -59,7 +59,7 @@ export const Success = ({ tools }: CellSuccessProps<ToolsQuery>) => {
   }
 
   return (
-    <div className="mt-4">
+    <div className="mt-4 text-left">
       {tools.map((item) => {
         return (
           <Card

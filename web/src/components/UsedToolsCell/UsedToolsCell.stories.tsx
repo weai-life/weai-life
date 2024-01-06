@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { Loading, Empty, Failure, Success } from './ToolUsersCell'
-import { standard } from './ToolUsersCell.mock'
+import { Loading, Empty, Failure, Success } from './UsedToolsCell'
+import { standard } from './UsedToolsCell.mock'
 
 const meta: Meta = {
-  title: 'Cells/ToolUsersCell',
+  title: 'Cells/UsedToolsCell',
 }
 
 export default meta

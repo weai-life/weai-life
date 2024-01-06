@@ -21,6 +21,7 @@ export const schema = gql`
 
   type Query {
     toolUsers: [ToolUser!]! @requireAuth
+    usedTools: [ToolUser!]! @requireAuth
     toolUser(name: String!): ToolAndUser @skipAuth
   }
 

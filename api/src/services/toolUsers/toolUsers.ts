@@ -12,6 +12,15 @@ export const toolUsers: QueryResolvers['toolUsers'] = () => {
   return db.toolUser.findMany()
 }
 
+export const usedTools: QueryResolvers['toolUsers'] = () => {
+  const currentUser = getCurrentUser()
+  return db.toolUser.findMany({
+    where: {
+      userId: currentUser.id,
+    },
+  })
+}
+
 export const toolUser: QueryResolvers['toolUser'] = async ({ name }) => {
   const tool = await db.tool
     .findUnique({
