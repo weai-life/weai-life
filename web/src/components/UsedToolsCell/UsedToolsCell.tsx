@@ -22,36 +22,54 @@ export const QUERY = gql`
 
 export const Loading = () => (
   <div className="grid grid-cols-4 gap-4 mt-4">
-    <Card className="p-4 rounded-xl">
-      <CardTitle className="flex justify-center items-center">
-        <Skeleton className="h-6 w-[60px]" />
-      </CardTitle>
-    </Card>
-    <Card className="p-4 rounded-xl">
-      <CardTitle className="flex justify-center items-center">
-        <Skeleton className="h-6 w-[60px]" />
-      </CardTitle>
-    </Card>
-    <Card className="p-4 rounded-xl">
-      <CardTitle className="flex justify-center items-center">
-        <Skeleton className="h-6 w-[60px]" />
-      </CardTitle>
-    </Card>
-    <Card className="p-4 rounded-xl">
-      <CardTitle className="flex justify-center items-center">
-        <Skeleton className="h-6 w-[60px]" />
-      </CardTitle>
-    </Card>
-    <Card className="p-4 rounded-xl">
-      <CardTitle className="flex justify-center items-center">
-        <Skeleton className="h-6 w-[60px]" />
-      </CardTitle>
-    </Card>
-    <Card className="p-4 rounded-xl">
-      <CardTitle className="flex justify-center items-center">
-        <Skeleton className="h-6 w-[60px]" />
-      </CardTitle>
-    </Card>
+    <div className="rounded-xl flex-col justify-center items-center">
+      <Skeleton className="h-[50px] w-[50px] mx-auto" />
+      <div className="mt-2 w-full flex-col justify-center items-center">
+        <Skeleton className="h-6 w-[40px] mx-auto" />
+      </div>
+    </div>
+    <div className="rounded-xl flex-col justify-center items-center">
+      <Skeleton className="h-[50px] w-[50px] mx-auto" />
+      <div className="mt-2 w-full flex-col justify-center items-center">
+        <Skeleton className="h-6 w-[40px] mx-auto" />
+      </div>
+    </div>
+    <div className="rounded-xl flex-col justify-center items-center">
+      <Skeleton className="h-[50px] w-[50px] mx-auto" />
+      <div className="mt-2 w-full flex-col justify-center items-center">
+        <Skeleton className="h-6 w-[40px] mx-auto" />
+      </div>
+    </div>
+    <div className="rounded-xl flex-col justify-center items-center">
+      <Skeleton className="h-[50px] w-[50px] mx-auto" />
+      <div className="mt-2 w-full flex-col justify-center items-center">
+        <Skeleton className="h-6 w-[40px] mx-auto" />
+      </div>
+    </div>
+    <div className="rounded-xl flex-col justify-center items-center">
+      <Skeleton className="h-[50px] w-[50px] mx-auto" />
+      <div className="mt-2 w-full flex-col justify-center items-center">
+        <Skeleton className="h-6 w-[40px] mx-auto" />
+      </div>
+    </div>
+    <div className="rounded-xl flex-col justify-center items-center">
+      <Skeleton className="h-[50px] w-[50px] mx-auto" />
+      <div className="mt-2 w-full flex-col justify-center items-center">
+        <Skeleton className="h-6 w-[40px] mx-auto" />
+      </div>
+    </div>
+    <div className="rounded-xl flex-col justify-center items-center">
+      <Skeleton className="h-[50px] w-[50px] mx-auto" />
+      <div className="mt-2 w-full flex-col justify-center items-center">
+        <Skeleton className="h-6 w-[40px] mx-auto" />
+      </div>
+    </div>
+    <div className="rounded-xl flex-col justify-center items-center">
+      <Skeleton className="h-[50px] w-[50px] mx-auto" />
+      <div className="mt-2 w-full flex-col justify-center items-center">
+        <Skeleton className="h-6 w-[40px] mx-auto" />
+      </div>
+    </div>
   </div>
 )
 
@@ -84,16 +102,25 @@ export const Success = ({ usedTools }: CellSuccessProps<UsedToolsQuery>) => {
   }
 
   return (
-    <div className="grid grid-cols-3 gap-4 mt-4">
+    <div className="grid grid-cols-4 gap-x-2 mt-10 gap-y-16">
       {usedTools.map((item) => {
         return (
-          <Card
+          <Button
             key={item.id}
+            variant="ghost"
             onClick={() => handleClickTool(item)}
-            className="p-4 rounded-xl"
+            className="p-0 rounded-xl flex-col"
           >
-            {item.tool.title}
-          </Card>
+            <div className="border p-2 mb-2 rounded-xl">
+              <img
+                src={`data:image/svg+xml;utf8,${encodeURIComponent(
+                  item.tool.icon
+                )}`}
+                alt=""
+              />
+            </div>
+            <div>{item.tool.title}</div>
+          </Button>
         )
       })}
     </div>
