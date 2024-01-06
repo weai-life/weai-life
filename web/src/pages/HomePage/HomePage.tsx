@@ -17,12 +17,10 @@ const HomePage = () => {
       const token = await getToken()
       if (token === 'UNDEFINED' && isAuthenticated === false) {
         setTabName('marketplace')
-      } else if (isAuthenticated === true) {
-        setTabName('used')
       } else {
         setTimeout(() => {
-          setTabName('marketplace')
-        }, 500)
+          setTabName(isAuthenticated ? 'used' : 'marketplace')
+        }, 300)
       }
     }
     void initTab()
