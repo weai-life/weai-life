@@ -1,6 +1,6 @@
 import { UserRound } from 'lucide-react'
 import type { PeopleQuery } from 'types/graphql'
-import { Avatar, AvatarFallback, AvatarImage, Card } from 'weai-ui'
+import { Avatar, AvatarFallback, AvatarImage, Button, Card } from 'weai-ui'
 
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
@@ -11,9 +11,10 @@ export const QUERY = gql`
     people(id: $id) {
       name
       avatarUrl
+      isConnected
       tools {
         id
-        name
+        title
         icon
         url
       }
@@ -49,9 +50,23 @@ export const Success = ({ people }: CellSuccessProps<PeopleQuery>) => {
             <UserRound />
           </AvatarFallback>
         </Avatar>
-        <div className="text-3xl tracking-wider subpixel-antialiased">
+        <div className="text-2xl tracking-wider subpixel-antialiased">
           {people.name}
         </div>
+        {people.isConnected ? (
+          <Button
+            disabled
+            variant="outline"
+            size="sm"
+            className="mt-3 rounded-full"
+          >
+            Connected
+          </Button>
+        ) : (
+          <Button variant="outline" size="lg" className="mt-3 rounded-full">
+            Connect
+          </Button>
+        )}
       </div>
       <div className="text-2xl mt-10">Used tools</div>
       <div className="grid grid-cols-3 gap-4 mt-2">
@@ -62,7 +77,7 @@ export const Success = ({ people }: CellSuccessProps<PeopleQuery>) => {
               className="p-4 rounded-xl"
               onClick={() => handleClickTool(item)}
             >
-              {item.name}
+              {item.title}
             </Card>
           )
         })}

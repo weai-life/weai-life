@@ -38,6 +38,19 @@ export const people = async ({ id }: Prisma.UserWhereUniqueInput) => {
       avatarUrl: true,
     },
   })
+  let isConnected = false
+  try {
+    const currentUser = getCurrentUser()
+    if (currentUser) {
+      const connection = await db.connection.findUnique({
+        where: { id, receiverId: currentUser.id, senderId: user.id },
+      })
+      if (connection) isConnected = true
+    }
+  } catch (e) {
+    isConnected = false
+  }
+
   const toolIds = result.map((item) => item.toolId)
   const tools = db.tool.findMany({
     where: {
@@ -46,11 +59,9 @@ export const people = async ({ id }: Prisma.UserWhereUniqueInput) => {
       },
     },
   })
-  console.log(111, {
-    tools,
-  })
   return {
     ...user,
+    isConnected,
     tools,
   }
 }

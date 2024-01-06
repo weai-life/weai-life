@@ -30,6 +30,7 @@ export const schema = gql`
   type People {
     name: String
     avatarUrl: String
+    isConnected: Boolean
     tools: [Tool!]!
   }
 
@@ -44,7 +45,7 @@ export const schema = gql`
     """
     profile: User! @requireAuth
 
-    people(id: Int!): People! @requireAuth
+    people(id: Int!): People! @skipAuth
   }
 
   input UpdateProfileInput {

@@ -81,7 +81,7 @@ export const acceptConnection: MutationResolvers['acceptConnection'] = async ({
   const currentUserId = currentUser.id
 
   const receivedConnection = await db.connection.findUnique({
-    where: { id },
+    where: { id, receiverId: currentUserId },
   })
 
   await db.connection.create({

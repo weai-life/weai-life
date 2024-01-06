@@ -13,7 +13,7 @@ import {
   SheetTrigger,
 } from 'weai-ui'
 
-import { Link, navigate, routes } from '@redwoodjs/router'
+import { Link, routes } from '@redwoodjs/router'
 
 import { useAuth } from 'src/auth'
 
@@ -38,12 +38,28 @@ const Header = () => {
       <div className="container w-full h-14 flex items-center justify-between">
         {/* left */}
         <div className="flex items-center justify-between w-full">
-          <Link
-            to="/"
-            className="text-2xl font-bold tracking-wider subpixel-antialiased"
-          >
-            WeAI
-          </Link>
+          <div className="flex items-end">
+            <Link
+              to="/"
+              className="text-2xl font-bold tracking-wider subpixel-antialiased"
+            >
+              WeAI
+            </Link>
+            <div className="hidden md:flex items-center">
+              <Link to={routes.tools()} className="ml-6 text-lg">
+                Tools
+              </Link>
+              <Link to={routes.connections()} className="ml-3 text-lg">
+                Connections
+              </Link>
+              <Link to={routes.connections()} className="ml-3 text-lg">
+                Data
+              </Link>
+              <Link to={routes.connections()} className="ml-3 text-lg">
+                Settings
+              </Link>
+            </div>
+          </div>
           <div className="md:hidden flex items-center">
             <Sheet open={openSheet} onOpenChange={setOpenSheet}>
               <SheetTrigger asChild>
@@ -88,14 +104,14 @@ const Header = () => {
                   onClick={() => setOpenSheet(false)}
                   className="w-full block border-b text-left py-3"
                 >
-                  Database
+                  Data
                 </Link>
                 <Link
                   to={routes.connections()}
                   onClick={() => setOpenSheet(false)}
                   className="w-full block border-b text-left py-3"
                 >
-                  Me
+                  Settings
                 </Link>
                 <div className="text-center mt-6">
                   {!isAuthenticated ? (

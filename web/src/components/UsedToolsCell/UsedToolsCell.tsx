@@ -12,7 +12,7 @@ export const QUERY = gql`
       toolId
       tool {
         id
-        name
+        title
         icon
       }
     }
@@ -43,7 +43,7 @@ export const Success = ({ usedTools }: CellSuccessProps<UsedToolsQuery>) => {
             onClick={handleClickTool}
             className="p-4 rounded-xl"
           >
-            {item.tool.name}
+            {item.tool.title}
           </Card>
         )
       })}
