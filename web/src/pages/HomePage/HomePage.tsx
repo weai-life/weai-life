@@ -1,31 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'weai-ui'
 
 import { MetaTags } from '@redwoodjs/web'
 
-import { useAuth } from 'src/auth'
 import ToolsCell from 'src/components/ToolsCell'
 import UsedToolsCell from 'src/components/UsedToolsCell'
 
 const HomePage = () => {
-  const { isAuthenticated, getToken, currentUser } = useAuth()
-  const [tabName, setTabName] = useState('used')
-
-  console.log({
-    currentUser,
-  })
-  useEffect(() => {
-    const initTab = async () => {
-      const token = await getToken()
-      if (token === 'UNDEFINED' && isAuthenticated === false) {
-        setTabName('marketplace')
-      } else {
-        setTabName(isAuthenticated ? 'used' : 'marketplace')
-      }
-    }
-    void initTab()
-  }, [isAuthenticated, getToken])
+  const [tabName, setTabName] = useState(
+    localStorage.getItem('TOOLS_TAB') ?? 'marketplace'
+  )
 
   return (
     <div className="container">
@@ -35,8 +20,11 @@ const HomePage = () => {
         Tools
       </div>
       <Tabs
-        value={tabName}
-        onValueChange={(name) => setTabName(name)}
+        defaultValue={tabName}
+        onValueChange={(name) => {
+          localStorage.setItem('TOOLS_TAB', name)
+          setTabName(name)
+        }}
         className="mt-4 text-center"
       >
         <TabsList>
