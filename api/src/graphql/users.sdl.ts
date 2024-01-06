@@ -27,6 +27,12 @@ export const schema = gql`
     data: [User!]!
   }
 
+  type People {
+    name: String
+    avatarUrl: String
+    tools: [Tool!]!
+  }
+
   type Query {
     """
     所有用户列表，仅限管理员使用
@@ -37,6 +43,8 @@ export const schema = gql`
     返回个人信息
     """
     profile: User! @requireAuth
+
+    people(id: Int!): People! @requireAuth
   }
 
   input UpdateProfileInput {

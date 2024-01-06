@@ -27,6 +27,34 @@ export const users = async ({ page, pageSize }: UsersArgs = {}) => {
   })
 }
 
+export const people = async ({ id }: Prisma.UserWhereUniqueInput) => {
+  const result = await db.toolUser.findMany({ where: { userId: id } })
+  const user = await db.user.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      name: true,
+      avatarUrl: true,
+    },
+  })
+  const toolIds = result.map((item) => item.toolId)
+  const tools = db.tool.findMany({
+    where: {
+      id: {
+        in: toolIds,
+      },
+    },
+  })
+  console.log(111, {
+    tools,
+  })
+  return {
+    ...user,
+    tools,
+  }
+}
+
 export const user = async ({ id }: Prisma.UserWhereUniqueInput) => {
   const result = await db.user.findUnique({ where: { id } })
 

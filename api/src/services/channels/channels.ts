@@ -325,7 +325,7 @@ export const inviteChannelMemberByEmail = async ({
     receiver = await db.user.create({
       data: {
         name: email,
-        email,
+        email: email,
         invitedById: currentUserId,
       },
     })

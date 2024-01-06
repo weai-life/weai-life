@@ -11,6 +11,7 @@ import { Router, Route, Set } from '@redwoodjs/router'
 
 import { useAuth } from './auth'
 import DefaultLayout from './layouts/DefaultLayout/DefaultLayout'
+import SubPageLayout from './layouts/SubPageLayout/SubPageLayout'
 
 const Routes = () => {
   return (
@@ -21,6 +22,10 @@ const Routes = () => {
         <Route path="/me" page={HomePage} name="me" />
         <Route notfound page={NotFoundPage} />
       </Set>
+      <Set wrap={SubPageLayout}>
+        <Route path="/invitations" page={InvitationsPage} name="invitations" />
+      </Set>
+      <Route path="/we/{id}" page={PeoplePage} name="people" />
     </Router>
   )
 }

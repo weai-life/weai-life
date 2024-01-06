@@ -19,6 +19,8 @@ export const schema = gql`
 
   type Query {
     connections: [Connection!]! @requireAuth
+    sentConnections: [Connection!]! @requireAuth
+    receivedConnections: [Connection!]! @requireAuth
     connection(id: Int!): Connection @requireAuth
   }
 
@@ -37,6 +39,8 @@ export const schema = gql`
   }
 
   type Mutation {
+    createConnectionByEmail(email: String!): Connection! @requireAuth
+    acceptConnection(id: Int!): Connection! @requireAuth
     createConnection(input: CreateConnectionInput!): Connection! @requireAuth
     updateConnection(id: Int!, input: UpdateConnectionInput!): Connection!
       @requireAuth
