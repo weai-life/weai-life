@@ -1,5 +1,5 @@
 import type { ToolsQuery } from 'types/graphql'
-import { Card, CardDescription, CardHeader, CardTitle, Skeleton } from 'weai-ui'
+import { Skeleton } from 'weai-ui'
 
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
@@ -19,22 +19,17 @@ export const QUERY = gql`
 
 export const Loading = () => (
   <div className="mt-4">
-    <Card className="mb-4">
-      <CardHeader>
-        <CardTitle className="mb-2">
-          <Skeleton className="h-8 w-[120px]" />
-        </CardTitle>
-        <Skeleton className="h-6 w-[200px]" />
-      </CardHeader>
-    </Card>
-    <Card>
-      <CardHeader>
-        <CardTitle className="mb-2">
-          <Skeleton className="h-8 w-[120px]" />
-        </CardTitle>
-        <Skeleton className="h-6 w-[200px]" />
-      </CardHeader>
-    </Card>
+    {[1, 2, 3, 4, 5, 6].map((item) => {
+      return (
+        <div key={item} className="flex items-center flex-start w-full">
+          <Skeleton className="h-12 w-12 rounded-xl" />
+          <div className="ml-2 border-b py-3 w-full">
+            <Skeleton className="h-8 w-[120px]" />
+            <Skeleton className="h-6 w-[200px] mt-2" />
+          </div>
+        </div>
+      )
+    })}
   </div>
 )
 
@@ -64,7 +59,7 @@ export const Success = ({ tools }: CellSuccessProps<ToolsQuery>) => {
             className="flex items-center flex-start w-full"
             onClick={() => handleClickTool(item)}
           >
-            <div className="border p-2 rounded-xl w-12 h-12">
+            <div className="border p-2 rounded-xl w-12 h-12 flex justify-center items-center">
               <img
                 src={`data:image/svg+xml;utf8,${encodeURIComponent(item.icon)}`}
                 alt=""

@@ -73,7 +73,7 @@ export const Success = ({ usedTools }: CellSuccessProps<UsedToolsQuery>) => {
             onClick={() => handleClickTool(item)}
             className="p-0 rounded-xl flex-col items-center justify-center"
           >
-            <div className="border p-2 mb-2 rounded-xl w-12 h-12 mx-auto">
+            <div className="border p-2 mb-2 rounded-xl w-12 h-12 mx-auto flex justify-center items-center">
               <img
                 src={`data:image/svg+xml;utf8,${encodeURIComponent(
                   item.tool.icon
