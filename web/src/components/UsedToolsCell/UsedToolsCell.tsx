@@ -21,7 +21,7 @@ export const QUERY = gql`
 `
 
 export const Loading = () => (
-  <div className="grid grid-cols-4 gap-4 mt-4">
+  <div className="grid grid-cols-4 gap-x-2 mt-10 gap-y-10">
     {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => {
       return (
         <div
