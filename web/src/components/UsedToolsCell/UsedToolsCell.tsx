@@ -22,54 +22,17 @@ export const QUERY = gql`
 
 export const Loading = () => (
   <div className="grid grid-cols-4 gap-4 mt-4">
-    <div className="rounded-xl flex-col justify-center items-center">
-      <Skeleton className="h-[50px] w-[50px] mx-auto" />
-      <div className="mt-2 w-full flex-col justify-center items-center">
-        <Skeleton className="h-6 w-[40px] mx-auto" />
-      </div>
-    </div>
-    <div className="rounded-xl flex-col justify-center items-center">
-      <Skeleton className="h-[50px] w-[50px] mx-auto" />
-      <div className="mt-2 w-full flex-col justify-center items-center">
-        <Skeleton className="h-6 w-[40px] mx-auto" />
-      </div>
-    </div>
-    <div className="rounded-xl flex-col justify-center items-center">
-      <Skeleton className="h-[50px] w-[50px] mx-auto" />
-      <div className="mt-2 w-full flex-col justify-center items-center">
-        <Skeleton className="h-6 w-[40px] mx-auto" />
-      </div>
-    </div>
-    <div className="rounded-xl flex-col justify-center items-center">
-      <Skeleton className="h-[50px] w-[50px] mx-auto" />
-      <div className="mt-2 w-full flex-col justify-center items-center">
-        <Skeleton className="h-6 w-[40px] mx-auto" />
-      </div>
-    </div>
-    <div className="rounded-xl flex-col justify-center items-center">
-      <Skeleton className="h-[50px] w-[50px] mx-auto" />
-      <div className="mt-2 w-full flex-col justify-center items-center">
-        <Skeleton className="h-6 w-[40px] mx-auto" />
-      </div>
-    </div>
-    <div className="rounded-xl flex-col justify-center items-center">
-      <Skeleton className="h-[50px] w-[50px] mx-auto" />
-      <div className="mt-2 w-full flex-col justify-center items-center">
-        <Skeleton className="h-6 w-[40px] mx-auto" />
-      </div>
-    </div>
-    <div className="rounded-xl flex-col justify-center items-center">
-      <Skeleton className="h-[50px] w-[50px] mx-auto" />
-      <div className="mt-2 w-full flex-col justify-center items-center">
-        <Skeleton className="h-6 w-[40px] mx-auto" />
-      </div>
-    </div>
-    <div className="rounded-xl flex-col justify-center items-center">
-      <Skeleton className="h-[50px] w-[50px] mx-auto" />
-      <div className="mt-2 w-full flex-col justify-center items-center">
-        <Skeleton className="h-6 w-[40px] mx-auto" />
-      </div>
-    </div>
+    {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => {
+      return (
+        <div
+          key={item}
+          className="p-0 rounded-xl flex-col items-center justify-center"
+        >
+          <Skeleton className="h-12 w-12 mx-auto mb-2 rounded-xl" />
+          <Skeleton className="h-6 w-[40px] mx-auto" />
+        </div>
+      )
+    })}
   </div>
 )
 
@@ -102,16 +65,15 @@ export const Success = ({ usedTools }: CellSuccessProps<UsedToolsQuery>) => {
   }
 
   return (
-    <div className="grid grid-cols-4 gap-x-2 mt-10 gap-y-16">
+    <div className="grid grid-cols-4 gap-x-2 mt-10 gap-y-10">
       {usedTools.map((item) => {
         return (
-          <Button
+          <div
             key={item.id}
-            variant="ghost"
             onClick={() => handleClickTool(item)}
-            className="p-0 rounded-xl flex-col"
+            className="p-0 rounded-xl flex-col items-center justify-center"
           >
-            <div className="border p-2 mb-2 rounded-xl">
+            <div className="border p-2 mb-2 rounded-xl w-12 h-12 mx-auto">
               <img
                 src={`data:image/svg+xml;utf8,${encodeURIComponent(
                   item.tool.icon
@@ -119,8 +81,8 @@ export const Success = ({ usedTools }: CellSuccessProps<UsedToolsQuery>) => {
                 alt=""
               />
             </div>
-            <div>{item.tool.title}</div>
-          </Button>
+            <div className="mx-auto">{item.tool.title}</div>
+          </div>
         )
       })}
     </div>

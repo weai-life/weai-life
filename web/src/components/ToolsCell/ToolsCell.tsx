@@ -12,6 +12,7 @@ export const QUERY = gql`
       title
       url
       description
+      icon
     }
   }
 `
@@ -55,19 +56,25 @@ export const Success = ({ tools }: CellSuccessProps<ToolsQuery>) => {
   }
 
   return (
-    <div className="mt-4 text-left">
+    <div className="mt-4 text-left pb-10">
       {tools.map((item) => {
         return (
-          <Card
+          <div
             key={item.id}
-            className="mb-4"
+            className="flex items-center flex-start w-full"
             onClick={() => handleClickTool(item)}
           >
-            <CardHeader>
-              <CardTitle>{item.title}</CardTitle>
-              <CardDescription>{item.description}</CardDescription>
-            </CardHeader>
-          </Card>
+            <div className="border p-2 rounded-xl w-12 h-12">
+              <img
+                src={`data:image/svg+xml;utf8,${encodeURIComponent(item.icon)}`}
+                alt=""
+              />
+            </div>
+            <div className="ml-2 border-b py-3 w-full">
+              <div className="text-lg font-semibold">{item.title}</div>
+              <div>{item.description}</div>
+            </div>
+          </div>
         )
       })}
     </div>
