@@ -17,7 +17,7 @@ const Routes = () => {
   return (
     <Router useAuth={useAuth}>
       <Set wrap={DefaultLayout}>
-        <Route path="/" page={HomePage} name="tools" />
+        <Route path="/" page={ToolsPage} name="tools" />
         <Route path="/connections" page={ConnectionsPage} name="connections" />
         <Route path="/data" page={DataPage} name="data" />
         <Route path="/settings" page={SettingsPage} name="settings" />
