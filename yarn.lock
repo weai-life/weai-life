@@ -4991,6 +4991,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-switch@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@radix-ui/react-switch@npm:1.0.3"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    "@radix-ui/primitive": 1.0.1
+    "@radix-ui/react-compose-refs": 1.0.1
+    "@radix-ui/react-context": 1.0.1
+    "@radix-ui/react-primitive": 1.0.3
+    "@radix-ui/react-use-controllable-state": 1.0.1
+    "@radix-ui/react-use-previous": 1.0.1
+    "@radix-ui/react-use-size": 1.0.1
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-dom": "*"
+    react: ^16.8 || ^17.0 || ^18.0
+    react-dom: ^16.8 || ^17.0 || ^18.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: e7c65aeedf9d3cd47320fd3759b8c7f3777619cd847a96f2c52841488ad1745fa35335e2877a4f839902942410a7ffe9baf05ec1c249a0401a2b1b9363dbf343
+  languageName: node
+  linkType: hard
+
 "@radix-ui/react-tabs@npm:^1.0.4":
   version: 1.0.4
   resolution: "@radix-ui/react-tabs@npm:1.0.4"
@@ -22476,16 +22502,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"weai-ui-utility@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "weai-ui-utility@npm:0.0.1"
-  checksum: fa278038d81f96badcd048178e2ffd753c65894a05fd842cac6200582b197484f95a342a9fe36bc45604f2b0aebea300d0ff5389826498ad05920e551050ec5d
-  languageName: node
-  linkType: hard
-
-"weai-ui@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "weai-ui@npm:0.0.1"
+"weai-ui@npm:^0.0.2":
+  version: 0.0.2
+  resolution: "weai-ui@npm:0.0.2"
   dependencies:
     "@headlessui/react": ^1.7.5
     "@heroicons/react": ^2.0.13
@@ -22501,6 +22520,7 @@ __metadata:
     "@radix-ui/react-select": ^2.0.0
     "@radix-ui/react-separator": ^1.0.3
     "@radix-ui/react-slot": ^1.0.2
+    "@radix-ui/react-switch": ^1.0.3
     "@radix-ui/react-tabs": ^1.0.4
     class-variance-authority: ^0.7.0
     clsx: ^2.0.0
@@ -22512,13 +22532,12 @@ __metadata:
     tailwind-merge: ^2.0.0
     tailwindcss-animate: ^1.0.7
     vaul: ^0.8.0
-    weai-ui-utility: ^0.0.1
     zod: ^3.22.4
   peerDependencies:
     lucide-react: ^0.294.0
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 1c8e068774c9541468336c6184200556d34bd6f0ef505036f8e870aa150ee5687474609084f67460a9a718d58c5b41d0e574dde90ee0df52576c6470818e59b3
+  checksum: 8ae14058e56bb0d83d8997ff88f976383aed8182ef1aa73be703833d7f86a64f7f3b9e24db9b8a1904371a963aa637f7b878bbb9d52b5ffe17586376831c67b2
   languageName: node
   linkType: hard
 
@@ -22561,7 +22580,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     tailwindcss: ^3.4.0
-    weai-ui: ^0.0.1
+    weai-ui: ^0.0.2
   languageName: unknown
   linkType: soft
 

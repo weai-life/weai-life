@@ -7,7 +7,11 @@ const CurrentUser = () => {
   const { isAuthenticated, currentUser } = useAuth()
 
   if (!isAuthenticated) {
-    return <Button variant="link">Log in</Button>
+    return (
+      <Button variant="link" size="lg" className="text-lg">
+        Log in
+      </Button>
+    )
   }
 
   return (

@@ -19,7 +19,8 @@ const Routes = () => {
       <Set wrap={DefaultLayout}>
         <Route path="/" page={HomePage} name="tools" />
         <Route path="/connections" page={ConnectionsPage} name="connections" />
-        <Route path="/me" page={HomePage} name="me" />
+        <Route path="/data" page={DataPage} name="data" />
+        <Route path="/settings" page={SettingsPage} name="settings" />
         <Route notfound page={NotFoundPage} />
       </Set>
       <Set wrap={SubPageLayout}>

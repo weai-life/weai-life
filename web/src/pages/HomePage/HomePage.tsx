@@ -14,7 +14,7 @@ const HomePage = () => {
 
   return (
     <div className="container">
-      <MetaTags title="Tools" description="Use tools to love life." />
+      <MetaTags title="WeAI" description="Use tools to love life." />
 
       <div className="text-3xl tracking-wider subpixel-antialiased mt-6 text-center">
         Tools

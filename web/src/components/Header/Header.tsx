@@ -45,17 +45,17 @@ const Header = () => {
             >
               WeAI
             </Link>
-            <div className="hidden md:flex items-center">
-              <Link to={routes.tools()} className="ml-6 text-lg">
+            <div className="hidden md:flex items-center ml-12">
+              <Link to={routes.tools()} className="text-lg">
                 Tools
               </Link>
-              <Link to={routes.connections()} className="ml-3 text-lg">
+              <Link to={routes.connections()} className="ml-6 text-lg">
                 Connections
               </Link>
-              <Link to={routes.connections()} className="ml-3 text-lg">
+              <Link to={routes.data()} className="ml-6 text-lg">
                 Data
               </Link>
-              <Link to={routes.connections()} className="ml-3 text-lg">
+              <Link to={routes.settings()} className="ml-6 text-lg">
                 Settings
               </Link>
             </div>
@@ -100,14 +100,14 @@ const Header = () => {
                   Connections
                 </Link>
                 <Link
-                  to={routes.connections()}
+                  to={routes.data()}
                   onClick={() => setOpenSheet(false)}
                   className="w-full block border-b text-left py-3"
                 >
                   Data
                 </Link>
                 <Link
-                  to={routes.connections()}
+                  to={routes.settings()}
                   onClick={() => setOpenSheet(false)}
                   className="w-full block border-b text-left py-3"
                 >

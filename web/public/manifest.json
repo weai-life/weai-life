@@ -1,6 +1,7 @@
 {
   "name": "WeAI Life",
-  "short_name": "WeAI",
+  "short_name": "WeAI!",
+  "display": "fullscreen",
   "description": "Tools to love life",
   "start_url": "/",
   "icons": [
