@@ -36,7 +36,12 @@ export const Loading = () => (
   </div>
 )
 
-export const Empty = () => <div>Empty</div>
+export const Empty = () => (
+  <div className="tracking-wide leading-loose my-8 opacity-90 italic">
+    <div>Not yet used any tools.</div>
+    <div>The tools you used in marketplace will be here.</div>
+  </div>
+)
 
 export const Failure = ({ error }: CellFailureProps) => {
   const { isAuthenticated } = useAuth()
