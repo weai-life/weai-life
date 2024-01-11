@@ -1,5 +1,5 @@
 import type { UsedToolsQuery } from 'types/graphql'
-import { Button, Card, CardTitle, Skeleton } from 'weai-ui'
+import { Button, Skeleton } from 'weai-ui'
 
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
@@ -21,15 +21,15 @@ export const QUERY = gql`
 `
 
 export const Loading = () => (
-  <div className="grid grid-cols-4 gap-x-2 mt-10 gap-y-10">
+  <div className="mt-10 grid grid-cols-4 gap-x-2 gap-y-10">
     {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => {
       return (
         <div
           key={item}
-          className="p-0 rounded-xl flex-col items-center justify-center"
+          className="flex-col items-center justify-center rounded-xl p-0"
         >
-          <Skeleton className="h-12 w-12 mx-auto mb-2 rounded-xl" />
-          <Skeleton className="h-6 w-[40px] mx-auto" />
+          <Skeleton className="mx-auto mb-2 h-12 w-12 rounded-xl" />
+          <Skeleton className="mx-auto h-6 w-[40px]" />
         </div>
       )
     })}
@@ -37,7 +37,7 @@ export const Loading = () => (
 )
 
 export const Empty = () => (
-  <div className="tracking-wide leading-loose my-8 opacity-90 italic">
+  <div className="my-8 italic leading-loose tracking-wide opacity-90">
     <div>Not yet used any tools.</div>
     <div>The tools you used in marketplace will be here.</div>
   </div>
@@ -53,7 +53,7 @@ export const Failure = ({ error }: CellFailureProps) => {
   if (!isAuthenticated) {
     return (
       <div className="mt-6">
-        <div className="opacity-50 mb-2">View used tools need log in</div>
+        <div className="mb-2 opacity-50">View used tools need log in</div>
         <Button onClick={handleGotoLogin}>Log in</Button>
       </div>
     )
@@ -70,15 +70,15 @@ export const Success = ({ usedTools }: CellSuccessProps<UsedToolsQuery>) => {
   }
 
   return (
-    <div className="grid grid-cols-4 gap-x-2 mt-10 gap-y-10">
+    <div className="mt-10 grid grid-cols-4 gap-x-2 gap-y-10">
       {usedTools.map((item) => {
         return (
           <div
             key={item.id}
             onClick={() => handleClickTool(item)}
-            className="p-0 rounded-xl flex-col items-center justify-center"
+            className="flex-col items-center justify-center rounded-xl p-0"
           >
-            <div className="border p-2 mb-2 rounded-xl w-12 h-12 mx-auto flex justify-center items-center">
+            <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl border p-2">
               <img
                 src={`data:image/svg+xml;utf8,${encodeURIComponent(
                   item.tool.icon

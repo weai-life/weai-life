@@ -27,8 +27,7 @@ export const schema = gql`
   }
 
   type UploadInfo {
-    host: String!
-    formParams: String!
+    signedUrl: String!
   }
 
   type PagedAttachments {
@@ -65,6 +64,7 @@ export const schema = gql`
   input UpdateAttachmentInput {
     status: AttachmentStatus
     meta: JSON
+    store: JSON
   }
 
   type Mutation {

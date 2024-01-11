@@ -1,14 +1,15 @@
-import { ResolverArgs } from '@redwoodjs/graphql-server'
-import { getCurrentUser } from 'src/lib/context'
+import crypto from 'crypto'
+import path from 'path'
+
 import DB, { Prisma } from '@prisma/client'
 
-import crypto from 'crypto'
+import { ResolverArgs } from '@redwoodjs/graphql-server'
+
+import { getCurrentUser } from 'src/lib/context'
 import { db } from 'src/lib/db'
-// import { paginate, oss } from 'src/lib/utils'
-import { paginate } from 'src/lib/utils'
-import * as oss from 'src/lib/utils/oss'
-import path from 'path'
 import { authorize, AttachmentPolicy as policy } from 'src/lib/policies'
+import { paginate } from 'src/lib/utils'
+import * as s3 from 'src/lib/utils/s3'
 
 export interface AttachmentsInputArgs {
   page?: number
@@ -92,7 +93,7 @@ export const deleteAttachment = async ({
   })
 
   if (result.status === 'UPLOADED') {
-    await oss.deleteCloudFile(getKey(result))
+    await s3.deleteCloudFile(getKey(result))
   }
 
   return result
@@ -104,24 +105,23 @@ export const Attachment = {
 
   key: (_obj, { root }: ResolverArgs<DB.Attachment>) => getKey(root),
 
-  url: ({ style, previewdoc }, { root }: ResolverArgs<DB.Attachment>) => {
+  url: ({ style }, { root }: ResolverArgs<DB.Attachment>) => {
     let filepath = getKey(root)
-
-    if (previewdoc) return oss.previewdocUrl(filepath)
 
     if (style) filepath += `!${style}`
 
     if (root.public) {
-      return `${oss.host}/${filepath}`
+      return `${s3.host}/${filepath}`
     } else {
-      return oss.signatureUrl(filepath)
+      return 'Error private url, need to implement'
     }
   },
 
   uploadInfo: (_obj, { root }: ResolverArgs<DB.Attachment>) => {
+    const filepath = getKey(root)
+
     return {
-      host: oss.host,
-      formParams: JSON.stringify(oss.formParams(getKey(root))),
+      signedUrl: s3.signedUrl(filepath),
     }
   },
 }
