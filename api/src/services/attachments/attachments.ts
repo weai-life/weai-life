@@ -117,12 +117,10 @@ export const Attachment = {
     }
   },
 
-  uploadInfo: (_obj, { root }: ResolverArgs<DB.Attachment>) => {
+  signedUrl: (_obj, { root }: ResolverArgs<DB.Attachment>) => {
     const filepath = getKey(root)
 
-    return {
-      signedUrl: s3.signedUrl(filepath),
-    }
+    return s3.signedUrl(filepath)
   },
 }
 

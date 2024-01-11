@@ -9,7 +9,7 @@ export const schema = gql`
     userId: Int!
     key: String!
     url(style: OSSStyleName, previewdoc: Boolean): String!
-    uploadInfo: UploadInfo
+    signedUrl: String
     meta: JSON
     public: Boolean!
   }
@@ -24,10 +24,6 @@ export const schema = gql`
   enum AttachmentStatus {
     PENDING
     UPLOADED
-  }
-
-  type UploadInfo {
-    signedUrl: String!
   }
 
   type PagedAttachments {
