@@ -20,9 +20,11 @@ export const signInBySes = async ({ input }) => {
   })
 
   if (!user) {
+    const parts = email.split('@')
+    const name = parts[0]
     user = await db.user.create({
       data: {
-        name: email,
+        name,
         email,
       },
     })
