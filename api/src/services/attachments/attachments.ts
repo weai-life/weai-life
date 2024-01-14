@@ -93,7 +93,7 @@ export const deleteAttachment = async ({
   })
 
   if (result.status === 'UPLOADED') {
-    await s3.deleteCloudFile(getKey(result))
+    await s3.deleteObject(getKey(result))
   }
 
   return result
