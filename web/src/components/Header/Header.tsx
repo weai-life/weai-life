@@ -111,7 +111,7 @@ const Header = () => {
                   onClick={() => setOpenSheet(false)}
                   className="block w-full border-b py-3 text-left"
                 >
-                  Settings
+                  Profile
                 </Link>
                 <div className="mt-6 text-center">
                   {!isAuthenticated ? (
