@@ -20,7 +20,7 @@ const Routes = () => {
         <Route path="/" page={ToolsPage} name="tools" />
         <Route path="/connections" page={ConnectionsPage} name="connections" />
         <Route path="/data" page={DataPage} name="data" />
-        <Route path="/settings" page={SettingsPage} name="settings" />
+        <Route path="/profile" page={ProfilePage} name="profile" />
         <Route notfound page={NotFoundPage} />
       </Set>
       <Set wrap={SubPageLayout}>

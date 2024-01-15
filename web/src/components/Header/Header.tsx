@@ -35,9 +35,9 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container w-full h-14 flex items-center justify-between">
+      <div className="container flex h-14 w-full items-center justify-between">
         {/* left */}
-        <div className="flex items-center justify-between w-full">
+        <div className="flex w-full items-center justify-between">
           <div className="flex items-end">
             <Link
               to="/"
@@ -45,7 +45,7 @@ const Header = () => {
             >
               WeAI
             </Link>
-            <div className="hidden md:flex items-center ml-12">
+            <div className="ml-12 hidden items-center md:flex">
               <Link to={routes.tools()} className="text-lg">
                 Tools
               </Link>
@@ -55,12 +55,12 @@ const Header = () => {
               <Link to={routes.data()} className="ml-6 text-lg">
                 Data
               </Link>
-              <Link to={routes.settings()} className="ml-6 text-lg">
-                Settings
+              <Link to={routes.profile()} className="ml-6 text-lg">
+                Profile
               </Link>
             </div>
           </div>
-          <div className="md:hidden flex items-center">
+          <div className="flex items-center md:hidden">
             <Sheet open={openSheet} onOpenChange={setOpenSheet}>
               <SheetTrigger asChild>
                 <Button variant="outline" size="sm">
@@ -88,32 +88,32 @@ const Header = () => {
                 <Link
                   to={routes.tools()}
                   onClick={() => setOpenSheet(false)}
-                  className="w-full block mt-4 border-b text-left py-3"
+                  className="mt-4 block w-full border-b py-3 text-left"
                 >
                   Tools
                 </Link>
                 <Link
                   to={routes.connections()}
                   onClick={() => setOpenSheet(false)}
-                  className="w-full block border-b text-left py-3"
+                  className="block w-full border-b py-3 text-left"
                 >
                   Connections
                 </Link>
                 <Link
                   to={routes.data()}
                   onClick={() => setOpenSheet(false)}
-                  className="w-full block border-b text-left py-3"
+                  className="block w-full border-b py-3 text-left"
                 >
                   Data
                 </Link>
                 <Link
-                  to={routes.settings()}
+                  to={routes.profile()}
                   onClick={() => setOpenSheet(false)}
-                  className="w-full block border-b text-left py-3"
+                  className="block w-full border-b py-3 text-left"
                 >
                   Settings
                 </Link>
-                <div className="text-center mt-6">
+                <div className="mt-6 text-center">
                   {!isAuthenticated ? (
                     <Button className="rounded-lg" onClick={handleGotoLogin}>
                       Log in
@@ -129,7 +129,7 @@ const Header = () => {
           </div>
         </div>
         {/* right */}
-        <div className="hidden md:flex items-center">
+        <div className="hidden items-center md:flex">
           <CurrentUser />
         </div>
       </div>
