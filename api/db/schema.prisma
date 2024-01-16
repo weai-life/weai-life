@@ -217,7 +217,7 @@ model Post {
   categoryId    Int?
   store         Json           @default("{}")
   postBlocks    PostBlock[]
-  happenedAt    DateTime       @default(now())
+  sequenceAt    DateTime       @default(now())
   externalId    String?
 
   violationReports ViolationReport[]
@@ -226,7 +226,7 @@ model Post {
 
   @@index(publishedAt)
   @@index(updatedAt)
-  @@index(happenedAt)
+  @@index(sequenceAt)
   @@index(externalId)
 }
 

@@ -16,7 +16,7 @@ export const schema = gql`
     isDraft: Boolean
     archived: Boolean
     publishedAt: DateTime
-    happenedAt: DateTime
+    sequenceAt: DateTime
     likesCount: Int!
     commentsCount: Int!
     comments: [Comment]!
@@ -84,7 +84,7 @@ export const schema = gql`
     toolId: Int
     categoryId: Int
     updatedAt: SortOrder
-    happenedAt: SortOrder
+    sequenceAt: SortOrder
   }
 
   type Query {
@@ -124,7 +124,7 @@ export const schema = gql`
     categoryId: Int
     isDraft: Boolean
     store: JSON
-    happenedAt: DateTime
+    sequenceAt: DateTime
     blocks: [CreateBlockInput!]
     externalId: String
   }
@@ -139,7 +139,7 @@ export const schema = gql`
     isDraft: Boolean
     archived: Boolean
     store: JSON
-    happenedAt: DateTime
+    sequenceAt: DateTime
     externalId: String
   }
 

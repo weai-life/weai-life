@@ -25,7 +25,7 @@ export const QUERY = gql`
         title
         content
         archived
-        happenedAt
+        sequenceAt
         createdAt
         updatedAt
         schema
@@ -76,7 +76,7 @@ export const Loading = () => <div>Loading...</div>
 
 const Introduction = () => {
   return (
-    <div className="tracking-wide leading-loose my-4 opacity-90 italic">
+    <div className="my-4 italic leading-loose tracking-wide opacity-90">
       <div>You data, you choice.</div>
       <div>All your data, under your control.</div>
     </div>
@@ -96,7 +96,7 @@ export const Failure = ({ error }: CellFailureProps) => {
     return (
       <div className="mt-6 text-center">
         <Introduction />
-        <div className="opacity-50 mt-6 mb-2">View data need log in</div>
+        <div className="mb-2 mt-6 opacity-50">View data need log in</div>
         <Button onClick={handleGotoLogin}>Log in</Button>
       </div>
     )
@@ -107,7 +107,7 @@ export const Failure = ({ error }: CellFailureProps) => {
 
 export const Success = ({ myPosts }: CellSuccessProps<MyPostsQuery>) => {
   return (
-    <div className="mt-6 mb-10">
+    <div className="mb-10 mt-6">
       {myPosts.data.map((item) => {
         return (
           <Card key={item.id} className="mt-2">
