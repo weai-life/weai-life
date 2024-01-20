@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { MenuIcon, UserRound } from 'lucide-react'
 import {
@@ -22,7 +22,21 @@ import CurrentUser from '../CurrentUser/CurrentUser'
 const Header = () => {
   const { isAuthenticated, currentUser } = useAuth()
   const [openSheet, setOpenSheet] = useState(false)
+  const [installPrompt, setInstallPrompt] = useState<any>(null)
 
+  useEffect(() => {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      console.log(111)
+      // Prevent the mini-infobar from appearing on mobile
+      e.preventDefault()
+      // Stash the event so it can be triggered later.
+      setInstallPrompt(e)
+      // Update UI notify the user they can install the PWA
+      // showInstallPromotion()
+      // Optionally, send analytics event that PWA install promo was shown.
+      console.log(`'beforeinstallprompt' event was fired.`)
+    })
+  }, [])
   function handleGotoLogin() {
     window.location.href = `https://auth.weai.life?redirectUrl=${location.href}`
   }
@@ -31,6 +45,19 @@ const Header = () => {
     localStorage.removeItem('TOKEN')
     setOpenSheet(false)
     window.location.reload()
+  }
+
+  async function handleInstallApp() {
+    // Hide the app provided install promotion
+    // hideInstallPromotion()
+    // Show the install prompt
+    installPrompt?.prompt()
+    // Wait for the user to respond to the prompt
+    const { outcome } = await installPrompt.userChoice
+    // Optionally, send analytics event with outcome of user choice
+    console.log(`User response to the install prompt: ${outcome}`)
+    // We've used the prompt, and can't use it again, throw it away
+    setInstallPrompt(null)
   }
 
   return (
@@ -113,6 +140,14 @@ const Header = () => {
                 >
                   Profile
                 </Link>
+                {installPrompt && (
+                  <div
+                    onClick={handleInstallApp}
+                    className="block w-full border-b py-3 text-left"
+                  >
+                    Install App
+                  </div>
+                )}
                 <div className="mt-6 text-center">
                   {!isAuthenticated ? (
                     <Button className="rounded-lg" onClick={handleGotoLogin}>
@@ -130,6 +165,14 @@ const Header = () => {
         </div>
         {/* right */}
         <div className="hidden items-center md:flex">
+          {installPrompt && (
+            <div
+              onClick={handleInstallApp}
+              className="ml-6 shrink-0 cursor-pointer text-lg text-muted-foreground"
+            >
+              Install App
+            </div>
+          )}
           <CurrentUser />
         </div>
       </div>
