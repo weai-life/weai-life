@@ -168,7 +168,7 @@ const Header = () => {
           {installPrompt && (
             <div
               onClick={handleInstallApp}
-              className="ml-6 shrink-0 cursor-pointer text-lg text-muted-foreground"
+              className="mr-6 shrink-0 cursor-pointer text-lg text-muted-foreground"
             >
               Install App
             </div>

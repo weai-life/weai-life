@@ -76,7 +76,7 @@ export const Success = ({ usedTools }: CellSuccessProps<UsedToolsQuery>) => {
           <div
             key={item.id}
             onClick={() => handleClickTool(item)}
-            className="flex-col items-center justify-center rounded-xl p-0"
+            className="cursor-pointer flex-col items-center justify-center rounded-xl p-0"
           >
             <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl border p-2">
               <img
