@@ -113,6 +113,12 @@ export const schema = gql`
       where: PostsWhereInput
       orderBy: PostsOrderByInput
     ): PagedPosts! @requireAuth
+    userPublicPosts(
+      page: Int
+      pageSize: Int
+      where: PostsWhereInput
+      orderBy: PostsOrderByInput
+    ): PagedPosts! @requireAuth
   }
 
   input CreatePostInput {

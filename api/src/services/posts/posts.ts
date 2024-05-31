@@ -94,6 +94,50 @@ export const channelPosts = async ({
   })
 }
 
+export const userPublicPosts = async ({
+  where = {},
+  ...input
+}: PostsInputArgs = {}) => {
+  const whereParams = {
+    ...where,
+  }
+
+  delete whereParams.authorId
+
+  const userId: number = where.authorId as number
+
+  const channelMembers = await db.channelMember.findMany({
+    where: {
+      userId,
+    },
+    orderBy: { id: 'desc' },
+  })
+
+  const channelIds = channelMembers.map((item) => item.channelId)
+  return queryPosts({
+    ...input,
+    where: {
+      ...whereParams,
+      OR: [
+        {
+          authorId: where.authorId,
+          accessType: 'PUBLIC',
+        },
+        {
+          channelId: {
+            in: channelIds,
+          },
+          channel: {
+            is: {
+              isPublic: true,
+            },
+          },
+        },
+      ],
+    },
+  })
+}
+
 export const myPosts = async ({
   where = {},
   ...input
