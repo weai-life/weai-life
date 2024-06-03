@@ -109,6 +109,11 @@ export const userPublicPosts = async ({
   const channelMembers = await db.channelMember.findMany({
     where: {
       userId,
+      channel: {
+        is: {
+          isPublic: true,
+        },
+      },
     },
     orderBy: { id: 'desc' },
   })
@@ -126,11 +131,6 @@ export const userPublicPosts = async ({
         {
           channelId: {
             in: channelIds,
-          },
-          channel: {
-            is: {
-              isPublic: true,
-            },
           },
         },
       ],
