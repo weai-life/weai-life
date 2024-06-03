@@ -127,6 +127,7 @@ export const schema = gql`
     content: String
     schema: String
     channelId: Int
+    accessType: AccessType
     categoryId: Int
     isDraft: Boolean
     store: JSON
