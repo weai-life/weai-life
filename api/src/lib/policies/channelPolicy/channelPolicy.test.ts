@@ -88,7 +88,7 @@ describe('channelPolicy', () => {
     scenario('failed for anonymous', async (scenario) => {
       const result = read(null)(scenario.channel.one)
       await expect(result).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"该频道为私有频道您无权访问"`
+        `"This channel is private and you do not have permission to access it."`
       )
     })
   })

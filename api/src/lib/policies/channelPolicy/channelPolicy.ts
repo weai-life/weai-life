@@ -1,9 +1,12 @@
-import { throwNil } from './../../utils/misc'
 import { User, Group, Channel } from '@prisma/client'
 import { boolean, monoid, task as T } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/function'
+
 import { db } from 'src/lib/db'
+
 import { throwForbiddenErrorUnless, isAdmin, hasPermissionT } from '../lib'
+
+import { throwNil } from './../../utils/misc'
 
 const hasPermissionCreateChannel = hasPermissionT('CREATE_CHANNEL')
 const hasPermissionUpdateChannel = hasPermissionT('UPDATE_CHANNEL')
@@ -79,9 +82,9 @@ export const read = (user: User | null) => async (target: Channel) => {
           (await isPublic(target)) ||
           (await isChannelMember(user)(target.id))
       )
-    : throwForbiddenErrorUnless('该频道为私有频道您无权访问')(
-        await isPublic(target)
-      )
+    : throwForbiddenErrorUnless(
+        'This channel is private and you do not have permission to access it.'
+      )(await isPublic(target))
 
   return true
 }

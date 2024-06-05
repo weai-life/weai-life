@@ -99,7 +99,7 @@ export const schema = gql`
       pageSize: Int
       where: PostsWhereInput
       orderBy: PostsOrderByInput
-    ): PagedPosts! @requireAuth
+    ): PagedPosts! @skipAuth
     posts(
       page: Int
       pageSize: Int
