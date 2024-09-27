@@ -20,11 +20,8 @@ export const postComment = async (user: User, comment: Comment) => {
     l.filter((x) => !!x).map((x) => ({ ...x, channelId: post.channelId }))
   )) as Prisma.ActivityStreamCreateManyInput[]
 
-  // console.log('list', list)
-
   const data = uniqBy((x) => x.userId, list) // 同一个人的只使用最接近的一个
 
-  // console.log('data', data)
   const userIds = data.map((x) => x.userId)
   await notification.newComment(user, comment, post, userIds)
   return db.activityStream.createMany({ data })
@@ -56,7 +53,6 @@ export async function commentForComment(
   comment: Comment,
   commentId: number | null
 ) {
-  // console.log('commentId', commentId)
 
   if (!commentId) return
 

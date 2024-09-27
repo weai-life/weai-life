@@ -41,7 +41,6 @@ export const getCurrentUser = async (): Promise<RedwoodUser | null> => {
  * @returns {boolean} - If the currentUser is authenticated
  */
 export const isAuthenticated = (): boolean => {
-  console.log('isAuthed')
   logger.trace('authorize currentUser: %o', context.currentUser)
 
   return !!context.currentUser
