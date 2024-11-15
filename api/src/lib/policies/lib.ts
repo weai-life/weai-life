@@ -1,7 +1,9 @@
-import { ForbiddenError } from '@redwoodjs/graphql-server'
 import { User } from '@prisma/client'
 import { task as T } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/function'
+
+import { ForbiddenError } from '@redwoodjs/graphql-server'
+
 import { db } from '../db'
 
 export const throwErrorUnless = (error: Error) => (condition: boolean) => {
