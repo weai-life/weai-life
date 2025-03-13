@@ -47,7 +47,6 @@ export async function sendSes(email: string) {
 
   redis.setex(redisSmsKey(email), redisVerifyCacheTime, smsCode)
 
-  // if (isProd) await sendVerificationCode(email, smsCode)
   if (isProd) await resendSESCode(email, smsCode)
 }
 
