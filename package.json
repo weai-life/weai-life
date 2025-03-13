@@ -7,8 +7,8 @@
     ]
   },
   "devDependencies": {
-    "@redwoodjs/auth-custom-setup": "8.4.1",
-    "@redwoodjs/core": "8.4.1",
+    "@redwoodjs/auth-custom-setup": "8.5.0",
+    "@redwoodjs/core": "8.5.0",
     "prettier-plugin-tailwindcss": "0.4.1"
   },
   "eslintConfig": {
