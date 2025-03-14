@@ -2,7 +2,7 @@ import { UserInputError } from '@redwoodjs/graphql-server'
 
 import { logger } from 'src/lib/logger'
 
-import { resendInvitationLink, resendSESCode } from './mailer'
+import { azureSendCode, resendInvitationLink } from './mailer'
 import { isProd } from './misc'
 import * as redis from './redis'
 
@@ -47,7 +47,7 @@ export async function sendSes(email: string) {
 
   redis.setex(redisSmsKey(email), redisVerifyCacheTime, smsCode)
 
-  if (isProd) await resendSESCode(email, smsCode)
+  if (isProd) await azureSendCode(email, smsCode)
 }
 
 // 生成6位验证码

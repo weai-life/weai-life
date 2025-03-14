@@ -1,9 +1,16 @@
+import { EmailClient } from '@azure/communication-email'
 import nodemailer from 'nodemailer'
 import { Resend } from 'resend'
 
 import { logger } from '../logger'
 
-import { EMAIL_USER, EMAIL_PASS, RESEND_API_KEY } from './env'
+import {
+  EMAIL_USER,
+  EMAIL_PASS,
+  RESEND_API_KEY,
+  AZURE_EMAIL_CONNECTION_STRING,
+  AZURE_EMAIL_SENDER,
+} from './env'
 
 const transporter = nodemailer.createTransport({
   host: 'smtp-mail.outlook.com', // hostname
@@ -58,6 +65,46 @@ export const resendSESCode = async (email: string, code: string) => {
   }
 }
 
+export const azureSendCode = async (email: string, code: string) => {
+  try {
+    // Create email client from connection string
+    const client = new EmailClient(AZURE_EMAIL_CONNECTION_STRING)
+
+    // Prepare the email message
+    const message = {
+      senderAddress: AZURE_EMAIL_SENDER,
+      content: {
+        subject: 'Log in code from WeAI',
+        html: `<p>Code: <strong>${code}</strong> .Welcome to use WeAI!</p>`,
+      },
+      recipients: {
+        to: [
+          {
+            address: email,
+          },
+        ],
+      },
+    }
+
+    // Send the email
+    const poller = await client.beginSend(message)
+    const response = await poller.pollUntilDone()
+
+    console.log(
+      'Azure Message sent: %s',
+      JSON.stringify({
+        messageId: response.id,
+        status: response.status,
+      })
+    )
+
+    return response
+  } catch (err) {
+    logger.error({ label: 'Azure Email' }, err)
+    throw new Error(err.message)
+  }
+}
+
 export const resendInvitationLink = async (
   email: string,
   link: string,
@@ -79,6 +126,50 @@ export const resendInvitationLink = async (
     )
   } catch (err) {
     logger.error({ label: 'SMS' }, err)
+    throw new Error(err.message)
+  }
+}
+
+export const azureSendInvitationLink = async (
+  email: string,
+  link: string,
+  inviter: string
+) => {
+  try {
+    // Create email client from connection string
+    const client = new EmailClient(AZURE_EMAIL_CONNECTION_STRING)
+
+    // Prepare the email message
+    const message = {
+      senderAddress: AZURE_EMAIL_SENDER,
+      content: {
+        subject: `Invitation from ${inviter}`,
+        html: `<p>I wanna invite you to use an tool together with me.</p><p><a href="${link}">Click this link to accpet invitation.</a></p><p> Or copy below link and open in the browser:</p><p>${link}</p>`,
+      },
+      recipients: {
+        to: [
+          {
+            address: email,
+          },
+        ],
+      },
+    }
+
+    // Send the email
+    const poller = await client.beginSend(message)
+    const response = await poller.pollUntilDone()
+
+    console.log(
+      'Azure Invitation sent: %s',
+      JSON.stringify({
+        messageId: response.id,
+        status: response.status,
+      })
+    )
+
+    return response
+  } catch (err) {
+    logger.error({ label: 'Azure Email' }, err)
     throw new Error(err.message)
   }
 }

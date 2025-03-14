@@ -7,6 +7,7 @@
     "@aws-sdk/client-s3": "^3.489.0",
     "@aws-sdk/credential-providers": "^3.489.0",
     "@aws-sdk/s3-request-presigner": "^3.489.0",
+    "@azure/communication-email": "^1.0.0",
     "@redwoodjs/api": "8.5.0",
     "@redwoodjs/graphql-server": "8.5.0",
     "ali-oss": "^6.18.0",
