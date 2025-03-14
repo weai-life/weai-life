@@ -51,7 +51,7 @@ describe('channels', () => {
       expect(result).toEqual(scenario.channel.two)
     })
 
-    scenario('可以访问加入中的频道', async (scenario) => {
+    scenario('Can access channel being joined', async (scenario) => {
       const user = await db.user.findUnique({
         where: {
           id: scenario.channelMember.one.userId,
@@ -151,7 +151,7 @@ describe('channels', () => {
         })
 
       await expect(fn).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"没有找到该用户"`
+        `"User not found"`
       )
     })
   })
@@ -199,7 +199,7 @@ describe('channels', () => {
       })
 
       expect(result).rejects.toThrowErrorMatchingInlineSnapshot(
-        `"不在频道成员内"`
+        `"Not in channel members"`
       )
     }
   )
@@ -246,28 +246,31 @@ describe('channel with group', () => {
     expect(result).not.toEqual(null)
   })
 
-  scenario('设置 groupId 后所有成员加入到频道中', async (scenario) => {
-    mockCurrentUser(scenario.user.owner)
+  scenario(
+    'After setting groupId, all members join the channel',
+    async (scenario) => {
+      mockCurrentUser(scenario.user.owner)
 
-    const groupId = scenario.group.one.id
-    const original = await db.channel.findUnique({
-      where: { id: scenario.channel.one.id },
-    })
-    const channel = await updateChannel({
-      id: original!.id,
-      input: { groupId },
-    })
+      const groupId = scenario.group.one.id
+      const original = await db.channel.findUnique({
+        where: { id: scenario.channel.one.id },
+      })
+      const channel = await updateChannel({
+        id: original!.id,
+        input: { groupId },
+      })
 
-    // 确认小组成员成为了频道成员
-    const result = await db.channelMember.findFirst({
-      where: {
-        userId: scenario.user.groupUser.id,
-        channelId: channel.id,
-        status: 'JOINED',
-      },
-    })
-    expect(result).not.toEqual(null)
-  })
+      // Confirm that group members became channel members
+      const result = await db.channelMember.findFirst({
+        where: {
+          userId: scenario.user.groupUser.id,
+          channelId: channel.id,
+          status: 'JOINED',
+        },
+      })
+      expect(result).not.toEqual(null)
+    }
+  )
 })
 
 describe('isChannelMember', () => {

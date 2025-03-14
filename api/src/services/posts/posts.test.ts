@@ -64,7 +64,7 @@ describe('posts', () => {
       input: {
         title: 'String',
         content: 'content',
-        store: { shortContent: '内容摘要' },
+        store: { shortContent: 'Content summary' },
       },
     })
 
@@ -92,7 +92,7 @@ describe('posts', () => {
         "likesCount": 0,
         "publishedAt": Any<Date>,
         "store": Object {
-          "shortContent": "内容摘要",
+          "shortContent": "Content summary",
         },
         "title": "String",
         "updatedAt": Any<Date>,
@@ -174,7 +174,7 @@ describe('posts', () => {
   )
 
   scenario(
-    '不增加自己的 unreadPostCount after creates a post',
+    'Does not increase own unreadPostCount after creating a post',
     async (scenario) => {
       mockCurrentUser(scenario.user.one)
 
@@ -202,11 +202,11 @@ describe('posts', () => {
       const original = await post({ id: scenario.post.one.id })
       const result = await updatePost({
         id: original!.id,
-        input: { title: 'updated', store: { shortContent: '内容短摘' } },
+        input: { title: 'updated', store: { shortContent: 'Brief content' } },
       })
 
       expect(result.title).toEqual('updated')
-      expect(result.store.shortContent).toEqual('内容短摘')
+      expect(result.store.shortContent).toEqual('Brief content')
     })
 
     scenario('with channelId', async (scenario) => {

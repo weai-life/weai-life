@@ -224,7 +224,7 @@ export const createPost = async ({ input }: CreatePostArgs) => {
     await incrementGroupUnreadPostCount(getCurrentUser(), post.channelId)
     if (!post.isDraft) {
       await updateLastPostAtForChannel(post.channelId, post.publishedAt)
-      // 发送通知
+      // Send notification
       await notification.newPost(post, getCurrentUser())
     }
   }
@@ -252,7 +252,7 @@ export const updatePost = async ({ id, input }: UpdatePostArgs) => {
 
   const data = input
 
-  // 如果从草稿改为发布时，更新发布时间
+  // If changed from draft to published, update the publishing time
   if (post?.isDraft && input.isDraft == false) {
     data.publishedAt = new Date()
     logger.debug('changed to published')
@@ -266,7 +266,7 @@ export const updatePost = async ({ id, input }: UpdatePostArgs) => {
   logger.debug('updated post', updatedPost)
   if (data.publishedAt instanceof Date && updatedPost.channelId) {
     await updateLastPostAtForChannel(updatedPost.channelId, data.publishedAt)
-    // 发送通知
+    // Send notification
     await notification.newPost(updatedPost, getCurrentUser())
   }
 
@@ -316,7 +316,7 @@ export const Post = {
   tags: (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) =>
     db.post.findUnique({ where: { id: root.id } }).tags(),
 
-  // 返回当前用户是否赞过该 Post
+  // Return whether the current user has liked this Post
   liked: async (_obj, { root }: ResolverArgs<Prisma.PostWhereUniqueInput>) => {
     if (!context.currentUser) return false
 

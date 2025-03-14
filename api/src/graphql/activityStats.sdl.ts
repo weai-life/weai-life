@@ -11,7 +11,7 @@ export const schema = gql`
 
   type Query {
     """
-    默认返回最近30天数据，最大能返回365天数据
+    Returns data for the last 30 days by default, maximum can return data for 365 days
     """
     activityStats(userId: Int!, take: Int): [ActivityStat!] @requireAuth
   }

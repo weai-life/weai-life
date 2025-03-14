@@ -1,7 +1,9 @@
+import DB, { Prisma } from '@prisma/client'
+
+import { ValidationError, UserInputError } from '@redwoodjs/graphql-server'
+
 import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
-import { ValidationError, UserInputError } from '@redwoodjs/graphql-server'
-import DB, { Prisma } from '@prisma/client'
 
 export async function addUserToGroupChannels(groupId: number, userId: number) {
   const channels = await db.channel.findMany({
@@ -42,7 +44,7 @@ export async function addUserToGroupByMobile({
 }: addUserToGroupByMobileInput) {
   const user = await db.user.findUnique({ where: { mobile } })
 
-  if (!user) throw new UserInputError('没有找到该用户')
+  if (!user) throw new UserInputError('User not found')
 
   try {
     logger.debug({
@@ -66,7 +68,7 @@ export async function addUserToGroupByMobile({
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
       // cannot find user with mobile
       if (err.code === 'P2025') {
-        throw new ValidationError('没有找到该用户')
+        throw new ValidationError('User not found')
       }
     }
     // console.error(err)
@@ -77,7 +79,7 @@ export async function addUserToGroupByMobile({
 }
 
 export async function addUserToGroup(user: DB.User, group: DB.Group) {
-  // 如果已经加入则不做错误提示
+  // If already joined, don't show an error message
   const groupUser = await db.groupUser.upsert({
     where: {
       groupUserRelation: {

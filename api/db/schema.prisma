@@ -105,8 +105,8 @@ model User {
 
   reviewedGroupApplictions GroupApplication[] @relation("reviewUser")
 
-  senders   Connection[] @relation("sender") // 当前这个用户作为 sender 的 connection 数量
-  receivers Connection[] @relation("receiver") // 当前这个用户作为 receiver 的 connection 数量
+  senders   Connection[] @relation("sender") // Number of connections where this user is the sender
+  receivers Connection[] @relation("receiver") // Number of connections where this user is the receiver
 
   invitedById   Int?
   invitedBy     User?          @relation("inviter", fields: [invitedById], references: [id])
@@ -264,12 +264,12 @@ model Comment {
   authorId         Int
   post             Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId           Int
-  // 顶层的回复，给post的回复
+  // Top-level replies, replies to posts
   comment          Comment?  @relation("TopComment", fields: [commentId], references: [id])
   commentId        Int?
   comments         Comment[] @relation("TopComment")
   commentsCount    Int       @default(0)
-  // 给comment的回复
+  // Replies to comments
   repliedComment   Comment?  @relation("CommentToComment", fields: [repliedCommentId], references: [id])
   repliedCommentId Int?
   replies          Comment[] @relation("CommentToComment")

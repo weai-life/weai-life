@@ -1,8 +1,10 @@
-import { UserInputError } from '@redwoodjs/graphql-server'
 import DB from '@prisma/client'
+import moment from 'moment-timezone'
+
+import { UserInputError } from '@redwoodjs/graphql-server'
+
 import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
-import moment from 'moment-timezone'
 
 export function buildPostBlocksFromBlocks(user: DB.User, blocks) {
   if (blocks) {
@@ -135,7 +137,7 @@ export async function getLastPublishedAtForPost(channelId: number) {
     take: 1,
   })
 
-  // 不能使用 post?.publishedAt 写法，这样会返回 undefinded
+  // Cannot use the post?.publishedAt syntax, as it would return undefined
   return post && post.publishedAt
 }
 
@@ -149,5 +151,5 @@ export async function checkCategoryIsBelongsToChannel(input) {
   })
 
   if (category?.channelId !== channelId)
-    throw new UserInputError('分类与频道不一致')
+    throw new UserInputError('Category and channel are inconsistent')
 }

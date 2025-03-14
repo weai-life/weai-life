@@ -1,4 +1,5 @@
 import DB from '@prisma/client'
+
 import { db } from 'src/lib/db'
 
 export async function removeGroupUsersFromChannel(
@@ -10,9 +11,9 @@ export async function removeGroupUsersFromChannel(
   })
 
   const list = groupUsers
-    .filter((groupUser) => groupUser.userId != channel.authorId) // 跳过频道创建者
+    .filter((groupUser) => groupUser.userId != channel.authorId) // Skip the channel creator
     .map((groupUser) =>
-      // 使用 deleteMany 在找不到记录时也不报错
+      // Using deleteMany won't throw an error even if no records are found
       db.channelMember.deleteMany({
         where: {
           channelId: channel.id,
