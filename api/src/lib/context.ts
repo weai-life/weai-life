@@ -58,7 +58,7 @@ export async function loadDbUser(id: number) {
 
   if (!user) {
     logger.error('can not find user with id: %d', id)
-    throw new ForbiddenError('用户不存在')
+    throw new ForbiddenError('User does not exist')
   }
 
   return user
@@ -66,7 +66,7 @@ export async function loadDbUser(id: number) {
 
 export function getCurrentUser() {
   if (!context.currentUser) {
-    throw new ForbiddenError('您尚未登录')
+    throw new ForbiddenError('You are not logged in')
   }
 
   return context.currentUser

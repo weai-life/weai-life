@@ -1,4 +1,5 @@
 import jwt, { TokenExpiredError } from 'jsonwebtoken'
+
 import { JWT_SECRET } from './env'
 
 type TokenType = 'Post'
@@ -26,7 +27,7 @@ export function decode(token: string) {
     return jwt.verify(token, JWT_SECRET) as AccessToken
   } catch (err) {
     if (err instanceof TokenExpiredError) {
-      throw new TokenExpiredError('访问令牌已经过期', err.expiredAt)
+      throw new TokenExpiredError('Access token has expired', err.expiredAt)
     }
     throw err
   }

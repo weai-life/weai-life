@@ -88,7 +88,7 @@ export const channel = async ({ id }: Prisma.ChannelWhereUniqueInput) => {
     .findUnique({
       where: { id },
     })
-    .then(rejectNil('未找到该频道'))
+    .then(rejectNil('Channel not found'))
 
   await authorize(policy.read)(target)
 
@@ -126,7 +126,7 @@ interface UpdateChannelArgs extends Prisma.ChannelWhereUniqueInput {
 export const updateChannel = async ({ id, input }: UpdateChannelArgs) => {
   const channel = await db.channel
     .findUnique({ where: { id } })
-    .then(rejectNil('找不到该频道'))
+    .then(rejectNil('Channel not found'))
 
   await authorize(policy.update)(channel)
 
@@ -390,7 +390,7 @@ export const pullUserToChannel = async ({
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
       // cannot find user with mobile
       if (err.code === 'P2025') {
-        throw new ValidationError('没有找到该用户')
+        throw new ValidationError('User not found')
       }
     }
     // console.error(err)
@@ -473,7 +473,7 @@ export const clearUnreadPostCount = async ({
   })
 
   if (!cm) {
-    throw new UserInputError('不在频道成员内')
+    throw new UserInputError('Not in channel member list')
   }
 
   return db.channelMember.update({
@@ -496,7 +496,7 @@ export const transferChannel = async ({
   userId,
 }: TransferChannelInput) =>
   getChannel(channelId)
-    .then(rejectNil('频道不存在'))
+    .then(rejectNil('Channel does not exist'))
     .then(authorize(policy.transferChannel))
     .then(() => transferChannelToUser(channelId, userId))
 
