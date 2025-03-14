@@ -1,16 +1,31 @@
 # WeAI Life
 
-WeAI Life is a community-driven platform built with [RedwoodJS](https://redwoodjs.com), allowing users to join channels, create groups, share content, and connect with others who share similar interests.
+WeAI Life is a comprehensive life management platform built with [RedwoodJS](https://redwoodjs.com), offering a collection of tools designed to help users organize, reflect, and improve various aspects of their lives.
 
 ## Features
 
+### Personal Life Management Tools
+- **Rule**: Making rules for better relationships
+- **Todo**: Manage todos and tasks
+- **Memo**: Capture and organize memos
+- **Timeline**: Timeline for life, record for family and friends
+- **Review**: Review and reflect on unhappy events
+- **Habit**: Track and build positive habits
+- **Bucket**: Create and manage bucket lists
+- **Diary**: Write and maintain personal diaries
+- **Excerpt**: Capture excerpts when reading books
+- **Resume**: Write and manage multiple resumes and cover letters
+- **SOP**: Create standard operating procedures
+- **The One**: Focus on the most important one thing
+- **Change**: Learn how to change yourself
+- **Decision**: Tools for making good decisions
+- **Link**: Manage personal bio links
+
+### Platform Features
 - **User Authentication**: Secure user registration and login system
-- **Channels & Groups**: Create and join various channels and groups
-- **Content Sharing**: Share posts and comments within channels
-- **User Connections**: Connect with other users on the platform
-- **Permission System**: Granular permission controls for channel and group management
-- **Activity Streams**: Track user activities and interactions
-- **Tools Integration**: Connect with external tools and platforms
+- **Data Synchronization**: Access your tools and data across multiple devices
+- **Privacy Controls**: Manage what information is shared and with whom
+- **Optional Sharing**: Selectively share insights and achievements with trusted connections
 
 ## Prerequisites
 
