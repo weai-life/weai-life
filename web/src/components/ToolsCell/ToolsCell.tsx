@@ -21,11 +21,11 @@ export const Loading = () => (
   <div className="mt-4">
     {[1, 2, 3, 4, 5, 6].map((item) => {
       return (
-        <div key={item} className="flex items-center flex-start w-full">
+        <div key={item} className="flex-start flex w-full items-center">
           <Skeleton className="h-12 w-12 rounded-xl" />
-          <div className="ml-2 border-b py-3 w-full">
+          <div className="ml-2 w-full border-b py-3">
             <Skeleton className="h-8 w-[120px]" />
-            <Skeleton className="h-6 w-[200px] mt-2" />
+            <Skeleton className="mt-2 h-6 w-[200px]" />
           </div>
         </div>
       )
@@ -51,21 +51,21 @@ export const Success = ({ tools }: CellSuccessProps<ToolsQuery>) => {
   }
 
   return (
-    <div className="mt-4 text-left pb-10">
+    <div className="mt-4 pb-10 text-left">
       {tools.map((item) => {
         return (
           <div
             key={item.id}
-            className="flex items-center flex-start w-full"
+            className="flex-start cursor flex w-full items-center"
             onClick={() => handleClickTool(item)}
           >
-            <div className="border p-2 rounded-xl w-12 h-12 flex justify-center items-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl border p-2">
               <img
                 src={`data:image/svg+xml;utf8,${encodeURIComponent(item.icon)}`}
                 alt=""
               />
             </div>
-            <div className="ml-2 border-b py-3 w-full">
+            <div className="ml-2 w-full border-b py-3">
               <div className="text-lg font-semibold">{item.title}</div>
               <div>{item.description}</div>
             </div>
