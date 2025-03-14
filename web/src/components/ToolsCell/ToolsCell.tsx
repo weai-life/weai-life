@@ -56,7 +56,7 @@ export const Success = ({ tools }: CellSuccessProps<ToolsQuery>) => {
         return (
           <div
             key={item.id}
-            className="flex-start cursor flex w-full items-center"
+            className="flex-start flex w-full cursor-pointer items-center"
             onClick={() => handleClickTool(item)}
           >
             <div className="flex h-12 w-12 items-center justify-center rounded-xl border p-2">
